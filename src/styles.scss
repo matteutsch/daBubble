@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --purple: #444df2;
+  --active-blue: #1a73e8;
+  --dark-blue: #797ef3;
+  --baby-blue: #c3e7ff;
+  --light-blue: #eceefe;
+  --light-grey: #adb0d9;
+  --dark-grey: #686868;
+  --light-green: #92c83e;
+  --dark-green: #1e8e3e;
+  --red: #ea4335;
+  --yellow: #f9ab01;
+}
+
+html,
+body {
+  background-color: var(--lightblue);
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
