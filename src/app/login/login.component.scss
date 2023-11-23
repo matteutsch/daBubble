@@ -1,0 +1,115 @@
+.intro-bg {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(1deg, #313AE5 1.22%, #797EF3 98.76%);
+    animation: hiddenIntroBg 300ms ease-in-out 1800ms 1 both;
+
+    .logo-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        .logo-intro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: var(--logo-intro-width);
+            height: var(--logo-intro-height);
+            left: var(--logo-intro-margin-top);
+            top: var(--logo-intro-margin-left);
+            animation: moveLogoIntro 500ms ease-in-out 1800ms 1 both;
+
+            .logo-image {
+                animation: moveLogoImg 500ms ease-in-out 300ms 1 both;
+            }
+
+            .logo-text {
+                overflow: hidden;
+
+                img {
+                    transform: translateX(calc(-1 * var(--logo-intro-text-width)));
+                    animation: moveLogoText 500ms ease-in-out 800ms 1 both;
+                }
+            }
+        }
+    }
+}
+
+.login-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-color);
+
+    .logo {
+        position: absolute;
+        top: var(--logo-intro-margin-top);
+        left: var(--logo-intro-margin-left);
+        animation: moveLogo 500ms ease-in-out 1800ms 1 both;
+    }
+}
+
+@keyframes moveLogoImg {
+    from {
+        transform: translateX(var(--logo-intro-image-width));
+    }
+
+    to {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes moveLogoText {
+    from {
+        transform: translateX(calc(-1 * var(--logo-intro-text-width)));
+    }
+
+    to {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes moveLogoIntro {
+    from {
+        left: calc((100% - var(--logo-intro-width)) / 2);
+        top: calc((100% - var(--logo-intro-height)) / 2);
+        scale: 1;
+    }
+
+    to {
+        left: var(--logo-intro-margin-top);
+        top: var(--logo-intro-margin-left);
+        scale: 0.6;
+    }
+}
+
+@keyframes hiddenIntroBg {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+
+@keyframes moveLogo {
+    from {
+        left: calc((100% - var(--logo-intro-width)) / 2);
+        top: calc((100% - var(--logo-intro-height)) / 2);
+    }
+
+    to {
+        left: var(--logo-intro-margin-top);
+        top: var(--logo-intro-margin-left);
+    }
+}
