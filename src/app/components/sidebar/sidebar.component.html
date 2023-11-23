@@ -1,0 +1,96 @@
+<mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-card class="sidebar">
+        <mat-card-content>
+            <header>
+                <img src="../../../assets/icons/workspace_logo.png">
+                <span>Code learning</span>
+                <img src="../../../assets/icons/edit_square.png">
+            </header>
+            <main>
+                <div class="channels">
+                    <header>
+                        <img src="../../../assets/icons/arrow_drop_down.png">
+                        <img src="../../../assets/icons/three_dots.png">
+                        <span>Channels</span>
+                        <img src="../../../assets/icons/add.png">
+                    </header>
+                    <main>
+                        <ul>
+                            <li># Entwicklerteam</li>
+                        </ul>
+                        <div>
+                            <img src="../../../assets/icons/add_circle.png">
+                            <span>Channel hinzufügen</span>
+                        </div>
+                    </main>
+                </div>
+                <div class="direct-messages">
+                    <mat-accordion>
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <header>
+                                    <img src="../../../assets/icons/arrow_drop_down.png">
+                                    <img src="../../../assets/icons/person_icon.png">
+                                    <span>Direktnachrichten</span>
+                                </header>
+                            </mat-expansion-panel-header>
+                            <main>
+                                <ul>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_1.png">
+                                        <span>Frederik Beck (Du)</span>
+                                    </li>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_2.png">
+                                        <span>Sofia Müller</span>
+                                    </li>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_3.png">
+                                        <span>Noah Braun</span>
+                                    </li>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_4.png">
+                                        <span>Elise Roth</span>
+                                    </li>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_5.png">
+                                        <span>Elias Neumann</span>
+                                    </li>
+                                    <li>
+                                        <img style="width: 50px;" src="../../../assets/characters/character_6.png">
+                                        <span>Steffen Hoffmann</span>
+                                    </li>
+                                </ul>
+                            </main>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </main>
+        </mat-card-content>
+    </mat-card>
+</mat-drawer>
+<div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+        Toggle sidenav
+    </button>
+</div>
+
+
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <p>Auto-resizing sidenav</p>
+
+        <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+            Toggle extra text
+        </button>
+    </mat-drawer>
+
+    <!-- <div class="example-sidenav-content">
+        <button type="button" mat-button (click)="drawer.toggle()">
+            Toggle sidenav
+        </button>
+    </div> -->
+
+</mat-drawer-container>

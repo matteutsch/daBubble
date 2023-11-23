@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './components/header/header.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -14,10 +14,21 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    LoginComponent,
+    SidebarComponent,
+    HomeComponent
+  ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -25,6 +36,9 @@ import { LoginComponent } from './login/login.component';
     MatCardModule,
     MatInputModule,
     AppRoutingModule,
+    MatBadgeModule,
+    MatExpansionModule,
+    MatSidenavModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-a4d50',
@@ -44,4 +58,4 @@ import { LoginComponent } from './login/login.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

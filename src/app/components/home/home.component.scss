@@ -1,0 +1,13 @@
+.main-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-color);
+
+    app-sidebar {
+        position: absolute;
+        top: 115px;
+        left: 20px;
+        bottom: 25px;
+    }
+}
