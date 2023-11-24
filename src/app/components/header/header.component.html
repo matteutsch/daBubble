@@ -1,11 +1,25 @@
-<div class="d-flex justify-content-between">
-  <mat-card>
-    <mat-card-content>
-      <img height="32px" src="assets/icons/big_logo.png" alt="Logo" /> daBubble
-    </mat-card-content>
-  </mat-card>
-  <mat-form-field>
-    <mat-label>Search...</mat-label>
-    <input matInput placeholder="Search..." />
-  </mat-form-field>
+<div class="flex-centered justify-content-between p-3">
+  <div class="flex-centered gap-3 ps-3">
+    <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
+    <h2 class="fw-bold">daBubble</h2>
+  </div>
+
+  <div>
+    <input
+      type="search"
+      class="search rounded-pill border-0 p-3"
+      placeholder="xyz durchsuchen..."
+    />
+    <i class="bi bi-search" style="position: relative; left: -30px"></i>
+  </div>
+
+  <div class="flex-centered gap-3 pe-3 pointer">
+    <h2 class="fw-bold">Frederik Beck</h2>
+    <img
+      width="70px"
+      src="assets/characters/character_2.png"
+      class="img-fluid rounded-circle"
+    />
+    <i class="bi bi-chevron-down fs-4"></i>
+  </div>
 </div>
