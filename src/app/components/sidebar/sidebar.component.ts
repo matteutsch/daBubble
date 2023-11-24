@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  showFiller = false;
+  showChannels: boolean = true;
+  showDirectMessages: boolean = true;
+  isSideMenuOpen: boolean = false;
+
+  toggleBtnText() {
+    this.isSideMenuOpen = !this.isSideMenuOpen;
+  }
 }
