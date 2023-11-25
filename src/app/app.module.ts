@@ -20,6 +20,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HomeComponent } from './components/home/home.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { HomeComponent } from './components/home/home.component';
     HeaderComponent,
     LoginComponent,
     SidebarComponent,
-    HomeComponent
+    HomeComponent,
+    DialogCreateChannelComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -39,6 +42,7 @@ import { HomeComponent } from './components/home/home.component';
     MatBadgeModule,
     MatExpansionModule,
     MatSidenavModule,
+    MatDialogModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-a4d50',

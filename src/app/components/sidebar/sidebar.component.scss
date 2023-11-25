@@ -267,6 +267,33 @@
             gap: 15px;
             width: max-content;
             cursor: pointer;
+            transition: all 225ms ease-in-out;
+
+            &:hover {
+                color: var(--purple-3);
+
+                .arrow-drop-down,
+                .icon-person {
+
+                    rect,
+                    path {
+                        fill: var(--purple-3);
+                    }
+                }
+            }
+
+            &:active {
+                color: black;
+
+                .arrow-drop-down,
+                .icon-person {
+
+                    rect,
+                    path {
+                        fill: var(--purple-3);
+                    }
+                }
+            }
         }
 
         span {
@@ -346,5 +373,35 @@
         white-space: nowrap;
         writing-mode: vertical-rl;
         transform-origin: 0 0;
+    }
+}
+
+.rotate-90 {
+    transform: rotate(0deg);
+    animation: rotateArrowClose 100ms ease-in-out 0ms 1 both;
+}
+
+.rotate0 {
+    transform: rotate(-90deg);
+    animation: rotateArrowOpen 100ms ease-in-out 0ms 1 both;
+}
+
+@keyframes rotateArrowClose {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes rotateArrowOpen {
+    from {
+        transform: rotate(-90deg);
+    }
+
+    to {
+        transform: rotate(0deg);
     }
 }

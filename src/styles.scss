@@ -28,10 +28,10 @@ html,
 body {
   background-color: var(--bg-color);
 }
+
 body {
   margin: 0;
-  font-family: "Nunito" !important;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Nunito";
   box-sizing: border-box;
 }
 
@@ -49,4 +49,8 @@ p {
 
 .pointer {
   cursor: pointer;
+}
+
+.dialog-create-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface {
+  border-radius: 30px;
 }
