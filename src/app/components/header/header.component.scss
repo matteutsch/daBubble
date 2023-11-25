@@ -38,3 +38,19 @@ a {
   width: 16px;
   height: 16px;
 }
+
+.min-500 {
+  min-width: 500px;
+}
+
+.text-purple {
+  color: var(--purple);
+}
+
+.online {
+  color: var(--light-green);
+}
+
+.gap-start {
+  margin-left: calc(1rem + 24px);
+}

@@ -31,12 +31,13 @@
   </div>
 
   <div *ngIf="isOpen">
-    <div class="position-absolute top-0 end-0">
+    <div *ngIf="!isEditing" class="position-absolute top-0 end-0">
       <mat-card class="p-4 fs-4 z-3 custom-rounded me-3">
-        <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
-          <a class="text-hover p-2 px-4" routerLink="/home"
-            >Profil</a
-          ></mat-card-subtitle
+        <mat-card-subtitle
+          class="menuContainer pointer px-4 p-3 rounded-pill"
+          (click)="toggleEditProfile()"
+        >
+          <a class="text-hover p-2 px-4">Profil</a></mat-card-subtitle
         >
         <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
           <a class="text-hover p-2 px-4" routerLink="/login"
@@ -45,6 +46,40 @@
         >
       </mat-card>
     </div>
+
+    <div *ngIf="isEditing" class="position-absolute top-0 end-0 d-flex column">
+      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 min-500 gap-4">
+        <div class="flex-centered justify-content-between">
+          <h3><b>Profil</b></h3>
+          <i class="bi bi-x fs-2 pointer" (click)="toggleEditProfile()"></i>
+        </div>
+        <div class="w-100 flex-centered">
+          <img
+            width="214px"
+            src="assets/characters/character_2.png"
+            class="img-fluid rounded-circle mt-3"
+          />
+        </div>
+        <div class="w-100">
+          <div class="d-flex justify-content-between">
+            <h3><b>Frederik Beck</b></h3>
+            <p class="text-purple pointer">Bearbeiten</p>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle status bottom-0 end-0 border-0"></div>
+            <p class="online">Active</p>
+          </div>
+        </div>
+        <div>
+          <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-envelope"></i>
+            <p>E-Mail-Adresse</p>
+          </div>
+          <a class="text-purple pointer gap-start">fred.beck@email.com</a>
+        </div>
+      </mat-card>
+    </div>
+
     <div
       class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50"
       (click)="toggleLogout()"

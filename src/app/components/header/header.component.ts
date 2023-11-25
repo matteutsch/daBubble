@@ -7,8 +7,15 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isOpen: boolean = false;
+  isEditing: boolean = false;
 
   toggleLogout() {
     this.isOpen = !this.isOpen;
+    if (this.isEditing) {
+      this.toggleEditProfile();
+    }
+  }
+  toggleEditProfile() {
+    this.isEditing = !this.isEditing;
   }
 }
