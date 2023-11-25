@@ -16,32 +16,38 @@
       (click)="toggleLogout()"
     >
       <h2 class="fw-bold">Frederik Beck</h2>
-      <img
-        width="70px"
-        src="assets/characters/character_2.png"
-        class="img-fluid rounded-circle"
-      />
+      <div class="position-relative">
+        <img
+          width="70px"
+          src="assets/characters/character_2.png"
+          class="img-fluid rounded-circle"
+        />
+        <div
+          class="position-absolute rounded-circle status bottom-0 end-0"
+        ></div>
+      </div>
       <i class="bi bi-chevron-down fs-4"></i>
     </div>
   </div>
 
-  <div *ngIf="isOpen" class="position-absolute top-0 end-0">
-    <mat-card class="p-4 fs-4 z-3 custom-rounded me-3">
-      <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
-        <a class="text-hover p-2 px-4" routerLink="/home"
-          >Profil</a
-        ></mat-card-subtitle
-      >
-      <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
-        <a class="text-hover p-2 px-4" routerLink="/login"
-          >Logout</a
-        ></mat-card-subtitle
-      >
-    </mat-card>
+  <div *ngIf="isOpen">
+    <div class="position-absolute top-0 end-0">
+      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3">
+        <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
+          <a class="text-hover p-2 px-4" routerLink="/home"
+            >Profil</a
+          ></mat-card-subtitle
+        >
+        <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
+          <a class="text-hover p-2 px-4" routerLink="/login"
+            >Logout</a
+          ></mat-card-subtitle
+        >
+      </mat-card>
+    </div>
+    <div
+      class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50"
+      (click)="toggleLogout()"
+    ></div>
   </div>
-  <div
-    *ngIf="isOpen"
-    class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50"
-    (click)="toggleLogout()"
-  ></div>
 </div>

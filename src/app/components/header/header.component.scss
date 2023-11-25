@@ -31,3 +31,10 @@ a {
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
 }
+
+.status {
+  background-color: var(--light-green);
+  border: 2px solid var(--bg-color);
+  width: 16px;
+  height: 16px;
+}
