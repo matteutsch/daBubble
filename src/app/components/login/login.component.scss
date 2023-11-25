@@ -45,6 +45,16 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-color, #eceefe);
 
   .logo {
     position: absolute;
