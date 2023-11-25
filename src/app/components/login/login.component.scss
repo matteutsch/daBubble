@@ -59,7 +59,7 @@
     justify-content: center;
     width: 100%;
     height: 100vh;
-    background-color: var(--bg-color,#eceefe);
+    background-color: var(--bg-color, #eceefe);
 
     .logo {
         position: absolute;
@@ -68,7 +68,6 @@
         animation: moveLogo 500ms ease-in-out 1800ms 1 both;
     }
 }
-
 
 .error {
     color: var(--red, #ea4335);
@@ -281,7 +280,6 @@ form {
         border: 1px solid transparent;
     }
 }
-
 
 // ------------- keyframes -------------- //
 
