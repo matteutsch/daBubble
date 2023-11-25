@@ -1,7 +1,33 @@
 .search {
-  width: 1000px;
+  width: 50vw;
 
   &:focus {
     outline: none;
   }
+
+  background-image: url("/assets/icons/search_icon.png");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 32px);
+  background-position-y: center;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.menuContainer {
+  font-size: 24px;
+  min-width: 100px;
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}
+
+.custom-rounded {
+  margin-top: 100px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
 }

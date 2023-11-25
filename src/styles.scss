@@ -30,7 +30,6 @@ body {
 body {
   margin: 0;
   font-family: "Nunito" !important;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
   box-sizing: border-box;
 }
 
@@ -48,4 +47,10 @@ p {
 
 .pointer {
   cursor: pointer;
+}
+
+.text-hover {
+  &:hover {
+    color: var(--dark-blue);
+  }
 }
