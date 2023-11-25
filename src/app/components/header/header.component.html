@@ -1,25 +1,53 @@
-<div class="flex-centered justify-content-between p-3">
-  <div class="flex-centered gap-3 ps-3">
-    <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
-    <h2 class="fw-bold">daBubble</h2>
-  </div>
+<div class="position-relative">
+  <div class="flex-centered justify-content-between p-3">
+    <div class="flex-centered gap-3 ps-3">
+      <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
+      <h2 class="fw-bold">daBubble</h2>
+    </div>
 
-  <div>
     <input
       type="search"
-      class="search rounded-pill border-0 p-3"
+      class="search rounded-pill border-0 p-3 px-5"
       placeholder="xyz durchsuchen..."
     />
-    <i class="bi bi-search" style="position: relative; left: -30px"></i>
+
+    <div
+      class="flex-centered gap-3 pe-3 pointer text-hover"
+      (click)="toggleLogout()"
+    >
+      <h2 class="fw-bold">Frederik Beck</h2>
+      <div class="position-relative">
+        <img
+          width="70px"
+          src="assets/characters/character_2.png"
+          class="img-fluid rounded-circle"
+        />
+        <div
+          class="position-absolute rounded-circle status bottom-0 end-0"
+        ></div>
+      </div>
+      <i class="bi bi-chevron-down fs-4"></i>
+    </div>
   </div>
 
-  <div class="flex-centered gap-3 pe-3 pointer">
-    <h2 class="fw-bold">Frederik Beck</h2>
-    <img
-      width="70px"
-      src="assets/characters/character_2.png"
-      class="img-fluid rounded-circle"
-    />
-    <i class="bi bi-chevron-down fs-4"></i>
+  <div *ngIf="isOpen">
+    <div class="position-absolute top-0 end-0">
+      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3">
+        <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
+          <a class="text-hover p-2 px-4" routerLink="/home"
+            >Profil</a
+          ></mat-card-subtitle
+        >
+        <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
+          <a class="text-hover p-2 px-4" routerLink="/login"
+            >Logout</a
+          ></mat-card-subtitle
+        >
+      </mat-card>
+    </div>
+    <div
+      class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50"
+      (click)="toggleLogout()"
+    ></div>
   </div>
 </div>
