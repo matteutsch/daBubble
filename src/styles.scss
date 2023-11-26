@@ -60,3 +60,94 @@ p {
 .dialog-create-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface {
   border-radius: 30px;
 }
+
+.icon-single {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 3px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 225ms ease-in-out;
+
+  &:hover {
+    background: var(--bg-color);
+
+    svg {
+
+      rect,
+      path {
+        fill: var(--purple-3);
+      }
+    }
+  }
+
+  &:active {
+    background: var(--bg-color);
+
+    svg {
+
+      rect,
+      path {
+        fill: black;
+      }
+    }
+  }
+}
+
+.text-and-icon_interactions {
+  transition: all 225ms ease-in-out;
+
+  &:hover {
+    color: var(--purple-3);
+
+    svg {
+
+      rect,
+      path {
+        fill: var(--purple-3);
+      }
+    }
+  }
+
+  &:active {
+    color: black;
+
+    svg {
+
+      rect,
+      path {
+        fill: var(--purple-3);
+      }
+    }
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  padding: 12px 25px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: none !important;
+  border-radius: 25px;
+  background: var(--purple);
+  color: white;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  &:hover {
+    background: var(--dark-blue);
+  }
+
+  &:active {
+    background: var(--purple);
+  }
+
+  &:disabled {
+    background: var(--dark-grey);
+  }
+}

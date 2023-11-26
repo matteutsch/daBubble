@@ -30,32 +30,8 @@
                 }
 
                 .edit-square {
-                    display: inline-flex;
-                    padding: 8px;
-                    justify-content: center;
-                    align-items: center;
-                    cursor: pointer;
-                    transition: all 225 ms ease-in-out;
-
-                    &:hover {
-                        border-radius: 20px;
-                        background: var(--bg-color);
-
-                        rect,
-                        path {
-                            fill: var(--purple-3);
-                        }
-                    }
-
-                    &:active {
-                        border-radius: 20px;
-                        background: var(--bg-color);
-
-                        rect,
-                        path {
-                            fill: black;
-                        }
-                    }
+                    padding: 8px !important;
+                    border-radius: 20px !important;
                 }
             }
 
@@ -82,74 +58,13 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            transition: all 225ms ease-in-out;
             cursor: pointer;
-
-            &:hover {
-                color: var(--purple-3);
-
-                .arrow-drop-down,
-                .three-dots {
-
-                    rect,
-                    path {
-                        fill: var(--purple-3);
-                    }
-                }
-            }
-
-            &:active {
-                color: black;
-
-                .arrow-drop-down,
-                .three-dots {
-
-                    rect,
-                    path {
-                        fill: var(--purple-3);
-                    }
-                }
-            }
 
             span {
                 font-size: 20px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
-            }
-        }
-
-        .icon-add {
-            display: inline-flex;
-            padding: 3px;
-            align-items: flex-start;
-            gap: 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 225ms ease-in-out;
-
-            &:hover {
-                background: var(--bg-color);
-
-                svg {
-
-                    rect,
-                    path {
-                        fill: var(--purple-3);
-                    }
-                }
-            }
-
-            &:active {
-                background: var(--bg-color);
-
-                svg {
-
-                    rect,
-                    path {
-                        fill: black;
-                    }
-                }
             }
         }
     }
@@ -212,35 +127,13 @@
 
             .li-add-channel {
                 width: max-content;
-                display: inline-flex;
                 padding: 4px 20px;
-                align-items: center;
-                gap: 10px;
-                transition: all 225ms ease-in-out;
-                cursor: pointer;
 
-                &:hover {
-                    color: var(--purple-3);
-
-                    .add-circle {
-
-                        rect,
-                        path {
-                            fill: var(--purple-3);
-                        }
-                    }
-                }
-
-                &:active {
-                    color: black;
-
-                    .add-circle {
-
-                        rect,
-                        path {
-                            fill: var(--purple-3);
-                        }
-                    }
+                div {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    cursor: pointer;
                 }
 
                 span {
@@ -267,33 +160,6 @@
             gap: 15px;
             width: max-content;
             cursor: pointer;
-            transition: all 225ms ease-in-out;
-
-            &:hover {
-                color: var(--purple-3);
-
-                .arrow-drop-down,
-                .icon-person {
-
-                    rect,
-                    path {
-                        fill: var(--purple-3);
-                    }
-                }
-            }
-
-            &:active {
-                color: black;
-
-                .arrow-drop-down,
-                .icon-person {
-
-                    rect,
-                    path {
-                        fill: var(--purple-3);
-                    }
-                }
-            }
         }
 
         span {
