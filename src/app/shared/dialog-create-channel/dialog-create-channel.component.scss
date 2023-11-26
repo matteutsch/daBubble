@@ -70,7 +70,7 @@
 
     // For INPUT_ERROR:
     ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
-        border: 1px solid var(--light-grey) !important;
+        border: 1px solid var(--red) !important;
         border-radius: 40px !important;
     }
 
