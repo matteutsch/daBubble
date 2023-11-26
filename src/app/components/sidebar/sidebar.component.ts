@@ -10,7 +10,6 @@ import { DialogCreateChannelComponent } from '../../shared/dialog-create-channel
 export class SidebarComponent {
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
-  isSideMenuOpen: boolean = false;
 
   constructor(public dialog: MatDialog) {}
 
@@ -24,9 +23,5 @@ export class SidebarComponent {
       console.log('The dialog was closed');
       // this.animal = result;
     });
-  }
-
-  toggleBtnText() {
-    this.isSideMenuOpen = !this.isSideMenuOpen;
   }
 }

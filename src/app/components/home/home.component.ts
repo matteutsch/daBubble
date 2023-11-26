@@ -1,3 +1,4 @@
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  
+  isSideMenuOpen: boolean = true;
+
+  toggleBtnText() {
+    this.isSideMenuOpen = !this.isSideMenuOpen;
+  }
 }

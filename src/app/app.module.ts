@@ -22,7 +22,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { HomeComponent } from './components/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
-
+import { ChatChannelComponent } from './components/chat-channel/chat-channel.component';
+import { ChannelMessageComponent } from './shared/channel-message/channel-message.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +33,9 @@ import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dia
     LoginComponent,
     SidebarComponent,
     HomeComponent,
-    DialogCreateChannelComponent
+    DialogCreateChannelComponent,
+    ChatChannelComponent,
+    ChannelMessageComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -43,6 +48,8 @@ import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dia
     MatExpansionModule,
     MatSidenavModule,
     MatDialogModule,
+    MatTooltipModule,
+    MtxTooltipModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-a4d50',
