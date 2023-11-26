@@ -1,16 +1,17 @@
 <div class="position-relative">
+  <!-- header -->
   <div class="flex-centered justify-content-between p-3">
     <div class="flex-centered gap-3 ps-3">
       <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
       <h2 class="fw-bold">daBubble</h2>
     </div>
-
+    <!--  -->
     <input
       type="search"
       class="search rounded-pill border-0 p-3 px-5"
       placeholder="xyz durchsuchen..."
     />
-
+    <!--  -->
     <div
       class="flex-centered gap-3 pe-3 pointer text-hover"
       (click)="toggleLogout()"
@@ -29,13 +30,14 @@
       <i class="bi bi-chevron-down fs-4"></i>
     </div>
   </div>
-
+  <!-- Dropdown menu -->
   <div *ngIf="isOpen">
-    <div *ngIf="!isEditing" class="position-absolute top-0 end-0">
-      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3">
+    <!-- [Profile / Logout]  -->
+    <div *ngIf="!isCheckingProfile" class="position-absolute top-0 end-0">
+      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 mt-100">
         <mat-card-subtitle
           class="menuContainer pointer px-4 p-3 rounded-pill"
-          (click)="toggleEditProfile()"
+          (click)="toggleCheckProfile()"
         >
           <a class="text-hover p-2 px-4">Profil</a></mat-card-subtitle
         >
@@ -46,12 +48,21 @@
         >
       </mat-card>
     </div>
-
-    <div *ngIf="isEditing" class="position-absolute top-0 end-0 d-flex column">
-      <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 min-500 gap-4">
+    <!-- [Profile/Edit]  -->
+    <div
+      *ngIf="isCheckingProfile"
+      class="position-absolute top-0 end-0 d-flex column"
+    >
+      <mat-card
+        class="p-4 fs-4 z-3 me-3 min-500 gap-4 mt-100"
+        [ngClass]="{ 'custom-rounded': !isEditing, 'rounded-5': isEditing }"
+      >
         <div class="flex-centered justify-content-between">
           <h3><b>Profil</b></h3>
-          <i class="bi bi-x fs-2 pointer" (click)="toggleEditProfile()"></i>
+          <i
+            class="bi bi-x fs-2 pointer x rounded-circle px-2"
+            (click)="toggleCheckProfile()"
+          ></i>
         </div>
         <div class="w-100 flex-centered">
           <img
@@ -63,7 +74,9 @@
         <div class="w-100">
           <div class="d-flex justify-content-between">
             <h3><b>Frederik Beck</b></h3>
-            <p class="text-purple pointer">Bearbeiten</p>
+            <p class="text-purple pointer" (click)="toggleEditProfile()">
+              Bearbeiten
+            </p>
           </div>
           <div class="d-flex align-items-center gap-3">
             <div class="rounded-circle status bottom-0 end-0 border-0"></div>
@@ -75,11 +88,11 @@
             <i class="bi bi-envelope"></i>
             <p>E-Mail-Adresse</p>
           </div>
-          <a class="text-purple pointer gap-start">fred.beck@email.com</a>
+          <a class="text-mail pointer gap-start">fred.beck@email.com</a>
         </div>
       </mat-card>
     </div>
-
+    <!-- [Overlay]  -->
     <div
       class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50"
       (click)="toggleLogout()"

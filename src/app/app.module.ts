@@ -30,7 +30,7 @@ import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dia
     LoginComponent,
     SidebarComponent,
     HomeComponent,
-    DialogCreateChannelComponent
+    DialogCreateChannelComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -62,4 +62,4 @@ import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dia
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
