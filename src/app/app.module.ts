@@ -26,6 +26,7 @@ import { ChatChannelComponent } from './components/chat-channel/chat-channel.com
 import { ChannelMessageComponent } from './shared/channel-message/channel-message.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
+import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
     HomeComponent,
     DialogCreateChannelComponent,
     ChatChannelComponent,
-    ChannelMessageComponent
+    ChannelMessageComponent,
+    CustomTextareaComponent
   ],
   imports: [
     BrowserAnimationsModule,

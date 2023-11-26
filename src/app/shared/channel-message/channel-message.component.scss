@@ -1,5 +1,6 @@
 .line {
     position: relative;
+    padding: 0 35px;
 
     img {
         width: 100%;
@@ -9,7 +10,7 @@
     .date {
         position: absolute;
         top: -7px;
-        width: 100%;
+        width: calc(100% - 70px);
         display: flex;
         justify-content: center;
 
