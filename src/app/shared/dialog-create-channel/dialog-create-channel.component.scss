@@ -1,4 +1,95 @@
 :host {
     display: block;
-    padding: 16px;
+    padding: 40px 16px;
+    max-width: 872px;
+
+    h1 {
+        font-family: "Nunito";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    p {
+        color: black;
+        font-family: "Nunito";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+
+        label {
+            color: black;
+            font-family: Nunito;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+
+            span {
+                color: var(--dark-grey);
+                font-weight: 400;
+            }
+        }
+
+        input,
+        .form-field {
+            cursor: pointer;
+        }
+
+        input {
+
+            &::placeholder {
+                color: var(--dark-grey);
+                font-family: "Nunito";
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    // For INPUT_NOT_TOUCHED:
+    ::ng-deep .mdc-notched-outline__trailing {
+        border: 1px solid var(--light-grey) !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_FOCUSED:
+    ::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
+        border: 1px solid var(--purple-3) !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_ERROR:
+    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
+        border: 1px solid var(--red) !important;
+        border-radius: 40px !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__leading {
+        display: none !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__notch {
+        display: none !important;
+    }
+}
+
+.mat-mdc-dialog-actions {
+    padding: 0px 24px;
+    justify-content: flex-end !important;
+}
+
+.icon-close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
 }
