@@ -22,6 +22,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { HomeComponent } from './components/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dia
     DialogCreateChannelComponent,
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,

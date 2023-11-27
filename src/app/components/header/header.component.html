@@ -54,11 +54,12 @@
       class="position-absolute top-0 end-0 d-flex column"
     >
       <mat-card
-        class="p-4 fs-4 z-3 me-3 min-500 gap-4 mt-100"
+        class="p-4 px-5 fs-4 z-3 me-3 min-500 gap-4 mt-100"
         [ngClass]="{ 'custom-rounded': !isEditing, 'rounded-5': isEditing }"
       >
         <div class="flex-centered justify-content-between">
-          <h3><b>Profil</b></h3>
+          <h3 *ngIf="!isEditing"><b>Profil</b></h3>
+          <h3 *ngIf="isEditing"><b>Dein Profil bearbeiten</b></h3>
           <i
             class="bi bi-x fs-2 pointer x rounded-circle px-2"
             (click)="toggleCheckProfile()"
@@ -71,24 +72,66 @@
             class="img-fluid rounded-circle mt-3"
           />
         </div>
-        <div class="w-100">
-          <div class="d-flex justify-content-between">
-            <h3><b>Frederik Beck</b></h3>
-            <p class="text-purple pointer" (click)="toggleEditProfile()">
-              Bearbeiten
-            </p>
+        <!--  -->
+        <div *ngIf="!isEditing">
+          <div class="w-100 mb-4">
+            <div class="d-flex justify-content-between">
+              <h3><b>Frederik Beck</b></h3>
+              <p class="text-purple pointer" (click)="toggleEditProfile()">
+                Bearbeiten
+              </p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle status bottom-0 end-0 border-0"></div>
+              <p class="online">Active</p>
+            </div>
           </div>
-          <div class="d-flex align-items-center gap-3">
-            <div class="rounded-circle status bottom-0 end-0 border-0"></div>
-            <p class="online">Active</p>
+          <div>
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-envelope"></i>
+              <p>E-Mail-Adresse</p>
+            </div>
+            <a class="text-mail pointer gap-start">fred.beck@email.com</a>
           </div>
         </div>
-        <div>
-          <div class="d-flex align-items-center gap-3">
-            <i class="bi bi-envelope"></i>
-            <p>E-Mail-Adresse</p>
-          </div>
-          <a class="text-mail pointer gap-start">fred.beck@email.com</a>
+        <!-- TODO: change hardcoded name & email -->
+        <div *ngIf="isEditing">
+          <form [formGroup]="editForm">
+            <label for="fullname" class="form-label"
+              ><i class="bi bi-person-circle me-3"></i>Vollständiger Name</label
+            >
+            <input
+              formControlName="nameControl"
+              class="form-control rounded-pill p-2 px-3 mb-3"
+              id="fullname"
+              type="text"
+            />
+            <label for="email" class="form-label"
+              ><i class="bi bi-envelope me-3"></i>E-Mail-Adresse</label
+            >
+            <input
+              formControlName="mailControl"
+              class="form-control rounded-pill p-2 px-3 mb-3"
+              id="email"
+              type="email"
+            />
+            <div class="flex-centered gap-5">
+              <button
+                class="btn btn-outline-primary rounded-pill"
+                type="button"
+                (click)="toggleEditProfile()"
+              >
+                Abbrechen
+              </button>
+              <button
+                class="btn-primary"
+                type="submit"
+                [disabled]="editForm.invalid && editForm.dirty"
+              >
+                Speichern
+              </button>
+            </div>
+          </form>
         </div>
       </mat-card>
     </div>
