@@ -2,10 +2,13 @@
     <app-header></app-header>
     <div class="content">
         <mat-drawer-container class="mat-drawer-container" autosize>
-            <mat-drawer #drawer [opened]="true" class="mat-drawer rounded-4" mode="side"><!-- position="end"-->
+            <mat-drawer #drawer [opened]="true" class="mat-drawer rounded-4" mode="side">
                 <app-sidebar></app-sidebar>
             </mat-drawer>
             <app-chat-channel></app-chat-channel>
+            <mat-drawer #drawer [opened]="true" class="mat-drawer rounded-4" mode="side" position="end">
+                <app-thread></app-thread>
+            </mat-drawer>
         </mat-drawer-container>
     </div>
     <button class="btn-close-side" type="button" mat-button (click)="drawer.toggle(); toggleBtnText()">
