@@ -25,11 +25,14 @@ a {
 }
 
 .custom-rounded {
-  margin-top: 100px;
-  border-top-left-radius: 24px;
+  border-top-left-radius: 2.1rem;
   border-top-right-radius: 0px;
-  border-bottom-right-radius: 24px;
-  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 2.1rem;
+  border-bottom-left-radius: 2.1rem;
+}
+
+.mt-100 {
+  margin-top: 100px;
 }
 
 .status {
@@ -37,4 +40,36 @@ a {
   border: 2px solid var(--bg-color);
   width: 16px;
   height: 16px;
+}
+
+.min-500 {
+  min-width: 500px;
+}
+
+.text-purple {
+  color: var(--purple-3);
+  &:hover {
+    color: var(--purple);
+  }
+}
+
+.text-mail {
+  color: var(--mail-blue);
+  &:hover {
+    color: var(--active-blue);
+  }
+}
+
+.online {
+  color: var(--light-green);
+}
+
+.gap-start {
+  margin-left: calc(1rem + 24px);
+}
+
+.x {
+  &:hover {
+    background-color: var(--bg-color);
+  }
 }
