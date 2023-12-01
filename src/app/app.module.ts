@@ -28,6 +28,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
 import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
 import { ThreadComponent } from './components/thread/thread.component';
+import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ThreadComponent } from './components/thread/thread.component';
     ChatChannelComponent,
     ChannelMessageComponent,
     CustomTextareaComponent,
-    ThreadComponent
+    ThreadComponent,
+    DialogEditChannelComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -55,6 +58,7 @@ import { ThreadComponent } from './components/thread/thread.component';
     MatDialogModule,
     MatTooltipModule,
     MtxTooltipModule,
+    MatMenuModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-a4d50',
