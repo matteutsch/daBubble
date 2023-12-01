@@ -23,6 +23,10 @@ import { HomeComponent } from './components/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccountCreatingComponent } from './components/account-creating/account-creating.component';
+import { ChooseAvatarComponent } from './components/choose-avatar/choose-avatar.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     SidebarComponent,
     HomeComponent,
     DialogCreateChannelComponent,
+    AccountCreatingComponent,
+    ChooseAvatarComponent,
+    SendEmailComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     ReactiveFormsModule,

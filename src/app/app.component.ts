@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor() {
     this.unsubUsers = onSnapshot(this.getUsersRef(), (list) => {
-      // console.log("Current data: ", list);
+      console.log("Current data: ", list);
       list.forEach((doc) => {
         console.log('user:', doc.data());
 
