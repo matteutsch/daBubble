@@ -20,69 +20,27 @@
         </div>
         <div class="message-reactions">
             <ul>
-                <li mat-raised-button [mtxTooltip]="tooltipTpl" [mtxTooltipPosition]="'above'" class="reaction">
-                    <svg class="icon-check-mark" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path
-                            d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z"
-                            fill="#4BD37B" />
-                        <path d="M14.6667 4L7.66667 11.2L5.33333 8.8L3 11.2L7.66667 16L17 6.4L14.6667 4Z"
-                            fill="white" />
-                    </svg>
+                <li class="reaction">
+                    <img src="../../../assets/emoji/emoji _check mark_.png">
                     <span>1</span>
-                    <ng-template #tooltipTpl>
-                        <div style="
-                        display: inline-flex;
-                        padding: 15px 20px;
-                        flex-direction: column;
-                        align-items: center;
-                        gap: 5px;
-                        border-radius: 30px 30px 30px 0px;
-                        background-color: #444df2;">
-                            <img src="../../../assets/emoji/emoji _hands_up_.png">
-                            <span style="                        
-                            color: white;
-                            font-size: 18px;
-                            font-style: normal;
-                            font-weight: 700;
-                            line-height: normal;">Sofia Müller</span>
-                            <span style="                        
-                            color: white;
-                            text-align: center;
-                            font-size: 16px;
-                            font-style: normal;
-                            font-weight: 400;
-                            line-height: normal;">hat reagiert</span>
+                    <div class="tool-tip">
+                        <div>
+                            <img src="../../../assets/emoji/emoji _check mark_.png">
+                            <span class="name">Sofia Müller</span>
+                            <span class="text">hat reagiert</span>
                         </div>
-                    </ng-template>
+                    </div>
                 </li>
-                <li mat-raised-button [mtxTooltip]="tooltipTp2" [mtxTooltipPosition]="'above'" class="reaction">
+                <li class="reaction">
                     <img src="../../../assets/emoji/emoji _rocket_.png">
                     <span>1</span>
-                    <ng-template #tooltipTp2>
-                        <div style="
-                        display: inline-flex;
-                        padding: 15px 20px;
-                        flex-direction: column;
-                        align-items: center;
-                        gap: 5px;
-                        border-radius: 30px 30px 30px 0px;
-                        background-color: #444df2;">
-                            <img src="../../../assets/emoji/emoji _hands_up_.png">
-                            <span style="                        color: white;
-                            font-size: 18px;
-                            font-style: normal;
-                            font-weight: 700;
-                            line-height: normal;">Noah Braun</span>
-                            <span style="                        
-                            color: white;
-                            text-align: center;
-                            font-size: 16px;
-                            font-style: normal;
-                            font-weight: 400;
-                            line-height: normal;">hat reagiert</span>
+                    <div class="tool-tip">
+                        <div>
+                            <img src="../../../assets/emoji/emoji _rocket_.png">
+                            <span class="name">Noah Braun</span>
+                            <span class="text">hat reagiert</span>
                         </div>
-                    </ng-template>
+                    </div>
                 </li>
                 <li class="icon-single">
                     <svg class="icon-add-reaction" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
