@@ -30,6 +30,7 @@ import { CustomTextareaComponent } from './shared/custom-textarea/custom-textare
 import { ThreadComponent } from './components/thread/thread.component';
 import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatMenuModule } from '@angular/material/menu';
     ChannelMessageComponent,
     CustomTextareaComponent,
     ThreadComponent,
-    DialogEditChannelComponent
+    DialogEditChannelComponent,
+    ThreadMessageComponent
   ],
   imports: [
     BrowserAnimationsModule,

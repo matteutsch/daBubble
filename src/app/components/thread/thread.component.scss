@@ -46,6 +46,9 @@
     padding-bottom: 38px;
     overflow: scroll;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &::-webkit-scrollbar {
         width: 0;
@@ -54,5 +57,25 @@
 
     li {
         margin: 15px 0;
+    }
+
+    .separator {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: calc(100% - 80px);
+
+        span {
+            color: var(--light-grey);
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        img {
+            flex-grow: 1;
+            height: 1px;
+        }
     }
 }

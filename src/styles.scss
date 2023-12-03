@@ -62,8 +62,7 @@ ul {
 }
 
 .dialog-create-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface,
-.dialog-edit-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface
- {
+.dialog-edit-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface {
   border-radius: 30px;
 }
 
@@ -253,6 +252,64 @@ ul {
     .reaction-bar {
       right: inherit !important;
       left: 112px !important;
+    }
+  }
+}
+
+.my-message-thread {
+
+  .message {
+
+    .reaction-bar {
+      left: 40px !important;
+
+      .more-vert {
+        display: block !important;
+      }
+    }
+  }
+}
+
+.thread-message {
+
+  .message {
+    cursor: default !important;
+
+    .content {
+
+      .label {
+        display: none !important;
+      }
+
+      .message-reactions {
+        display: block !important;
+        padding: 0 !important;
+
+        ul {
+          padding: 0 !important;
+        }
+      }
+    }
+    
+    .reaction-bar {
+
+      .more-vert {
+        display: none;
+      }
+    }
+  }
+}
+
+.thread-question {
+
+  .message {
+
+    .content {
+
+      .message-reactions {
+        display: none !important;
+
+      }
     }
   }
 }
