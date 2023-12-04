@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/dialog-edit-channel.component';
 
@@ -8,6 +8,8 @@ import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/d
   styleUrls: ['./chat-channel.component.scss']
 })
 export class ChatChannelComponent {
+
+  @Input() drawerThread: any;
 
   constructor(public dialog: MatDialog) {}
 

@@ -1,5 +1,6 @@
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
+import { DrawerService } from 'src/app/services/drawer.service';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,11 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   isSideMenuOpen: boolean = true;
+
+  @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
+  @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
+
+  constructor(public drawerService: DrawerService) {}
 
   toggleBtnText() {
     this.isSideMenuOpen = !this.isSideMenuOpen;
