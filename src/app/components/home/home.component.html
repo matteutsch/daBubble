@@ -5,7 +5,7 @@
             <mat-drawer #drawerSidebar [opened]="true" class="mat-drawer rounded-4" mode="side">
                 <app-sidebar></app-sidebar>
             </mat-drawer>
-            <app-chat-channel [drawerThread]="drawerThread"></app-chat-channel>
+            <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
             <mat-drawer #drawerThread [opened]="false" class="mat-drawer rounded-4" mode="side" position="end">
                 <app-thread [drawerThread]="drawerThread"></app-thread>
             </mat-drawer>

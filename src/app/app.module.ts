@@ -31,6 +31,7 @@ import { ThreadComponent } from './components/thread/thread.component';
 import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
+import { MainChatComponent } from './components/main-chat/main-chat.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ThreadMessageComponent } from './shared/thread-message/thread-message.c
     CustomTextareaComponent,
     ThreadComponent,
     DialogEditChannelComponent,
-    ThreadMessageComponent
+    ThreadMessageComponent,
+    MainChatComponent
   ],
   imports: [
     BrowserAnimationsModule,
