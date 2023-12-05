@@ -1,5 +1,4 @@
 <div class="container flex-centered">
-
     <div class="intro-bg">
         <div class="logo-content">
             <div class="logo-intro">
@@ -9,9 +8,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
     <div class="login-page flex-centered">
         <div class="header">
             <img class="logo" src="../../assets/icons/logo_with_text.png">
@@ -21,7 +18,15 @@
             </div>
     
         </div>
-
+    <div class="login-header">
+        <img class="logo" src="../../assets/icons/logo_with_text.png">
+        <div class="regist-container">
+            Neu bei DABubble?
+            <a routerLink="/register">Konto erstellen</a>
+        </div>
+    </div>
+    <div class="login-page">
+      
         <!-- Anmeldung -->
 
         <!-- <mat-card>
@@ -32,13 +37,15 @@
                 <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
             </div>
 
-            <form class="flex-centered">
-                <div class="email-container flex-centered">
+            <form (submit)="loginUser()" #loginUserForm ngNativeValidate class="flex-centered">
+                <div class="email-container flex-centered"  [class.focused]="isEmailFocused">
                     <img src="./assets/icons/email_icon.png" />
-                    <input required id="email" type="email" placeholder="beispielname@email.de" name="email" />
+                    <input required id="email" type="email" placeholder="beispielname@email.de" name="email" (focus)="onFocusEmail()" (blur)="onBlurMail()"/>
                 </div>
 
-                <!-- <span class="error">Diese E-Mail-Adresse ist leider ungültig.
+                <span *ngIf="mailError" class="error">*Diese E-Mail-Adresse ist leider ungültig.</span>
+                <span class="error" *ngIf="loginError">
+                  Bitte prüfe deine Email Adresse.
                 </span>
 
                 <span class="error">
@@ -46,19 +53,18 @@
                 </span> -->
 
 
-                <div class="pwd-container flex-centered">
+                <div class="pwd-container flex-centered"  [class.focused]="isPwFocused">
                     <img src="./assets/icons/password_icon.png" />
-                    <input required id="password" type="password" name="password" placeholder="Passwort" />
+                    <input required id="password" type="password" name="password" placeholder="Passwort" (focus)="onFocusPw()" (blur)="onBlurPw()"/>
                 </div>
 
-                <!-- <span class="error">Falsches Passwort. Bitte noch einmal versuchen.
-                </span>
-
-                <span class="erorr">
+                <span *ngIf="pwError || loginError" class="error">Falsches Passwort. Bitte noch einmal
+                    versuchen.</span>
+                  <span class="error" *ngIf="requestsError">
                     Zu viele Versuche. Bitte versuche es später noch einmal.
-                </span> -->
+                  </span>
 
-                <a class="resetPw">Passwort vergessen?</a>
+                <a class="resetPw" routerLink="/send-email">Passwort vergessen?</a>
 
                 <div class="or-container flex-centered">
                     <div class="splitter"></div>
@@ -80,7 +86,7 @@
                     </button>
                 </div>
             </form>
-
+          
         </div>
         <!-- </mat-card-content>
         </mat-card> -->
@@ -89,7 +95,13 @@
             Neu bei DABubble?
             <a>Konto erstellen</a>
         </div>
-
     </div>
-
+    <div class="data-policies">
+        <a routerLink="/impressum">Impressum</a>
+        <a routerLink="/data-policy">Datenschutz</a>
+    </div>
+    <div class="regist-container-mobile">
+        Neu bei DABubble?
+        <a routerLink="/register">Konto erstellen</a>
+    </div>
 </div>

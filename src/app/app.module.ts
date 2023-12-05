@@ -35,6 +35,11 @@ import { MainChatComponent } from './components/main-chat/main-chat.component';
 import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
 import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
 import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AccountCreatingComponent } from './components/account-creating/account-creating.component';
+import { ChooseAvatarComponent } from './components/choose-avatar/choose-avatar.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -53,9 +58,14 @@ import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-ad
     MainChatComponent,
     ChatDirectMessagesComponent,
     DialogMembersComponent,
-    DialogAddMembersComponent
+    DialogAddMembersComponent,
+    AccountCreatingComponent,
+    ChooseAvatarComponent,
+    SendEmailComponent,
+    ResetPasswordComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
@@ -88,4 +98,4 @@ import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-ad
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

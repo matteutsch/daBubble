@@ -3,8 +3,9 @@
 
 :root {
   --purple: #444df2;
-  --purple-3: #535AF1;
+  --purple-3: #535af1;
   --active-blue: #1a73e8;
+  --mail-blue: #1381ff;
   --dark-blue: #797ef3;
   --baby-blue: #c3e7ff;
   --bg-color: #eceefe;
@@ -113,7 +114,6 @@ input {
     background: var(--bg-color);
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3) !important;
@@ -125,7 +125,6 @@ input {
     background: var(--bg-color);
 
     svg {
-
       rect,
       path {
         fill: black;
@@ -141,7 +140,6 @@ input {
     color: var(--purple-3);
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
@@ -153,7 +151,6 @@ input {
     color: black;
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
