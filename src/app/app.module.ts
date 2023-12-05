@@ -3,66 +3,53 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './components/login/login.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { HomeComponent } from './components/home/home.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
-import { ChatChannelComponent } from './components/chat-channel/chat-channel.component';
-import { ChannelMessageComponent } from './shared/channel-message/channel-message.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
-import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
-import { ThreadComponent } from './components/thread/thread.component';
-import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
-import { MainChatComponent } from './components/main-chat/main-chat.component';
-import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
-import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
-import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { AccountCreatingComponent } from './components/account-creating/account-creating.component';
+import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
 import { ChooseAvatarComponent } from './components/choose-avatar/choose-avatar.component';
-import { SendEmailComponent } from './components/send-email/send-email.component';
+import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
+import { HomeModule } from './home/home.module';
+import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
+import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
+import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
+import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
+import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
+import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     LoginComponent,
-    SidebarComponent,
-    HomeComponent,
     DialogCreateChannelComponent,
-    ChatChannelComponent,
-    ChannelMessageComponent,
     CustomTextareaComponent,
-    ThreadComponent,
     DialogEditChannelComponent,
     ThreadMessageComponent,
-    MainChatComponent,
     ChatDirectMessagesComponent,
     DialogMembersComponent,
     DialogAddMembersComponent,
     AccountCreatingComponent,
     ChooseAvatarComponent,
     SendEmailComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   imports: [
     ReactiveFormsModule,
@@ -74,7 +61,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AppRoutingModule,
     MatBadgeModule,
     MatExpansionModule,
-    MatSidenavModule,
     MatDialogModule,
     MatTooltipModule,
     MtxTooltipModule,
@@ -94,6 +80,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     provideDatabase(() => getDatabase()),
     provideMessaging(() => getMessaging()),
     provideStorage(() => getStorage()),
+    AuthenticationModule,
+    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
