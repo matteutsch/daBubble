@@ -1,22 +1,22 @@
-<div class="head-members">
+<div class="head-members box-shadow-style-1">
     <div *ngIf="chatService.isNotChat" class="input-container">
-        <label  class="mb-4" for="title">Neue Nachricht</label>
+        <label  class="mb-4 custom-text" for="title">Neue Nachricht</label>
         <mat-form-field class="form-field mb-2" appearance="outline">
             <input id="title" matInput placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
         </mat-form-field>
     </div>
-    <div *ngIf="!chatService.isNotChat" class="user-name-img">
+    <div *ngIf="!chatService.isNotChat" class="user-name-img flex-centered">
         <img src="../../../assets/characters/character_2.png">
-        <span>Noah Braun</span>
+        <span class="custom-text">Noah Braun</span>
     </div>
 </div>
 <ul class="ul-messages">
     <li *ngIf="!chatService.isNotChat" class="user-container">
-        <div class="user-name-img">
+        <div class="user-name-img flex-centered">
             <img src="../../../assets/characters/character_2.png">
-            <span>Noah Braun</span>
+            <span class="custom-text">Noah Braun</span>
         </div>
-        <div *ngIf="!chatService.isMyPrivatChat" class="text">
+        <div *ngIf="!chatService.isMyPrivatChat" class="text flex-centered">
             <span>
                 Diese Unterhaltung findet nur zwischen
             </span>

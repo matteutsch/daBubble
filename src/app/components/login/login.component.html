@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container flex-centered">
 
     <div class="intro-bg">
         <div class="logo-content">
@@ -12,7 +12,7 @@
 
     </div>
 
-    <div class="login-page">
+    <div class="login-page flex-centered">
         <div class="header">
             <img class="logo" src="../../assets/icons/logo_with_text.png">
             <div class="regist-container">
@@ -26,14 +26,14 @@
 
         <!-- <mat-card>
             <mat-card-content> -->
-        <div class="login-container">
+        <div class="login-container flex-centered">
             <div class="info">
                 <h1>Anmeldung</h1>
                 <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
             </div>
 
-            <form>
-                <div class="email-container">
+            <form class="flex-centered">
+                <div class="email-container flex-centered">
                     <img src="./assets/icons/email_icon.png" />
                     <input required id="email" type="email" placeholder="beispielname@email.de" name="email" />
                 </div>
@@ -46,7 +46,7 @@
                 </span> -->
 
 
-                <div class="pwd-container">
+                <div class="pwd-container flex-centered">
                     <img src="./assets/icons/password_icon.png" />
                     <input required id="password" type="password" name="password" placeholder="Passwort" />
                 </div>
@@ -60,22 +60,22 @@
 
                 <a class="resetPw">Passwort vergessen?</a>
 
-                <div class="or-container">
+                <div class="or-container flex-centered">
                     <div class="splitter"></div>
                     <span>ODER</span>
                     <div class="splitter"></div>
                 </div>
 
-                <div class="google">
+                <div class="google flex-centered">
                     <img src="./assets/icons/google_icon.png" />
                     <span>Anmelden mit Google</span>
                 </div>
 
-                <div class="btn-container">
-                    <button class="submit" type="submit">
+                <div class="btn-container flex-centered">
+                    <button class="submit flex-centered" type="submit">
                         Anmelden
                     </button>
-                    <button (click)="guestLogin()" class="guest" type="button">
+                    <button (click)="guestLogin()" class="guest flex-centered" type="button">
                         Gäste-Login
                     </button>
                 </div>

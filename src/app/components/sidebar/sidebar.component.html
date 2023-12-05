@@ -2,11 +2,11 @@
     <mat-card-content>
         <div class="sidebar-content">
             <header class="header-sidebar">
-                <div class="left">
+                <div class="left flex-centered">
                     <img src="../../../assets/icons/workspace_logo.png">
-                    <span>Code learning</span>
+                    <span class="custom-text">Code learning</span>
                 </div>
-                <div class="edit-square icon-single" (click)="chatService.openNewChat()">
+                <div class="edit-square icon-single pointer flex-centered" (click)="chatService.openNewChat()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_19819_6468" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -23,7 +23,7 @@
             <main class="main-sidebar">
                 <div class="channels">
                     <header>
-                        <div class="left text-and-icon_interactions" (click)="showChannels = !showChannels">
+                        <div class="left text-and-icon_interactions pointer flex-centered" (click)="showChannels = !showChannels">
                             <svg [ngClass]="{'rotate0': showChannels, 'rotate-90': !showChannels}"
                                 class="arrow-drop-down" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                 viewBox="0 0 30 30" fill="none">
@@ -51,7 +51,7 @@
                             </svg>
                             <span>Channels</span>
                         </div>
-                        <div class="icon-single" (click)="openDialog()">
+                        <div class="icon-single pointer flex-centered" (click)="openDialog()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none">
                                 <g clip-path="url(#clip0_237_566)">
@@ -75,7 +75,7 @@
                     </header>
                     <main *ngIf="showChannels">
                         <ul>
-                            <li class="btn-channel-name" (click)="chatService.openChannelChat()">
+                            <li class="btn-channel-name pointer" (click)="chatService.openChannelChat()">
                                 <svg class="hash" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 25 25" fill="none">
                                     <mask id="mask0_239_1574" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -91,7 +91,7 @@
                                 <span>Entwicklerteam</span>
                             </li>
                             <li class="li-add-channel">
-                                <div class="text-and-icon_interactions" (click)="openDialog()">
+                                <div class="text-and-icon_interactions pointer" (click)="openDialog()">
                                     <svg class="add-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="25"
                                         viewBox="0 0 24 25" fill="none">
                                         <mask id="mask0_244_1431" style="mask-type:alpha" maskUnits="userSpaceOnUse"
@@ -112,7 +112,7 @@
                 </div>
                 <div class="direct-messages">
                     <header>
-                        <div class="headline-direct-messages text-and-icon_interactions"
+                        <div class="headline-direct-messages text-and-icon_interactions pointer flex-centered"
                             (click)="showDirectMessages = !showDirectMessages">
                             <svg [ngClass]="{'rotate0': showDirectMessages, 'rotate-90': !showDirectMessages}"
                                 class="arrow-drop-down" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -144,27 +144,27 @@
                     </header>
                     <main *ngIf="showDirectMessages">
                         <ul>
-                            <li (click)="chatService.openMyPrivatChat()">
+                            <li class="pointer" (click)="chatService.openMyPrivatChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_1.png">
                                 <span>Frederik Beck (Du)</span>
                             </li>
-                            <li (click)="chatService.openDirectChat()">
+                            <li class="pointer" (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_2.png">
                                 <span>Sofia Müller</span>
                             </li>
-                            <li (click)="chatService.openDirectChat()">
+                            <li class="pointer" (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_3.png">
                                 <span>Noah Braun</span>
                             </li>
-                            <li (click)="chatService.openDirectChat()">
+                            <li class="pointer" (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_4.png">
                                 <span>Elise Roth</span>
                             </li>
-                            <li (click)="chatService.openDirectChat()">
+                            <li class="pointer" (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_5.png">
                                 <span>Elias Neumann</span>
                             </li>
-                            <li (click)="chatService.openDirectChat()">
+                            <li class="pointer" (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_6.png">
                                 <span>Steffen Hoffmann</span>
                             </li>

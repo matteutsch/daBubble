@@ -17,16 +17,7 @@
                 align-items: center;
 
                 .left {
-                    display: flex;
-                    align-items: center;
                     gap: 15px;
-
-                    span {
-                        font-size: 24px;
-                        font-style: normal;
-                        font-weight: 700;
-                        line-height: normal;
-                    }
                 }
 
                 .edit-square {
@@ -55,16 +46,11 @@
         align-items: center;
 
         .left {
-            display: flex;
-            align-items: center;
             gap: 15px;
-            cursor: pointer;
 
             span {
                 font-size: 20px;
-                font-style: normal;
                 font-weight: 700;
-                line-height: normal;
             }
         }
     }
@@ -86,14 +72,11 @@
                     display: inline-flex;
                     align-items: center;
                     gap: 10px;
-                    cursor: pointer;
                 }
 
                 span {
                     font-size: 18px;
-                    font-style: normal;
                     font-weight: 400;
-                    line-height: normal;
                 }
             }
         }
@@ -108,18 +91,13 @@
     header {
 
         .headline-direct-messages {
-            display: flex;
-            align-items: center;
             gap: 15px;
             width: max-content;
-            cursor: pointer;
         }
 
         span {
             font-size: 20px;
-            font-style: normal;
             font-weight: 700;
-            line-height: normal;
         }
     }
 
@@ -139,7 +117,6 @@
                 gap: 15px;
                 border-radius: 20px;
                 transition: all 225ms ease-in-out;
-                cursor: pointer;
 
                 &:hover {
                     background: var(--bg-color);

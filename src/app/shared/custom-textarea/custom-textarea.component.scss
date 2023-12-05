@@ -1,14 +1,13 @@
 .textarea-container {
     display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
     width: 100%;
     height: 145px;
     padding: 20px;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
     border-radius: 20px;
     border: 1px solid var(--light-grey);
-    cursor: pointer;
 
     &:hover {
         border: 1px solid var(--dark-blue);
@@ -37,14 +36,12 @@
 
     .textarea-bottom {
         display: flex;
-        width: 100%;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
 
         .add-elements {
             position: relative;
-            display: flex;
-            align-items: center;
             gap: 5px;
 
             &:hover {
@@ -62,7 +59,6 @@
 
         .icon-send {
             transition: all 225ms ease;
-            cursor: pointer;
 
             &:hover {
 

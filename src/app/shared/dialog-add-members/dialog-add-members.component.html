@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Leute hinzufügen</h1>
+<h1 class="custom-text" mat-dialog-title>Leute hinzufügen</h1>
 <div mat-dialog-content class="dialog-content">
     <label class="mb-4" for="title">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
@@ -19,9 +19,9 @@
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button cdkFocusInitial [mat-dialog-close]="" [disabled]="true" class="btn-primary">Hinzufügen</button>
+    <button mat-button cdkFocusInitial [mat-dialog-close]="" [disabled]="true" class="btn-primary flex-centered">Hinzufügen</button>
 </div>
-<div class="icon-close icon-single">
+<div class="icon-close icon-single pointer flex-centered">
     <svg class="close-icon" (click)="onNoClick()" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
         viewBox="0 0 24 24" fill="none">
         <mask id="mask0_19819_938" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
