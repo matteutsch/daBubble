@@ -21,35 +21,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { AccountCreatingComponent } from './components/account-creating/account-creating.component';
-import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
-import { ChooseAvatarComponent } from './components/choose-avatar/choose-avatar.component';
-import { LoginComponent } from './components/login/login.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { SendEmailComponent } from './components/send-email/send-email.component';
 import { HomeModule } from './home/home.module';
-import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
 import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
 import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
 import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
-import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     DialogCreateChannelComponent,
-    CustomTextareaComponent,
     DialogEditChannelComponent,
-    ThreadMessageComponent,
-    ChatDirectMessagesComponent,
     DialogMembersComponent,
     DialogAddMembersComponent,
-    AccountCreatingComponent,
-    ChooseAvatarComponent,
-    SendEmailComponent,
-    ResetPasswordComponent,
   ],
   imports: [
     ReactiveFormsModule,

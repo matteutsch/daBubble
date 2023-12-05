@@ -4,11 +4,11 @@ import { DrawerService } from 'src/app/services/drawer.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './content.component.html',
+  styleUrls: ['./content.component.scss']
 })
-export class HomeComponent {
-  
+export class ContentComponent {
+
   isSideMenuOpen: boolean = true;
 
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;

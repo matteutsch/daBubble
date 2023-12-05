@@ -1,24 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { HomeRoutingModule } from './home-routing.module';
-import { ChatModule } from './chat/chat.module';
-import { HeaderComponent } from './header/header.component';
-import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { ChatModule } from './chat/chat.module';
 import { ThreadComponent } from './chat/thread/thread.component';
-import { MainChatComponent } from './chat/main-chat/main-chat.component';
+import { ContentComponent } from './content/content.component';
+import { HeaderComponent } from './header/header.component';
+import { HomeRoutingModule } from './home-routing.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    HomeComponent,
+    ContentComponent,
     SidebarComponent,
     ThreadComponent,
-    MainChatComponent,
   ],
   imports: [
     CommonModule,
