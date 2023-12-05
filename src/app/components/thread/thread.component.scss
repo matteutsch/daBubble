@@ -1,0 +1,65 @@
+.mat-card {
+    height: 100%;
+
+    .mat-card-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+    }
+}
+
+.thread-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-width: 485px;
+    padding: 32px 40px;
+
+    .thread-title {
+        gap: 5px;
+
+        span {
+            color: var(--dark-blue);
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+}
+
+.ul-messages {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    list-style-type: none;
+    padding-left: 0;
+    padding-bottom: 38px;
+    overflow: scroll;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
+    li {
+        margin: 15px 0;
+    }
+
+    .separator {
+        gap: 20px;
+        width: calc(100% - 80px);
+
+        span {
+            color: var(--light-grey);
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        img {
+            flex-grow: 1;
+            height: 1px;
+        }
+    }
+}

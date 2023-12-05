@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from '../../shared/dialog-create-channel/dialog-create-channel.component';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,9 +11,12 @@ import { DialogCreateChannelComponent } from '../../shared/dialog-create-channel
 export class SidebarComponent {
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
-  isSideMenuOpen: boolean = false;
+  @Input() isMainChatChannel: any;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    public chatService: ChatService
+    ) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
@@ -24,9 +28,5 @@ export class SidebarComponent {
       console.log('The dialog was closed');
       // this.animal = result;
     });
-  }
-
-  toggleBtnText() {
-    this.isSideMenuOpen = !this.isSideMenuOpen;
   }
 }

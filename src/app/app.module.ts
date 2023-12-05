@@ -22,6 +22,19 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { HomeComponent } from './components/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from './shared/dialog-create-channel/dialog-create-channel.component';
+import { ChatChannelComponent } from './components/chat-channel/chat-channel.component';
+import { ChannelMessageComponent } from './shared/channel-message/channel-message.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MtxTooltipModule } from '@ng-matero/extensions/tooltip';
+import { CustomTextareaComponent } from './shared/custom-textarea/custom-textarea.component';
+import { ThreadComponent } from './components/thread/thread.component';
+import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-edit-channel.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
+import { MainChatComponent } from './components/main-chat/main-chat.component';
+import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
+import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
+import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AccountCreatingComponent } from './components/account-creating/account-creating.component';
 import { ChooseAvatarComponent } from './components/choose-avatar/choose-avatar.component';
@@ -36,10 +49,20 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     SidebarComponent,
     HomeComponent,
     DialogCreateChannelComponent,
+    ChatChannelComponent,
+    ChannelMessageComponent,
+    CustomTextareaComponent,
+    ThreadComponent,
+    DialogEditChannelComponent,
+    ThreadMessageComponent,
+    MainChatComponent,
+    ChatDirectMessagesComponent,
+    DialogMembersComponent,
+    DialogAddMembersComponent,
     AccountCreatingComponent,
     ChooseAvatarComponent,
     SendEmailComponent,
-    ResetPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -53,6 +76,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     MatExpansionModule,
     MatSidenavModule,
     MatDialogModule,
+    MatTooltipModule,
+    MtxTooltipModule,
+    MatMenuModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'dabubble-a4d50',

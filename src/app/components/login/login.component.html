@@ -1,5 +1,4 @@
-<div class="container">
-    <!-- Intro-Animation -->
+<div class="container flex-centered">
     <div class="intro-bg">
         <div class="logo-content">
             <div class="logo-intro">
@@ -10,7 +9,15 @@
             </div>
         </div>
     </div>
-
+    <div class="login-page flex-centered">
+        <div class="header">
+            <img class="logo" src="../../assets/icons/logo_with_text.png">
+            <div class="regist-container">
+                Neu bei DABubble?
+                <a>Konto erstellen</a>
+            </div>
+    
+        </div>
     <div class="login-header">
         <img class="logo" src="../../assets/icons/logo_with_text.png">
         <div class="regist-container">
@@ -18,17 +25,20 @@
             <a routerLink="/register">Konto erstellen</a>
         </div>
     </div>
-
     <div class="login-page">
+      
         <!-- Anmeldung -->
-        <div class="login-container">
+
+        <!-- <mat-card>
+            <mat-card-content> -->
+        <div class="login-container flex-centered">
             <div class="info">
                 <h1>Anmeldung</h1>
                 <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
             </div>
 
-            <form (submit)="loginUser()" #loginUserForm ngNativeValidate>
-                <div class="email-container" [class.focused]="isEmailFocused">
+            <form (submit)="loginUser()" #loginUserForm ngNativeValidate class="flex-centered">
+                <div class="email-container flex-centered"  [class.focused]="isEmailFocused">
                     <img src="./assets/icons/email_icon.png" />
                     <input required id="email" type="email" placeholder="beispielname@email.de" name="email" (focus)="onFocusEmail()" (blur)="onBlurMail()"/>
                 </div>
@@ -38,7 +48,12 @@
                   Bitte prüfe deine Email Adresse.
                 </span>
 
-                <div class="pw-container" [class.focused]="isPwFocused">
+                <span class="error">
+                    Bitte prüfe deine Email Adresse.
+                </span> -->
+
+
+                <div class="pwd-container flex-centered"  [class.focused]="isPwFocused">
                     <img src="./assets/icons/password_icon.png" />
                     <input required id="password" type="password" name="password" placeholder="Passwort" (focus)="onFocusPw()" (blur)="onBlurPw()"/>
                 </div>
@@ -51,26 +66,34 @@
 
                 <a class="resetPw" routerLink="/send-email">Passwort vergessen?</a>
 
-                <div class="or-container">
+                <div class="or-container flex-centered">
                     <div class="splitter"></div>
                     <span>ODER</span>
                     <div class="splitter"></div>
                 </div>
 
-                <div class="google">
+                <div class="google flex-centered">
                     <img src="./assets/icons/google_icon.png" />
                     <span>Anmelden mit Google</span>
                 </div>
 
-                <div class="btn-container">
-                    <button class="submit" type="button">
+                <div class="btn-container flex-centered">
+                    <button class="submit flex-centered" type="submit">
                         Anmelden
                     </button>
-                    <button class="guest" type="button" (click)="guestLogin()">
+                    <button (click)="guestLogin()" class="guest flex-centered" type="button">
                         Gäste-Login
                     </button>
                 </div>
             </form>
+          
+        </div>
+        <!-- </mat-card-content>
+        </mat-card> -->
+
+        <div class="regist-container-mobile" style="display: none;">
+            Neu bei DABubble?
+            <a>Konto erstellen</a>
         </div>
     </div>
     <div class="data-policies">

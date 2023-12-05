@@ -1,0 +1,160 @@
+:host {
+    display: block;
+    padding: 40px 16px;
+    max-width: 872px;
+
+    h1 {
+        font-family: "Nunito";
+    }
+
+    .mdc-dialog__title::before {
+        height: 0 !important;
+    }
+
+    p {
+        color: black;
+        font-family: "Nunito";
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .channel-name-container,
+        .channel-description-container {
+            display: flex;
+            flex-direction: column;
+
+            .edited-text {
+                width: 100%;
+                color: black;
+                font-size: 18px;
+                font-weight: 400;
+                padding: 20px;
+            }
+        }
+
+        .channel-description-container {
+
+            .img-line {
+                width: 40vw;
+                max-width: 790px;
+                margin: 20px 0;
+
+                img {
+                    height: 1px;
+                    width: calc(100% - 40px);
+                }
+            }
+
+            .text {
+                color: black;
+                font-size: 18px;
+                font-weight: 700;
+                margin: 20px 0;
+                transform: translateX(20px) translateY(-20px);
+            }
+
+            .user-name {
+                color: var(--purple-3);
+                font-size: 24px;
+                font-weight: 400;
+                transform: translateX(20px) translateY(-20px);
+            }
+        }
+
+        .edit-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            button {
+                border: none;
+                background-color: transparent;
+                color: var(--purple-3);
+                font-family: "Nunito";
+                font-size: 18px;
+                font-weight: 600;
+                transition: all 225ms ease-in-out;
+                transform: translateX(-20px) translateY(20px);
+
+                &:hover {
+                    color: var(--purple);
+                    font-weight: 700;
+                }
+            }
+
+            label {
+                color: black;
+                font-family: Nunito;
+                font-size: 18px;
+                font-weight: 700;
+                transform: translateX(20px) translateY(20px);
+
+                span {
+                    color: var(--dark-grey);
+                    font-weight: 400;
+                }
+            }
+        }
+
+        .form-field {
+            width: 100%;
+        }
+    }
+
+    // For INPUT_NOT_TOUCHED:
+    ::ng-deep .mdc-notched-outline__trailing {
+        border: 1px solid var(--light-grey) !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_FOCUSED:
+    ::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
+        border: 1px solid var(--purple-3) !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_ERROR:
+    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
+        border: 1px solid var(--red) !important;
+        border-radius: 40px !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__leading {
+        display: none !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__notch {
+        display: none !important;
+    }
+}
+
+.mat-mdc-dialog-actions {
+    padding: 0px 24px;
+    justify-content: flex-end !important;
+}
+
+.icon-close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+
+.container-border {
+    border-radius: 20px;
+    border: 1px solid var(--light-grey);
+}
+
+.translateToZero {
+    animation: translateToZero 225ms ease-in-out 0ms 1 both;
+}
+
+@keyframes translateToZero {
+    to {
+        transform: translateX(0px) translateY(0px);
+    }
+}

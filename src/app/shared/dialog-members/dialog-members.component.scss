@@ -1,0 +1,68 @@
+:host {
+    display: block;
+    padding: 40px;
+    max-width: 872px;
+
+    h1 {
+        font-family: "Nunito";
+        margin-bottom: 20px;
+    }
+
+    .mdc-dialog__title::before {
+        height: 0 !important;
+    }
+
+    .dialog-content {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 13px !important;
+    }
+
+    .user-name-img {
+        width: max-content;
+        padding: 4px 20px;
+        gap: 15px;
+        border-radius: 20px;
+        transition: all 225ms ease-in-out;
+
+        &:hover {
+            background: var(--bg-color);
+        }
+
+        img {
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        span {
+            color: black;
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
+
+    .btn-add-members {
+        padding: 12px 29px;
+        gap: 15px;
+        transition: all 225ms ease-in-out;
+
+        &:hover {
+            span {
+                color: var(--purple-3);
+            }
+        }
+
+        span {
+            color: black;
+            font-family: Nunito;
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+
+    .icon-close {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+    }
+}
