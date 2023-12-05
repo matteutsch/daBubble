@@ -1,0 +1,50 @@
+:host {
+    display: block;
+    padding: 40px;
+    max-width: 872px;
+
+    h1 {
+        width: 434px;
+        padding-left: 0px;
+        font-family: "Nunito";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin-bottom: 20px;
+    }
+
+    .mdc-dialog__title::before {
+        height: 0 !important;
+    }
+
+    .dialog-content {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+
+        label {
+            display: flex;
+            gap: 15px;
+
+            span {
+                color: var(--dark-blue);
+                font-family: "Nunito";
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    .icon-close {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+    }
+}
+
+.mat-mdc-dialog-actions {
+    justify-content: flex-end !important;
+}

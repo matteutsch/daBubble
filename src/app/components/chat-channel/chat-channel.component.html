@@ -1,5 +1,5 @@
 <div class="head-members">
-    <div class="btn-channel-name channel" mat-raised-button (click)="openDialog()">
+    <div class="btn-channel-name channel" mat-raised-button (click)="openEditChannelDialog()">
         <svg class="hash" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
             <mask id="mask0_239_1574" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
                 height="25">
@@ -19,7 +19,7 @@
         </svg>
     </div>
     <div class="members">
-        <div class="mini-info btn-channel-name">
+        <div class="mini-info btn-channel-name" (click)="openMembersDialog()">
             <div class="img-container">
                 <div class="avatar">
                     <img src="../../../assets/characters/character_1.png">
@@ -33,7 +33,7 @@
             </div>
             <span>3</span>
         </div>
-        <div class="icon-single">
+        <div class="icon-single" (click)="openAddMembersDialog()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <mask id="mask0_19819_15727" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                     height="24">

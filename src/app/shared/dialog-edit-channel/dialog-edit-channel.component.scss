@@ -11,6 +11,10 @@
         line-height: normal;
     }
 
+    .mdc-dialog__title::before {
+        height: 0 !important;
+    }
+
     p {
         color: black;
         font-family: "Nunito";

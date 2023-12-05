@@ -10,6 +10,10 @@
         font-weight: 700;
         line-height: normal;
     }
+    
+    .mdc-dialog__title::before {
+        height: 0 !important;
+    }
 
     p {
         color: black;
@@ -41,18 +45,6 @@
         input,
         .form-field {
             cursor: pointer;
-        }
-
-        input {
-
-            &::placeholder {
-                color: var(--dark-grey);
-                font-family: "Nunito";
-                font-size: 18px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-            }
         }
     }
 

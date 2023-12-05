@@ -33,6 +33,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
 import { MainChatComponent } from './components/main-chat/main-chat.component';
 import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
+import { DialogMembersComponent } from './shared/dialog-members/dialog-members.component';
+import { DialogAddMembersComponent } from './shared/dialog-add-members/dialog-add-members.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ChatDirectMessagesComponent } from './components/chat-direct-messages/c
     DialogEditChannelComponent,
     ThreadMessageComponent,
     MainChatComponent,
-    ChatDirectMessagesComponent
+    ChatDirectMessagesComponent,
+    DialogMembersComponent,
+    DialogAddMembersComponent
   ],
   imports: [
     BrowserAnimationsModule,
