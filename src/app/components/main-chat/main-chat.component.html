@@ -1,6 +1,7 @@
 <mat-card class="mat-card rounded-4">
     <mat-card-content class="mat-card-content">
-        <app-chat-channel [drawerThread]="drawerThread"></app-chat-channel>
+        <app-chat-channel *ngIf="chatService.isMainChatChannel" [drawerThread]="drawerThread"></app-chat-channel>
+        <app-chat-direct-messages *ngIf="!chatService.isMainChatChannel"></app-chat-direct-messages>
         <app-custom-textarea style="padding: 0 35px 40px;"></app-custom-textarea>
     </mat-card-content>
 </mat-card>

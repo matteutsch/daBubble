@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/dialog-edit-channel.component';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-main-chat',
@@ -10,5 +9,9 @@ import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/d
 export class MainChatComponent {
 
   @Input() drawerThread: any;
+
+  constructor(public chatService: ChatService) {
+
+  }
 
 }

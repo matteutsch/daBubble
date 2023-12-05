@@ -32,6 +32,7 @@ import { DialogEditChannelComponent } from './shared/dialog-edit-channel/dialog-
 import { MatMenuModule } from '@angular/material/menu';
 import { ThreadMessageComponent } from './shared/thread-message/thread-message.component';
 import { MainChatComponent } from './components/main-chat/main-chat.component';
+import { ChatDirectMessagesComponent } from './components/chat-direct-messages/chat-direct-messages.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MainChatComponent } from './components/main-chat/main-chat.component';
     ThreadComponent,
     DialogEditChannelComponent,
     ThreadMessageComponent,
-    MainChatComponent
+    MainChatComponent,
+    ChatDirectMessagesComponent
   ],
   imports: [
     BrowserAnimationsModule,

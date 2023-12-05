@@ -8,6 +8,7 @@ import { DrawerService } from 'src/app/services/drawer.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  
   isSideMenuOpen: boolean = true;
 
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;

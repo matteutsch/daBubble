@@ -6,7 +6,7 @@
                     <img src="../../../assets/icons/workspace_logo.png">
                     <span>Code learning</span>
                 </div>
-                <div class="edit-square icon-single">
+                <div class="edit-square icon-single" (click)="chatService.openNewChat()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_19819_6468" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -75,7 +75,7 @@
                     </header>
                     <main *ngIf="showChannels">
                         <ul>
-                            <li class="btn-channel-name">
+                            <li class="btn-channel-name" (click)="chatService.openChannelChat()">
                                 <svg class="hash" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 25 25" fill="none">
                                     <mask id="mask0_239_1574" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -144,27 +144,27 @@
                     </header>
                     <main *ngIf="showDirectMessages">
                         <ul>
-                            <li>
+                            <li (click)="chatService.openMyPrivatChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_1.png">
                                 <span>Frederik Beck (Du)</span>
                             </li>
-                            <li>
+                            <li (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_2.png">
                                 <span>Sofia Müller</span>
                             </li>
-                            <li>
+                            <li (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_3.png">
                                 <span>Noah Braun</span>
                             </li>
-                            <li>
+                            <li (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_4.png">
                                 <span>Elise Roth</span>
                             </li>
-                            <li>
+                            <li (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_5.png">
                                 <span>Elias Neumann</span>
                             </li>
-                            <li>
+                            <li (click)="chatService.openDirectChat()">
                                 <img style="width: 50px;" src="../../../assets/characters/character_6.png">
                                 <span>Steffen Hoffmann</span>
                             </li>

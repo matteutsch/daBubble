@@ -8,7 +8,8 @@
         height: 100%;
         padding: 0;
 
-        app-chat-channel {
+        app-chat-channel,
+        app-chat-direct-messages {
             display: flex;
             flex-direction: column;
             height: calc(100% - 185px);
