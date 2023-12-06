@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAddMembersComponent } from 'src/app/shared/dialog-add-members/dialog-add-members.component';
-import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/dialog-edit-channel.component';
-import { DialogMembersComponent } from 'src/app/shared/dialog-members/dialog-members.component';
+import { DialogAddMembersComponent } from 'src/app/home/dialogs/dialog-add-members/dialog-add-members.component';
+import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
+import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dialog-members.component';
 
 @Component({
   selector: 'app-chat-channel',

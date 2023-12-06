@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DrawerService } from 'src/app/services/drawer.service';
+import { DrawerService } from 'src/app/home/shared/drawer.service';
 
 @Component({
   selector: 'app-channel-message',

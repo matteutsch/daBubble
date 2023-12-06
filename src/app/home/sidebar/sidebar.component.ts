@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogCreateChannelComponent } from '../../shared/dialog-create-channel/dialog-create-channel.component';
-import { ChatService } from 'src/app/services/chat.service';
+import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
+import { ChatService } from 'src/app/home/shared/chat.service';
 
 @Component({
   selector: 'app-sidebar',
