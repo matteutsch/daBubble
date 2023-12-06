@@ -1,5 +1,5 @@
 .search {
-  width: 50vw;
+  width: 51vw;
 
   &:focus {
     outline: none;
@@ -71,5 +71,16 @@ a {
 .x {
   &:hover {
     background-color: var(--bg-color);
+  }
+}
+
+.btn-outlined {
+  font-size: 18px;
+  font-weight: 700;
+  border-color: var(--purple);
+  color: var(--purple);
+  &:hover {
+    color: white;
+    background-color: var(--purple);
   }
 }
