@@ -6,8 +6,7 @@ export class userData {
   public photoURL: string = '';
   public chat: string[] = [];
 
-
-/* The `toJson()` method is a function defined within the `userData` class. It returns an object that
+  /* The `toJson()` method is a function defined within the `userData` class. It returns an object that
 represents the current state of the `userData` instance. The object contains properties such as
 `name`, `email`, `uid`, `photoURL`, and `chat`, which are assigned the corresponding values from the
 instance's properties. */
