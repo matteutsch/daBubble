@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatService } from 'src/app/services/chat.service';
-import { DialogEditChannelComponent } from 'src/app/shared/dialog-edit-channel/dialog-edit-channel.component';
+import { ChatService } from 'src/app/home/shared/chat.service';
+import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 
 @Component({
   selector: 'app-chat-direct-messages',

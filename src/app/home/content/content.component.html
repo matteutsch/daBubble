@@ -2,61 +2,24 @@
   <app-header></app-header>
   <div class="content">
     <mat-drawer-container class="mat-drawer-container" autosize>
-      <mat-drawer
-        #drawerSidebar
-        [opened]="true"
-        class="mat-drawer rounded-4"
-        mode="side"
-      >
+      <mat-drawer #drawerSidebar [opened]="true" class="mat-drawer rounded-4" mode="side">
         <app-sidebar></app-sidebar>
       </mat-drawer>
       <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
-      <mat-drawer
-        #drawerThread
-        [opened]="false"
-        class="mat-drawer rounded-4"
-        mode="side"
-        position="end"
-      >
+      <mat-drawer #drawerThread [opened]="false" class="mat-drawer rounded-4" mode="side" position="end">
         <app-thread [drawerThread]="drawerThread"></app-thread>
       </mat-drawer>
     </mat-drawer-container>
   </div>
-  <button
-    class="btn-toggle-side flex-centered"
-    type="button"
-    mat-button
-    (click)="drawerService.toggleDrawer(drawerSidebar); toggleBtnText()"
-  >
-    <span *ngIf="isSideMenuOpen" class="vertical-text"
-      >Workspace-Menü schließen</span
-    >
-    <span *ngIf="!isSideMenuOpen" class="vertical-text"
-      >Workspace-Menü öffen</span
-    >
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 18 18"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="1"
-        y="1"
-        width="16"
-        height="16"
-        rx="1"
-        stroke="black"
-        stroke-width="2"
-      />
+  <button class="btn-toggle-side flex-centered" type="button" mat-button
+    (click)="drawerService.toggleDrawer(drawerSidebar); toggleBtnText()">
+    <span *ngIf="isSideMenuOpen" class="vertical-text">Workspace-Menü schließen</span>
+    <span *ngIf="!isSideMenuOpen" class="vertical-text">Workspace-Menü öffen</span>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="16" height="16" rx="1" stroke="black" stroke-width="2" />
       <path d="M6.71423 1V17" stroke="black" stroke-width="2" />
-      <path
-        d="M12.4285 11.2856L10.4964 9.35348C10.3011 9.15822 10.3011 8.84164 10.4964 8.64638L12.4285 6.71422"
-        stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-      />
+      <path d="M12.4285 11.2856L10.4964 9.35348C10.3011 9.15822 10.3011 8.84164 10.4964 8.64638L12.4285 6.71422"
+        stroke="black" stroke-width="2" stroke-linecap="round" />
     </svg>
   </button>
 </div>

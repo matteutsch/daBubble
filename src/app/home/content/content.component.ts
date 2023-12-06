@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import { DrawerService } from 'src/app/services/drawer.service';
+import { DrawerService } from 'src/app/home/shared/drawer.service';
 
 @Component({
   selector: 'app-home',

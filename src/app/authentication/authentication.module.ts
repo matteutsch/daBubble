@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { LoginComponent } from './login/login.component';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { AccountCreatingComponent } from './account-creating/account-creating.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,10 @@ import { AccountCreatingComponent } from './account-creating/account-creating.co
     ChooseAvatarComponent,
     AccountCreatingComponent,
   ],
-  imports: [CommonModule, AuthenticationRoutingModule],
+  imports: [
+    CommonModule,
+    AuthenticationRoutingModule,
+    BrowserModule
+  ],
 })
-export class AuthenticationModule {}
+export class AuthenticationModule { }

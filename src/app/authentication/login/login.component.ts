@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   requestsError: boolean = false;
   textState: string = 'hidden'; // Initial state
 
-  
+
   setNone: boolean = false;
   animationPlayed: boolean = false;
   docRef: any;
@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
     // throw new Error('Method not implemented.');
   }
 
-/* The code block is defining four functions: `onFocusEmail()`, `onFocusPw()`, `onBlurMail()`, and
-`onBlurPw()`. */
+  /* The code block is defining four functions: `onFocusEmail()`, `onFocusPw()`, `onBlurMail()`, and
+  `onBlurPw()`. */
   onFocusEmail() {
     this.isEmailFocused = true;
   }
@@ -77,10 +77,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
-/**
- * The `guestLogin` function navigates to the home page, signs in anonymously, updates user data as a
- * guest, and routes to the main page.
- */
+  /**
+   * The `guestLogin` function navigates to the home page, signs in anonymously, updates user data as a
+   * guest, and routes to the main page.
+   */
   guestLogin() {
     this._router.navigate(['/home']);
     signInAnonymously(this.auth)
@@ -91,11 +91,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
- /* The `googleLogin()` function is used to sign in a user using their Google account. It uses the
- `signInWithPopup()` method from the Firebase Authentication library to open a popup window for the
- user to authenticate with their Google account. Once the user is authenticated, the `result` object
- contains the user information, including their display name, photo URL, email, and unique
- identifier (UID). */
+  /* The `googleLogin()` function is used to sign in a user using their Google account. It uses the
+  `signInWithPopup()` method from the Firebase Authentication library to open a popup window for the
+  user to authenticate with their Google account. Once the user is authenticated, the `result` object
+  contains the user information, including their display name, photo URL, email, and unique
+  identifier (UID). */
   googleLogin() {
     signInWithPopup(this.auth, this.provider)
       .then((result) => {
@@ -119,11 +119,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
-/**
- * The function checks if the error is related to an invalid email and sets a boolean variable
- * accordingly.
- * @param {string} error - A string representing an error code related to email authentication.
- */
+  /**
+   * The function checks if the error is related to an invalid email and sets a boolean variable
+   * accordingly.
+   * @param {string} error - A string representing an error code related to email authentication.
+   */
   checkIfMailError(error: string) {
     if (error === 'auth/invalid-email') {
       this.mailError = true;
@@ -133,11 +133,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-/**
- * The function checks if the error is related to a missing password and sets the pwError variable to
- * true if it is.
- * @param {string} error - The `error` parameter is a string that represents an error code or message.
- */
+  /**
+   * The function checks if the error is related to a missing password and sets the pwError variable to
+   * true if it is.
+   * @param {string} error - The `error` parameter is a string that represents an error code or message.
+   */
   checkIfPasswordError(error: string) {
     if (error === 'auth/missing-password') {
       this.pwError = true;
@@ -173,11 +173,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
- /**
-  * The function updates the user data in the UserService with the provided user object.
-  * @param {any} user - The `user` parameter is an object that contains the user's information, such as
-  * their display name, photo URL, email, and unique identifier (UID).
-  */
+  /**
+   * The function updates the user data in the UserService with the provided user object.
+   * @param {any} user - The `user` parameter is an object that contains the user's information, such as
+   * their display name, photo URL, email, and unique identifier (UID).
+   */
   updateUserDatainService(user: any) {
     this.UserService.userObject.name = user.displayName;
     this.UserService.userObject.photoURL = user.photoURL;
@@ -185,9 +185,9 @@ export class LoginComponent implements OnInit {
     this.UserService.userObject.uid = user.uid;
   }
 
- /**
-  * The function updates the user data for a guest user.
-  */
+  /**
+   * The function updates the user data for a guest user.
+   */
   updateUserDataAsGuest() {
     this.UserService.userObject.name = 'Gast';
     this.UserService.userObject.photoURL =
@@ -195,12 +195,12 @@ export class LoginComponent implements OnInit {
     this.UserService.userObject.email = 'gast@babble.de';
   }
 
-/**
- * The `subUserList` function retrieves a list of user data from a collection and adds the email
- * addresses to an array.
- * @returns The `subUserList()` function is returning the result of calling `onSnapshot()` on the user
- * collection.
- */
+  /**
+   * The `subUserList` function retrieves a list of user data from a collection and adds the email
+   * addresses to an array.
+   * @returns The `subUserList()` function is returning the result of calling `onSnapshot()` on the user
+   * collection.
+   */
   subUserList() {
     return onSnapshot(this.getUserCollection(), (list) => {
       list.forEach((element) => {
@@ -210,19 +210,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
- /**
-  * The function returns a collection of users from the Firestore database.
-  * @returns The function `getUserCollection()` is returning a collection of users from the Firestore
-  * database.
-  */
+  /**
+   * The function returns a collection of users from the Firestore database.
+   * @returns The function `getUserCollection()` is returning a collection of users from the Firestore
+   * database.
+   */
   getUserCollection() {
     return collection(this.firestore, 'users');
   }
 
- /* The `checkGoogleInDatabase(user: User)` function checks if the user's email is not null and if it
- is not already included in the `userArr` array. If the email is not already in the array, it calls
- the `addUserToDatabase(user)` function to add the user to the database. If the email is already in
- the array, it does nothing. */
+  /* The `checkGoogleInDatabase(user: User)` function checks if the user's email is not null and if it
+  is not already included in the `userArr` array. If the email is not already in the array, it calls
+  the `addUserToDatabase(user)` function to add the user to the database. If the email is already in
+  the array, it does nothing. */
   checkGoogleInDatabase(user: User) {
     if (user.email != null) {
       if (!this.userArr.includes(user.email)) {
@@ -231,6 +231,7 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+  
   async addUserToDatabase(user: User) {
     try {
       const docRef = await addDoc(
@@ -244,8 +245,6 @@ export class LoginComponent implements OnInit {
   }
 
   routeToMainPage() {
-    this._router.navigateByUrl('/index');
+    this._router.navigateByUrl('/home');
   }
-
-
 }
