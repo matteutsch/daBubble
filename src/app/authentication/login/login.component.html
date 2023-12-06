@@ -12,23 +12,23 @@
 
     <div class="login-page flex-centered">
 
-        <div class="header">
-            <img class="logo" src="../../assets/icons/logo_with_text.png">
+        <!-- <div class="header"> -->
+            <!-- <img class="logo" src="../../assets/icons/logo_with_text.png">
             <div class="regist-container">
                 Neu bei DABubble?
                 <a>Konto erstellen</a>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
 
-        <div class="login-header">
+        <!-- <div class="login-header"> -->
             <img class="logo" src="../../assets/icons/logo_with_text.png">
             <div class="regist-container">
                 Neu bei DABubble?
                 <a routerLink="/register">Konto erstellen</a>
             </div>
-        </div>
+        <!-- </div> -->
 
-        <div class="login-page">
+        <!-- <div class="login-page flex-centered"> -->
 
             <!-- Anmeldung -->
 
@@ -48,13 +48,13 @@
                     </div>
 
                     <span *ngIf="mailError" class="error">*Diese E-Mail-Adresse ist leider ungültig.</span>
-                    <span class="error" *ngIf="loginError">
+                    <!-- <span class="error" *ngIf="loginError">
                         Bitte prüfe deine Email Adresse.
-                    </span>
-
+                    </span> -->
+<!-- 
                     <span class="error">
                         Bitte prüfe deine Email Adresse.
-                    </span>
+                    </span> -->
 
 
                     <div class="pwd-container flex-centered" [class.focused]="isPwFocused">
@@ -100,13 +100,13 @@
                 Neu bei DABubble?
                 <a>Konto erstellen</a>
             </div>
-        </div>
+        <!-- </div> -->
 
         <div class="data-policies">
             <a routerLink="/impressum">Impressum</a>
             <a routerLink="/data-policy">Datenschutz</a>
         </div>
-        <div class="regist-container-mobile">
+        <div class="regist-container-mobile" style="display: none;">
             Neu bei DABubble?
             <a routerLink="/register">Konto erstellen</a>
         </div>

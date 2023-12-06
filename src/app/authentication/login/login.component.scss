@@ -50,6 +50,7 @@
 // ------------ Login ------------ //
 
 .login-page {
+  flex-direction: column;
   position: relative;
   width: 100%;
   height: 100vh;
@@ -167,7 +168,7 @@ form {
 }
 
 .email-container,
-.pw-container,
+.pwd-container,
 .google {
   width: 100%;
   border-radius: 100px;
