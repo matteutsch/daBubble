@@ -114,6 +114,7 @@ input {
     background: var(--bg-color);
 
     svg {
+
       rect,
       path {
         fill: var(--purple-3) !important;
@@ -125,6 +126,7 @@ input {
     background: var(--bg-color);
 
     svg {
+
       rect,
       path {
         fill: black;
@@ -140,6 +142,7 @@ input {
     color: var(--purple-3);
 
     svg {
+
       rect,
       path {
         fill: var(--purple-3);
@@ -151,11 +154,41 @@ input {
     color: black;
 
     svg {
+
       rect,
       path {
         fill: var(--purple-3);
       }
     }
+  }
+}
+
+.btn-secundary {
+  padding: 12px 25px;
+  gap: 10px;
+  border-radius: 25px;
+  border: 1px solid var(--Purple-2, #797EF3);
+  color: var(--purple);
+  background-color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+
+  &:hover {
+    background: var(--purple-3);
+    border: 1px solid var(--purple-3) !important;
+    color: white;
+  }
+
+  &:active {
+    background: var(--purple);
+    border: 1px solid var(--purple) !important;
+    color: white;
+  }
+
+  &:disabled {
+    border: 1px solid var(--dark-grey) !important;
+    color: var(--dark-grey);
   }
 }
 
@@ -360,7 +393,7 @@ input {
       padding: 15px 20px;
       gap: 5px;
       border-radius: 30px 30px 30px 0px;
-      background-color: #444df2;
+      background-color: var(--purple);
 
       .name {
         color: white;
@@ -381,5 +414,32 @@ input {
         width: max-content;
       }
     }
+  }
+}
+
+.authentication-header {
+  justify-content: center;
+
+  .authentication-title {
+    color: var(--purple);
+    font-family: "Nunito";
+    text-align: center;
+    font-size: 46px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    margin-bottom: 32px;
+  }
+
+  .authentication-subtitle {
+    width: 486px;
+    color: black;
+    text-align: center;
+    font-family: "Nunito";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-bottom: 40px;
   }
 }

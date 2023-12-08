@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,10 @@ export class HeaderComponent {
   isCheckingProfile: boolean = false;
   isEditing: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    public auth: AuthService
+    ) {}
 
   //TODO: variable for controls
   ngOnInit(): void {
@@ -48,6 +52,10 @@ export class HeaderComponent {
 
   toggleEditProfile() {
     this.isEditing = !this.isEditing;
+  }
+
+  logout() {
+    this.auth.SignOut();
   }
 
   submit() {

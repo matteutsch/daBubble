@@ -6,26 +6,13 @@
       <h2 class="fw-bold">daBubble</h2>
     </div>
     <!--  -->
-    <input
-      type="search"
-      class="search rounded-pill border-0 p-3 px-5"
-      placeholder="xyz durchsuchen..."
-    />
+    <input type="search" class="search rounded-pill border-0 p-3 px-5" placeholder="xyz durchsuchen..." />
     <!--  -->
-    <div
-      class="flex-centered gap-3 pe-3 pointer text-hover"
-      (click)="toggleLogout()"
-    >
+    <div class="flex-centered gap-3 pe-3 pointer text-hover" (click)="toggleLogout()">
       <h2 class="fw-bold">Frederik Beck</h2>
       <div class="position-relative">
-        <img
-          width="70px"
-          src="assets/characters/character_2.png"
-          class="img-fluid rounded-circle"
-        />
-        <div
-          class="position-absolute rounded-circle status bottom-0 end-0"
-        ></div>
+        <img width="70px" src="assets/characters/character_2.png" class="img-fluid rounded-circle" />
+        <div class="position-absolute rounded-circle status bottom-0 end-0"></div>
       </div>
       <i class="bi bi-chevron-down fs-4"></i>
     </div>
@@ -35,42 +22,23 @@
     <!-- [Profile / Logout]  -->
     <div *ngIf="!isCheckingProfile" class="position-absolute top-0 end-0">
       <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 mt-100">
-        <mat-card-subtitle
-          class="menuContainer pointer px-4 p-3 rounded-pill"
-          (click)="toggleCheckProfile()"
-        >
-          <a class="text-hover p-2 px-4">Profil</a></mat-card-subtitle
-        >
+        <mat-card-subtitle class="menuContainer pointer px-4 p-3 rounded-pill" (click)="toggleCheckProfile()">
+          <a class="text-hover p-2 px-4">Profil</a></mat-card-subtitle>
         <mat-card-subtitle class="menuContainer px-4 p-3 rounded-pill">
-          <a class="text-hover p-2 px-4" routerLink="/login"
-            >Logout</a
-          ></mat-card-subtitle
-        >
+          <a class="text-hover p-2 px-4 pointer" (click)="logout()">Logout</a></mat-card-subtitle>
       </mat-card>
     </div>
     <!-- [Profile/Edit]  -->
-    <div
-      *ngIf="isCheckingProfile"
-      class="position-absolute top-0 end-0 d-flex column"
-    >
-      <mat-card
-        class="p-4 px-5 fs-4 z-3 me-3 min-500 gap-4 mt-100"
-        [ngClass]="{ 'custom-rounded': !isEditing, 'rounded-5': isEditing }"
-      >
+    <div *ngIf="isCheckingProfile" class="position-absolute top-0 end-0 d-flex column">
+      <mat-card class="p-4 px-5 fs-4 z-3 me-3 min-500 gap-4 mt-100"
+        [ngClass]="{ 'custom-rounded': !isEditing, 'rounded-5': isEditing }">
         <div class="flex-centered justify-content-between">
           <h3 *ngIf="!isEditing"><b>Profil</b></h3>
           <h3 *ngIf="isEditing"><b>Dein Profil bearbeiten</b></h3>
-          <i
-            class="bi bi-x fs-2 pointer x rounded-circle px-2"
-            (click)="toggleCheckProfile()"
-          ></i>
+          <i class="bi bi-x fs-2 pointer x rounded-circle px-2" (click)="toggleCheckProfile()"></i>
         </div>
         <div class="w-100 flex-centered">
-          <img
-            width="214px"
-            src="assets/characters/character_2.png"
-            class="img-fluid rounded-circle mt-3"
-          />
+          <img width="214px" src="assets/characters/character_2.png" class="img-fluid rounded-circle mt-3" />
         </div>
         <!--  -->
         <div *ngIf="!isEditing">
@@ -97,37 +65,18 @@
         <!-- TODO: change hardcoded name & email -->
         <div *ngIf="isEditing">
           <form [formGroup]="editForm">
-            <label for="fullname" class="form-label"
-              ><i class="bi bi-person-circle me-3"></i>Vollständiger Name</label
-            >
-            <input
-              formControlName="nameControl"
-              class="form-control rounded-pill p-2 px-3 mb-3"
-              id="fullname"
-              type="text"
-            />
-            <label for="email" class="form-label"
-              ><i class="bi bi-envelope me-3"></i>E-Mail-Adresse</label
-            >
-            <input
-              formControlName="mailControl"
-              class="form-control rounded-pill p-2 px-3 mb-3"
-              id="email"
-              type="email"
-            />
+            <label for="fullname" class="form-label"><i class="bi bi-person-circle me-3"></i>Vollständiger Name</label>
+            <input formControlName="nameControl" class="form-control rounded-pill p-2 px-3 mb-3" id="fullname"
+              type="text" />
+            <label for="email" class="form-label"><i class="bi bi-envelope me-3"></i>E-Mail-Adresse</label>
+            <input formControlName="mailControl" class="form-control rounded-pill p-2 px-3 mb-3" id="email"
+              type="email" />
             <div class="flex-centered gap-5">
-              <button
-                class="btn btn-outline-primary rounded-pill px-3 p-2 fs-5 btn-outlined"
-                type="button"
-                (click)="toggleEditProfile()"
-              >
+              <button class="btn btn-outline-primary rounded-pill px-3 p-2 fs-5 btn-outlined" type="button"
+                (click)="toggleEditProfile()">
                 Abbrechen
               </button>
-              <button
-                class="btn-primary"
-                type="submit"
-                [disabled]="editForm.invalid && editForm.dirty"
-              >
+              <button class="btn-primary" type="submit" [disabled]="editForm.invalid && editForm.dirty">
                 Speichern
               </button>
             </div>
@@ -136,9 +85,6 @@
       </mat-card>
     </div>
     <!-- [Overlay]  -->
-    <div
-      class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50 z-2"
-      (click)="toggleLogout()"
-    ></div>
+    <div class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50 z-2" (click)="toggleLogout()"></div>
   </div>
 </div>
