@@ -9,23 +9,13 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeModule } from './home/home.module';
+import { environment } from 'src/environment';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
-    provideFirebaseApp(() =>
-      initializeApp({
-        projectId: 'dabubble-a4d50',
-        appId: '1:748766129558:web:35deae58792d029fe3c1b7',
-        storageBucket: 'dabubble-a4d50.appspot.com',
-        apiKey: 'AIzaSyDVMt0LFYltUGd0ecMh4__0KEy4sXltY4Q',
-        authDomain: 'dabubble-a4d50.firebaseapp.com',
-        messagingSenderId: '748766129558',
-      })
-    ),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
@@ -37,4 +27,4 @@ import { HomeModule } from './home/home.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
