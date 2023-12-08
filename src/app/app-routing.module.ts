@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import { SendEmailComponent } from './authentication/send-email/send-email.component';
 import { ContentComponent } from './home/content/content.component';
@@ -12,7 +11,6 @@ const routes: Routes = [
   { path: 'login', component: SignInComponent },
   { path: 'home/:id', component: ContentComponent },
   { path: 'register', component: SignUpComponent },
-  { path: 'choose-avatar', component: ChooseAvatarComponent },
   { path: 'send-email', component: SendEmailComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
 ];

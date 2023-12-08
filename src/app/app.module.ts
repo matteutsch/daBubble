@@ -14,7 +14,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     AppRoutingModule,
     AuthenticationModule,
     HomeModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent],
