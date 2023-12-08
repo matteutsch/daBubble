@@ -1,10 +1,11 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  imageUrl: string;
+  uid?: string;
+  email?: string;
+  emailVerified?: boolean;
+  name?: string;
+  photoURL?: string;
   chats?: Chat[];
-  status: StatusType;
+  status?: StatusType;
 }
 
 export interface Chat {
@@ -24,6 +25,7 @@ export interface Message {
   senderId: string;
   content: string;
   timestamp: Date;
+  answer?: Message[];
 }
 
 export enum StatusType {

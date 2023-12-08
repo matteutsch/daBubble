@@ -1,0 +1,74 @@
+<div class="container flex-centered">
+    <div class="intro-bg">
+        <div class="logo-content">
+            <div class="logo-intro">
+                <img class="logo-image" src="../../assets/icons/big_logo.png">
+                <div class="logo-text">
+                    <img src="../../assets/icons/logo_name.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="signin-page flex-centered">
+
+        <img class="logo" src="../../assets/icons/logo_with_text.png">
+        <div class="regist-container">
+            Neu bei DABubble?
+            <a routerLink="/register">Konto erstellen</a>
+        </div>
+
+        <mat-card>
+            <mat-card-header class="authentication-header">
+                <mat-card-title class="authentication-title">Anmeldung</mat-card-title>
+                <mat-card-subtitle class="authentication-subtitle">
+                    Wir empfehlen dir, die E-Mail-Adresse zu nutzen,
+                    die du bei der Arbeitverwendest.
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <form class="authentication-form" [formGroup]="signinForm" (ngSubmit)="signIn()">
+                    <div class="email-container">
+                        <mat-form-field class="form-field mb-2 w-100 mb-4" appearance="outline">
+                            <mat-label>Deine E-Mail eingeben</mat-label>
+                            <input matInput placeholder="pat@example.com" formControlName="email" required>
+                            <mat-error *ngIf="signinForm.get('email')?.invalid">{{ getErrorMessage() }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="password-container">
+                        <mat-form-field class="form-field mb-2 w-100 mb-4" appearance="outline">
+                            <mat-label>Dein Passwort eingeben</mat-label>
+                            <input matInput matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort"
+                                formControlName="password" required>
+                            <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                    <div class="w-100 flex-centered mb-4">
+                        <a routerLink="/reset-password">Passwort vergessen?</a>
+                    </div>
+                    <div class="line-container mb-4">
+                        <img src="../../../assets/icons/line.png">
+                        <span>ODER</span>
+                    </div>
+                    <button type="button" class="btn-google w-100 mb-4">
+                        <img src="../../../assets/icons/google_icon.png">
+                        <span>Anmelden mit Google</span>
+                    </button>
+                    <div class="btns-bottom flex-centered w-100">
+                        <button class="btn-primary flex-centered" type="submit">Anmelden</button>
+                        <button class="btn-secundary flex-centered" type="button">Gäste-Login</button>
+                    </div>
+                </form>
+            </mat-card-content>
+
+        </mat-card>
+
+        <div class="data-policies">
+            <a routerLink="/impressum">Impressum</a>
+            <a routerLink="/data-policy">Datenschutz</a>
+        </div>
+
+    </div>
+</div>
