@@ -7,9 +7,7 @@ import { environment } from 'src/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     AuthenticationModule,
@@ -19,4 +17,4 @@ import { AngularFireModule } from '@angular/fire/compat';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
