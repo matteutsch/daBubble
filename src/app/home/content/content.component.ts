@@ -10,10 +10,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./content.component.scss'],
 })
 export class ContentComponent {
-
   isSideMenuOpen: boolean = true;
   userID: any;
-  user: any;
+  user: any = {};
 
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
   @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
@@ -30,7 +29,7 @@ export class ContentComponent {
           console.log('content user:', this.user);
         });
       }
-    })
+    });
   }
 
   toggleBtnText() {

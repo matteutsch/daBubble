@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,8 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
-
+export class HeaderComponent implements OnChanges {
   editForm!: FormGroup;
   isOpen: boolean = false;
   isCheckingProfile: boolean = false;
@@ -22,16 +21,12 @@ export class HeaderComponent {
 
   @Input() user!: User;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public auth: AuthService
-    ) {}
+  constructor(private formBuilder: FormBuilder, public auth: AuthService) {}
 
-  //TODO: variable for controls
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.editForm = this.formBuilder.group({
-      nameControl: new FormControl('Frederik Beck', [Validators.required]),
-      mailControl: new FormControl('fred.beck@email.com', [
+      nameControl: new FormControl(this.user.name, [Validators.required]),
+      mailControl: new FormControl(this.user.email, [
         Validators.required,
         Validators.email,
       ]),

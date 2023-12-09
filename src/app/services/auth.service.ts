@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/models';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
 import { UserService } from './user.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   userID: any;
   private userSubject = new BehaviorSubject<any | null>(null);
   user: Observable<any> = this.userSubject.asObservable();
@@ -22,7 +24,7 @@ export class AuthService {
     public route: ActivatedRoute,
     public userService: UserService
   ) {
-    /* Saving user data in localstorage when 
+    /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       this.handleAuthStateChange(user);
@@ -33,7 +35,6 @@ export class AuthService {
     this.afAuth.onAuthStateChanged((user) => {
       this.handleAuthStateChangedEvent(user);
     });
-
   }
 
   handleAuthStateChange(user: any | null): void {
@@ -41,7 +42,6 @@ export class AuthService {
       this.userSubject.next(user);
       localStorage.setItem('user', JSON.stringify(user));
       JSON.parse(localStorage.getItem('user')!);
-
     } else {
       localStorage.setItem('user', 'null');
       JSON.parse(localStorage.getItem('user')!);
@@ -63,7 +63,6 @@ export class AuthService {
       .then(() => {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
-            this.router.navigate([`home/${user.uid}`]);
           }
         });
       })
@@ -78,7 +77,7 @@ export class AuthService {
       .then((result) => {
         console.log(' created userDATA:', result);
 
-        /* Call the SendVerificaitonMail() function when new user sign 
+        /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         // this.SendVerificationMail();
         this.SetUserData(result.user, userName, photoURL);
@@ -89,8 +88,8 @@ export class AuthService {
       });
   }
 
-  /* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
+  /* Setting up user data when sign in with username/password,
+  sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user: any, userName: any, photoURL: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
@@ -103,7 +102,7 @@ export class AuthService {
       name: userName,
       photoURL: photoURL,
       chats: user.chats !== undefined ? user.chats : null,
-      status: user.status !== undefined ? user.status : null
+      status: user.status !== undefined ? user.status : null,
     };
     return userRef.set(userData, {
       merge: true,

@@ -21,17 +21,15 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
 
 @NgModule({
-  providers: [
-    AuthService
-  ],
+  providers: [AuthService],
   declarations: [
-    HeaderComponent,
     ContentComponent,
+    HeaderComponent,
     SidebarComponent,
     DialogAddMembersComponent,
     DialogCreateChannelComponent,
     DialogEditChannelComponent,
-    DialogMembersComponent
+    DialogMembersComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +41,7 @@ import { AuthService } from '../services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
 })
-export class HomeModule { }
+export class HomeModule {}
