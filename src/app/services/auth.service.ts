@@ -63,6 +63,7 @@ export class AuthService {
       .then(() => {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
+            this.router.navigate([`home/:id`]);
           }
         });
       })
