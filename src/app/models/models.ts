@@ -1,11 +1,11 @@
 export interface User {
-  uid?: string;
-  email?: string;
+  uid: string;
+  email: string;
   emailVerified?: boolean;
-  name?: string;
-  photoURL?: string;
+  name: string;
+  photoURL: string;
   chats?: Chat[];
-  status?: StatusType;
+  status: StatusType;
 }
 
 export interface Chat {

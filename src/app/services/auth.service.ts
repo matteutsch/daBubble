@@ -1,61 +1,66 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/models';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { UserService } from './user.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  userData: any; // Save logged in user data
+  userID: any;
+  private userSubject = new BehaviorSubject<any | null>(null);
+  user: Observable<any> = this.userSubject.asObservable();
 
   constructor(
-    public afs: AngularFirestore, // Inject Firestore service
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
-    public router: Router
+    public afs: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    public router: Router,
+    public route: ActivatedRoute,
+    public userService: UserService
   ) {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
+      this.handleAuthStateChange(user);
     });
 
     /*
     This function is triggered when the authentication state changes.*/
     this.afAuth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const uid = user.uid;
-        // ...
-      } else {
-        // User is signed out
-        // ...
-        this.router.navigate([`login`]);
-      }
+      this.handleAuthStateChangedEvent(user);
     });
 
   }
 
-  // Sign in with email/password
+  handleAuthStateChange(user: any | null): void {
+    if (user) {
+      this.userSubject.next(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      JSON.parse(localStorage.getItem('user')!);
+
+    } else {
+      localStorage.setItem('user', 'null');
+      JSON.parse(localStorage.getItem('user')!);
+    }
+  }
+
+  async handleAuthStateChangedEvent(user: any | null) {
+    if (user) {
+      this.userID = user.uid;
+    } else {
+      this.router.navigate([`login`]);
+      console.log('auth log out user:', this.user);
+    }
+  }
+
   SignIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        // this.SetUserData(result.user);
+      .then(() => {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate([`home/${user.uid}`]);
@@ -67,17 +72,17 @@ export class AuthService {
       });
   }
 
-  // Sign up with email/password
   SignUp(email: string, password: string, userName: string, photoURL: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        console.log('result:', result);
+        console.log(' created userDATA:', result);
 
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         // this.SendVerificationMail();
         this.SetUserData(result.user, userName, photoURL);
+        this.router.navigate([`login`]);
       })
       .catch((error) => {
         window.alert(error.message);
@@ -91,14 +96,12 @@ export class AuthService {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
-    console.log('user:', user);
-
     const userData: User = {
-      uid: user.uid !== undefined ? user.uid : null,
-      email: user.email !== undefined ? user.email : null,
-      emailVerified: user.emailVerified !== undefined ? user.emailVerified : null,
-      name: userName !== undefined ? userName : null,
-      photoURL: photoURL !== undefined ? photoURL : null,
+      uid: user.uid,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      name: userName,
+      photoURL: photoURL,
       chats: user.chats !== undefined ? user.chats : null,
       status: user.status !== undefined ? user.status : null
     };
@@ -107,7 +110,6 @@ export class AuthService {
     });
   }
 
-  // Sign out
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');

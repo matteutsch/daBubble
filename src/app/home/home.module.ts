@@ -18,8 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../services/auth.service';
 
 @NgModule({
+  providers: [
+    AuthService
+  ],
   declarations: [
     HeaderComponent,
     ContentComponent,

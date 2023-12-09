@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { User } from 'src/app/models/models';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,11 +14,13 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  editForm!: FormGroup;
 
+  editForm!: FormGroup;
   isOpen: boolean = false;
   isCheckingProfile: boolean = false;
   isEditing: boolean = false;
+
+  @Input() user!: User;
 
   constructor(
     private formBuilder: FormBuilder,
