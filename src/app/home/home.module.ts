@@ -16,7 +16,6 @@ import { DialogEditChannelComponent } from './dialogs/dialog-edit-channel/dialog
 import { DialogMembersComponent } from './dialogs/dialog-members/dialog-members.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
 
@@ -41,7 +40,6 @@ import { AuthService } from '../services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    BrowserAnimationsModule,
   ],
 })
-export class HomeModule {}
+export default class HomeModule {}
