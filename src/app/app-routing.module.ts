@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ContentComponent } from './home/content/content.component';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { SignInComponent } from './authentication/sign-in/sign-in.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { UserResetPasswordComponent } from './authentication/user-reset-password/user-reset-password.component';
@@ -9,14 +8,19 @@ import { UserSendEmailComponent } from './authentication/user-send-email/user-se
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: SignInComponent },
-  { path: 'home/:id', component: ContentComponent },
   { path: 'register', component: SignUpComponent },
   { path: 'send-email', component: UserSendEmailComponent },
-  { path: 'reset-password', component: UserResetPasswordComponent }
+  { path: 'reset-password', component: UserResetPasswordComponent },
+  {
+    path: 'home/:id',
+    loadChildren: () => import('./home/home.module'),
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
