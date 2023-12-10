@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,7 +30,8 @@ export class SignUpComponent {
   ];
 
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
+    public userService: UserService
   ) { }
 
   getErrorMessage() {
@@ -58,9 +60,8 @@ export class SignUpComponent {
     this.signupForm.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
   }
 
-  onFileChange($event: any) {
-    let file = $event.target.files[0]; // <--- File Object for future use.
-    this.signupForm.get('fileControl')?.setValue(file ? file.name : ''); // <-- Set Value for Validation
-    console.log('file.name:', file.name);
+  onFileSelected(event: any): void {
+    this.userService.uploadFile(event.target.files[0]);
   }
+
 }

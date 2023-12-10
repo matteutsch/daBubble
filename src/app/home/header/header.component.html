@@ -16,7 +16,7 @@
       class="flex-centered gap-3 pe-3 pointer text-hover"
       (click)="toggleLogout()"
     >
-      <h2 class="fw-bold">{{ user.name }}</h2>
+      <h2 class="fw-bold">{{ user.name | titlecase }}</h2>
       <div class="position-relative">
         <img
           width="70px"
@@ -77,7 +77,7 @@
           <div class="w-100 mb-4">
             <div class="d-flex justify-content-between">
               <h3>
-                <b>{{ user.name | uppercase }}</b>
+                <b>{{ user.name | titlecase }}</b>
               </h3>
               <p class="text-purple pointer" (click)="toggleEditProfile()">
                 Bearbeiten
