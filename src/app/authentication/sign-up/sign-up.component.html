@@ -79,7 +79,7 @@
                         <h2 class="mb-4">Frederik Beck</h2>
                         <span>Aus der Liste wählen</span>
                         <div class="avatar-picker">
-                            <img *ngFor="let img of avatar_list" (click)="chooseAvatar(img)" src="{{ img }}" />
+                            <img *ngFor="let img of avatar_list" (click)="userService.chooseUserAvatar(img, signupForm)" src="{{ img }}" />
                         </div>
                         <div class="avatar-upload mb-4">
                             <div class="text">eigenes Bild verwenden</div>

@@ -56,12 +56,7 @@ export class SignUpComponent {
     this.showAvatarSection = !this.showAvatarSection;
   }
 
-  chooseAvatar(pickedImg: string) {
-    this.signupForm.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
-  }
-
   onFileSelected(event: any): void {
-    this.userService.uploadFile(event.target.files[0]);
+    this.userService.uploadFile(event.target.files[0], this.signupForm);
   }
-
 }

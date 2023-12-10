@@ -15,13 +15,15 @@ export class UserService {
 
   }
   
-  uploadFile(file: File): void {
-    const storageRef = this.storage.ref(file.name);
+  uploadFile(file: File, form: any): void {
+    const storageRef = this.storage.ref(`images/${file.name}`);
     const uploadTask = storageRef.put(file);
     uploadTask.snapshotChanges().pipe(
       finalize(() => {
         storageRef.getDownloadURL().subscribe(downloadURL => {
           this.saveFileData(file.name, downloadURL);
+          console.log('File available at', downloadURL);
+          this.chooseUserAvatar(downloadURL, form);
         });
       })
     ).subscribe();
@@ -38,6 +40,10 @@ export class UserService {
       .catch(error => {
         console.error('Error storing file data: ', error);
       });
+  }
+
+  chooseUserAvatar(pickedImg: string, form: any) {
+    form.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
   }
 
   getUser(userID: any): Observable<any> {
