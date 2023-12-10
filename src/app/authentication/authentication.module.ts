@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { SendEmailComponent } from './send-email/send-email.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -14,14 +12,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../services/auth.service';
+import { UserResetPasswordComponent } from './user-reset-password/user-reset-password.component';
+import { UserSendEmailComponent } from './user-send-email/user-send-email.component';
 
 @NgModule({
   providers: [AuthService],
   declarations: [
     SignUpComponent,
     SignInComponent,
-    SendEmailComponent,
-    ResetPasswordComponent,
+    UserResetPasswordComponent,
+    UserSendEmailComponent,
   ],
   imports: [
     CommonModule,

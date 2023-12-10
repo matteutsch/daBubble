@@ -35,14 +35,32 @@
 
 .authentication-form {
 
-    input {
+    .form-field {
         position: relative;
-        z-index: 10;
+
+        input {
+            position: relative;
+            z-index: 10;
+            padding-left: 50px;
+        }
+
+        img {
+            position: absolute;
+            z-index: 10;
+            left: 10px;
+        }
+    }
+
+    .privacy-policy-checkbox {
+        margin-bottom: 20px;
+
+        span {
+            font-family: "Nunito";
+        }
     }
 }
 
 .form-section-2 {
-    margin-top: 46px;
     width: 486px;
     flex-shrink: 0;
     display: flex;
@@ -117,6 +135,7 @@
     }
 
     .avatar-upload-btn {
+        position: relative;
         display: flex;
         padding: 12px 25px;
         justify-content: center;
@@ -134,6 +153,11 @@
             background-color: var(--purple, #444df2);
             color: #ffffff;
             border: 1px solid transparent;
+        }
+        
+        input[type="file"] {
+            // display: none;
+            position: absolute;
         }
     }
 
@@ -171,30 +195,30 @@
         background-color: var(--bg-color) !important;
         border-radius: 40px !important;
     }
-}
 
-// For INPUT_NOT_TOUCHED:
-::ng-deep .mdc-notched-outline__trailing {
-    border: 1px solid transparent !important;
-    border-radius: 40px !important;
-}
+    // For INPUT_NOT_TOUCHED:
+    ::ng-deep .mdc-notched-outline__trailing {
+        border: 1px solid transparent !important;
+        border-radius: 40px !important;
+    }
 
-// For INPUT_FOCUSED:
-::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
-    border: 1px solid var(--purple-3) !important;
-    border-radius: 40px !important;
-}
+    // For INPUT_FOCUSED:
+    ::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
+        border: 1px solid var(--purple-3) !important;
+        border-radius: 40px !important;
+    }
 
-// For INPUT_ERROR:
-::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
-    border: 1px solid var(--red) !important;
-    border-radius: 40px !important;
-}
+    // For INPUT_ERROR:
+    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
+        border: 1px solid var(--red) !important;
+        border-radius: 40px !important;
+    }
 
-::ng-deep .mdc-notched-outline__leading {
-    display: none !important;
-}
+    ::ng-deep .mdc-notched-outline__leading {
+        display: none !important;
+    }
 
-::ng-deep .mdc-notched-outline__notch {
-    display: none !important;
+    ::ng-deep .mdc-notched-outline__notch {
+        display: none !important;
+    }
 }

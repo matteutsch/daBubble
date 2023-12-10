@@ -40,53 +40,58 @@
                     <div class="form-section-1" *ngIf="!showAvatarSection">
                         <div class="name-container">
                             <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <mat-label>Name und Nachname</mat-label>
-                                <input matInput placeholder="Name und Nachname" formControlName="name" required>
+                                <input matInput placeholder="Name und Nachname" formControlName="nameControl"
+                                    [ngClass]="{ 'is-invalid': signupForm.get('nameControl')?.invalid }">
+                                <img src="../../../assets/icons/person_icon.png">
                             </mat-form-field>
                         </div>
                         <div class="email-container">
                             <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <mat-label>Deine E-Mail eingeben</mat-label>
-                                <input matInput placeholder="pat@example.com" formControlName="email" required>
-                                <mat-error *ngIf="signupForm.get('email')?.invalid">{{ getErrorMessage() }}</mat-error>
+                                <input matInput placeholder="pat@example.com" formControlName="emailControl"
+                                    [ngClass]="{ 'is-invalid': signupForm.get('email')?.invalid }">
+                                <mat-error *ngIf="signupForm.get('emailControl')?.invalid">{{ getErrorMessage()
+                                    }}</mat-error>
+                                <img src="../../../assets/icons/email_icon.png">
                             </mat-form-field>
                         </div>
                         <div class="password-container">
                             <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <mat-label>Dein Passwort eingeben</mat-label>
-                                <input matInput matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort"
-                                    formControlName="password" required>
-                                <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
-                                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                                </button>
+                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort"
+                                    formControlName="passwordControl"
+                                    [ngClass]="{ 'is-invalid': signupForm.get('passwordControl')?.invalid }">
+                                <img class="pointer" (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide"
+                                    src="{{hide ? '../../../assets/icons/password_icon.png' : '../../../assets/icons/no_lock.png'}}">
                             </mat-form-field>
                         </div>
                         <div class="privacy-policy-checkbox">
-                            <mat-checkbox class="example-margin">
-                                <span>Ich stimme der </span>
-                                <a routerLink="/data-policy">Datenschutzerklärung </a>
+                            <mat-checkbox color="primary">
+                                <span>Ich stimme der</span>
+                                <a class="anchor" routerLink="/data-policy">Datenschutzerklärung</a>
                                 <span>zu.</span>
                             </mat-checkbox>
                         </div>
                     </div>
                     <div class="form-section-2" *ngIf="showAvatarSection">
                         <div class="person">
-                            <img src="{{ pickedAvatarUrl }}" />
+                            <img src="{{ signupForm.get('fileControl')?.invalid ? 'assets/characters/default_character.png' : signupForm.get('fileControl')?.value }}"/>
                         </div>
-                        <h2>Frederik Beck</h2>
+                        <h2 class="mb-4">Frederik Beck</h2>
                         <span>Aus der Liste wählen</span>
                         <div class="avatar-picker">
                             <img *ngFor="let img of avatar_list" (click)="chooseAvatar(img)" src="{{ img }}" />
                         </div>
-                        <div class="avatar-upload">
+                        <div class="avatar-upload mb-4">
                             <div class="text">eigenes Bild verwenden</div>
-                            <button class="avatar-upload-btn">Datei hochladen</button>
+                            <button type="button" class="avatar-upload-btn">Datei hochladen
+                                <input class="" type="file" (change)="onFileChange($event)">
+                                <input type="hidden" name="fileHidden" formControlName="fileControl"/>
+                            </button>
                         </div>
                     </div>
                     <button *ngIf="!showAvatarSection" type="button" class="btn-primary flex-centered"
-                        (click)="toggleFormSection()">Weiter</button>
-                    <button *ngIf="showAvatarSection" type="submit" [disabled]="isButtonDisabled"
+                        (click)="toggleFormSection()"  [disabled]="signupForm.get('nameControl')?.invalid || signupForm.get('emailControl')?.invalid || signupForm.get('passwordControl')?.invalid">Weiter</button>
+                    <button *ngIf="showAvatarSection" type="submit" [disabled]="signupForm.invalid" 
                         class="btn-primary flex-centered">Weiter</button>
                 </form>
             </mat-card-content>

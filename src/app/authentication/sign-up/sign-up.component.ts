@@ -13,11 +13,12 @@ export class SignUpComponent {
   showAvatarSection: boolean = false;
 
   signupForm = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl(''),
+    nameControl: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    emailControl: new FormControl('', [Validators.required, Validators.email]),
+    passwordControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    fileControl: new FormControl('', [Validators.required])
   });
-  
+
   avatar_list: string[] = [
     'assets/characters/character_1.png',
     'assets/characters/character_2.png',
@@ -26,32 +27,26 @@ export class SignUpComponent {
     'assets/characters/character_5.png',
     'assets/characters/character_6.png',
   ];
-  pickedAvatarUrl: string = 'assets/characters/default_character.png';
-  isButtonDisabled: boolean = true;
 
   constructor(
     public auth: AuthService
-    ) { }
+  ) { }
 
   getErrorMessage() {
     const emailControl = this.signupForm.get('email');
     if (emailControl?.hasError('required')) {
       return 'You must enter a value';
     }
-
     return emailControl?.hasError('email') ? 'Not a valid email' : '';
   }
 
   signUp() {
-    const email = this.signupForm.value.email as string;
-    const password = this.signupForm.value.password as string;
-    const name = this.signupForm.value.name as string;
-    console.log('email:', email);
-    console.log('password:', password);
-    console.log('name:', name);
-
+    const email = this.signupForm.value.emailControl as string;
+    const password = this.signupForm.value.passwordControl as string;
+    const name = this.signupForm.value.nameControl as string;
+    const photoURL = this.signupForm.value.fileControl as string;
     if (email && password) {
-      this.auth.SignUp(email, password, name, this.pickedAvatarUrl);
+      this.auth.SignUp(email, password, name, photoURL);
     }
   }
 
@@ -60,7 +55,12 @@ export class SignUpComponent {
   }
 
   chooseAvatar(pickedImg: string) {
-    this.pickedAvatarUrl = pickedImg;
-    this.isButtonDisabled = false;
+    this.signupForm.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
+  }
+
+  onFileChange($event: any) {
+    let file = $event.target.files[0]; // <--- File Object for future use.
+    this.signupForm.get('fileControl')?.setValue(file ? file.name : ''); // <-- Set Value for Validation
+    console.log('file.name:', file.name);
   }
 }

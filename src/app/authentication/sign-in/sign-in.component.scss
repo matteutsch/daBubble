@@ -98,9 +98,20 @@
 
 .authentication-form {
 
-    input {
+    .form-field {
         position: relative;
-        z-index: 10;
+
+        input {
+            position: relative;
+            z-index: 10;
+            padding-left: 50px;
+        }
+
+        img {
+            position: absolute;
+            z-index: 10;
+            left: 10px;
+        }
     }
 
     .line-container {
@@ -174,38 +185,39 @@
 }
 
 :host {
+
     ::ng-deep .mdc-notched-outline {
         background-color: var(--bg-color) !important;
         border-radius: 40px !important;
     }
+
+    // For INPUT_NOT_TOUCHED:
+    ::ng-deep .mdc-notched-outline__trailing {
+        border: 1px solid transparent !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_FOCUSED:
+    ::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
+        border: 1px solid var(--purple-3) !important;
+        border-radius: 40px !important;
+    }
+
+    // For INPUT_ERROR:
+    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
+        border: 1px solid var(--red) !important;
+        border-radius: 40px !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__leading {
+        display: none !important;
+    }
+
+    ::ng-deep .mdc-notched-outline__notch {
+        display: none !important;
+    }
 }
 
-
-// For INPUT_NOT_TOUCHED:
-::ng-deep .mdc-notched-outline__trailing {
-    border: 1px solid transparent !important;
-    border-radius: 40px !important;
-}
-
-// For INPUT_FOCUSED:
-::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
-    border: 1px solid var(--purple-3) !important;
-    border-radius: 40px !important;
-}
-
-// For INPUT_ERROR:
-::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
-    border: 1px solid var(--red) !important;
-    border-radius: 40px !important;
-}
-
-::ng-deep .mdc-notched-outline__leading {
-    display: none !important;
-}
-
-::ng-deep .mdc-notched-outline__notch {
-    display: none !important;
-}
 
 // ------------- keyframes -------------- //
 @keyframes moveLogoImg {

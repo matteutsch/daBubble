@@ -12,8 +12,8 @@ export class SignInComponent {
   hide: boolean = true;
 
   signinForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl(''),
+    emailControl: new FormControl('', [Validators.required, Validators.email]),
+    passwordControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
   constructor(public auth: AuthService) { }
@@ -23,13 +23,12 @@ export class SignInComponent {
     if (emailControl?.hasError('required')) {
       return 'You must enter a value';
     }
-
     return emailControl?.hasError('email') ? 'Not a valid email' : '';
   }
 
   signIn() {
-    const email = this.signinForm.value.email as string;
-    const password = this.signinForm.value.password as string;
+    const email = this.signinForm.value.emailControl as string;
+    const password = this.signinForm.value.passwordControl as string;
 
     if (email && password) {
       this.auth.SignIn(email, password);
