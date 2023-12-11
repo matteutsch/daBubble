@@ -73,8 +73,8 @@
                         </div>
                     </div>
                     <div class="form-section-2" *ngIf="showAvatarSection">
-                        <div class="person">
-                            <img src="{{ signupForm.get('fileControl')?.invalid ? 'assets/characters/default_character.png' : signupForm.get('fileControl')?.value }}"/>
+                        <div class="person pointer rounded-circle">
+                            <img class="rounded-circle" src="{{ signupForm.get('fileControl')?.invalid ? 'assets/characters/default_character.png' : signupForm.get('fileControl')?.value }}"/>
                         </div>
                         <h2 class="mb-4">Frederik Beck</h2>
                         <span>Aus der Liste wählen</span>
@@ -83,10 +83,10 @@
                         </div>
                         <div class="avatar-upload mb-4">
                             <div class="text">eigenes Bild verwenden</div>
-                            <button type="button" class="avatar-upload-btn">Datei hochladen
-                                <input class="" type="file" (change)="onFileSelected($event)">
+                            <label class="avatar-upload-btn pointer">Datei hochladen
+                                <input class="pointer" type="file" (change)="onFileSelected($event)">
                                 <input type="hidden" name="fileHidden" formControlName="fileControl"/>
-                            </button>
+                            </label>
                         </div>
                     </div>
                     <button *ngIf="!showAvatarSection" type="button" class="btn-primary flex-centered"
