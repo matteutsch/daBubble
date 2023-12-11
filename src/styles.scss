@@ -47,7 +47,6 @@ ul {
 }
 
 input {
-
   &::placeholder {
     color: var(--dark-grey);
     font-family: "Nunito";
@@ -113,11 +112,34 @@ input {
   line-height: normal !important;
 }
 
-.dialog-create-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface,
-.dialog-edit-channel .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface,
-.dialog-members .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface,
-.dialog-add-members .mat-mdc-dialog-container .mdc-dialog__container .mat-mdc-dialog-surface {
+.dialog-create-channel
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface,
+.dialog-edit-channel
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface,
+.dialog-members
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface,
+.dialog-add-members
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface {
   border-radius: 30px;
+}
+
+.custom-rounded
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface {
+  border-top-left-radius: 2.1rem !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 2.1rem !important;
+  border-bottom-left-radius: 2.1rem !important;
+  max-width: fit-content;
 }
 
 .icon-colored-single {
@@ -141,7 +163,6 @@ input {
     background: var(--bg-color);
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3) !important;
@@ -153,7 +174,6 @@ input {
     background: var(--bg-color);
 
     svg {
-
       rect,
       path {
         fill: black;
@@ -169,7 +189,6 @@ input {
     color: var(--purple-3);
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
@@ -181,7 +200,6 @@ input {
     color: black;
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
@@ -194,7 +212,7 @@ input {
   padding: 12px 25px;
   gap: 10px;
   border-radius: 25px;
-  border: 1px solid var(--Purple-2, #797EF3);
+  border: 1px solid var(--Purple-2, #797ef3);
   color: var(--purple);
   background-color: white;
   text-align: center;
@@ -260,7 +278,6 @@ input {
     background: var(--bg-color);
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
@@ -277,7 +294,6 @@ input {
     }
 
     svg {
-
       rect,
       path {
         fill: var(--purple-3);
@@ -294,7 +310,6 @@ input {
 }
 
 .my-message {
-
   .message {
     flex-direction: row-reverse !important;
     cursor: default !important;
@@ -329,9 +344,7 @@ input {
 }
 
 .my-message-thread {
-
   .message {
-
     .reaction-bar {
       left: 40px !important;
 
@@ -343,12 +356,10 @@ input {
 }
 
 .thread-message {
-
   .message {
     cursor: default !important;
 
     .content {
-
       .label {
         display: none !important;
       }
@@ -364,7 +375,6 @@ input {
     }
 
     .reaction-bar {
-
       .more-vert {
         display: none;
       }
@@ -373,14 +383,10 @@ input {
 }
 
 .thread-question {
-
   .message {
-
     .content {
-
       .message-reactions {
         display: none !important;
-
       }
     }
   }
@@ -395,7 +401,6 @@ input {
   position: relative;
 
   &:hover {
-
     .tool-tip {
       display: block;
     }
@@ -477,4 +482,16 @@ input {
     top: 30px;
     scale: 1.5;
   }
+}
+
+.status {
+  border: 2px solid var(--bg-color);
+  width: 16px;
+  height: 16px;
+}
+.online {
+  background-color: var(--light-green);
+}
+.offline {
+  background-color: var(--dark-grey);
 }

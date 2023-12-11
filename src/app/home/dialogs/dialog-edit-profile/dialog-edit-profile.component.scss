@@ -1,0 +1,37 @@
+.text-online {
+  color: var(--light-green);
+}
+.gap-start {
+  margin-left: calc(1rem + 24px);
+}
+.x {
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}
+.text-mail {
+  color: var(--mail-blue);
+  &:hover {
+    color: var(--active-blue);
+  }
+}
+.btn-outlined {
+  font-size: 18px;
+  font-weight: 700;
+  border-color: var(--purple);
+  color: var(--purple);
+  &:hover {
+    color: white;
+    background-color: var(--purple);
+  }
+}
+.text-purple {
+  color: var(--purple-3);
+  &:hover {
+    color: var(--purple);
+  }
+}
+
+.min-500 {
+  min-width: 500px;
+}
