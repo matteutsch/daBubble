@@ -1,19 +1,17 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { User } from 'src/app/models/models';
 import { AuthService } from 'src/app/services/auth.service';
+import { DialogEditProfileComponent } from '../dialogs/dialog-edit-profile/dialog-edit-profile.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnChanges {
+export class HeaderComponent {
   editForm!: FormGroup;
   isOpen: boolean = false;
   isCheckingProfile: boolean = false;
@@ -21,42 +19,43 @@ export class HeaderComponent implements OnChanges {
 
   @Input() user!: User;
 
-  constructor(private formBuilder: FormBuilder, public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    private dialog: MatDialog,
+    private userService: UserService
+  ) {}
 
-  ngOnChanges(): void {
-    this.editForm = this.formBuilder.group({
-      nameControl: new FormControl(this.user.name, [Validators.required]),
-      mailControl: new FormControl(this.user.email, [
-        Validators.required,
-        Validators.email,
-      ]),
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.position = {
+      top: '100px',
+      right: '16px',
+    };
+    dialogConfig.panelClass = 'custom-rounded';
+
+    dialogConfig.data = {
+      user: this.user,
+    };
+
+    const dialogRef = this.dialog.open(
+      DialogEditProfileComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.userService.updateUser(this.user.uid, data);
+      }
+      console.log('dialog output', data);
     });
   }
 
   toggleLogout() {
     this.isOpen = !this.isOpen;
-    if (this.isCheckingProfile) {
-      this.toggleCheckProfile();
-    } else if (this.isEditing) {
-      this.toggleEditProfile();
-    }
-  }
-  toggleCheckProfile() {
-    this.isCheckingProfile = !this.isCheckingProfile;
-    if (this.isEditing) {
-      this.toggleEditProfile();
-    }
-  }
-
-  toggleEditProfile() {
-    this.isEditing = !this.isEditing;
   }
 
   logout() {
     this.auth.SignOut();
-  }
-
-  submit() {
-    console.log('save');
   }
 }

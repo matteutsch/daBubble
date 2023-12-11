@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
+import { DialogEditProfileComponent } from './dialogs/dialog-edit-profile/dialog-edit-profile.component';
 
 @NgModule({
   providers: [AuthService],
@@ -29,6 +30,7 @@ import { AuthService } from '../services/auth.service';
     DialogCreateChannelComponent,
     DialogEditChannelComponent,
     DialogMembersComponent,
+    DialogEditProfileComponent,
   ],
   imports: [
     CommonModule,
