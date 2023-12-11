@@ -8,6 +8,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { UserService } from './user.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as auth from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,6 @@ export class AuthService {
       this.userID = user.uid;
     } else {
       this.router.navigate([`login`]);
-      console.log('auth log out user:', this.user);
     }
   }
 
@@ -76,8 +76,6 @@ export class AuthService {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        console.log(' created userDATA:', result);
-
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         // this.SendVerificationMail();
@@ -115,5 +113,32 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });
+  }
+
+  // Sign in with Google
+  GoogleAuth() {
+    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+    });
+  }
+
+  AuthLogin(provider: any) {
+    return this.afAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        this.SetUserData(result.user, result.user?.displayName, 'assets/characters/default_character.png');
+        this.router.navigate(['home', result.user?.uid]);
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  }
+
+  //TODO: Delete Anonym User on log out
+  anonymousLogin() {
+    return this.afAuth.signInAnonymously()
+      .then((result) => {
+        this.SetUserData(result.user, 'Guest', 'assets/characters/default_character.png');
+        this.router.navigate(['home', result.user?.uid]);
+      })
   }
 }

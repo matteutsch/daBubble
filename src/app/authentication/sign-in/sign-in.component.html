@@ -49,14 +49,14 @@
                         <img src="../../../assets/icons/line.png">
                         <span>ODER</span>
                     </div>
-                    <button type="button" class="btn-google w-100 mb-4">
+                    <button type="button" class="btn-google w-100 mb-4" (click)="signInWithGoogle()">
                         <img src="../../../assets/icons/google_icon.png">
                         <span>Anmelden mit Google</span>
                     </button>
                     <div class="btns-bottom flex-centered w-100">
                         <button class="btn-primary flex-centered" type="submit"
                             [disabled]="signinForm.invalid">Anmelden</button>
-                        <button class="btn-secundary flex-centered" type="button">Gäste-Login</button>
+                        <button class="btn-secundary flex-centered" type="button" (click)="signInAAnonymously()">Gäste-Login</button>
                     </div>
                 </form>
             </mat-card-content>

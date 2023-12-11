@@ -14,7 +14,7 @@ export class UserService {
   ) {
 
   }
-  
+
   uploadFile(file: File, form: any): void {
     const storageRef = this.storage.ref(`images/${file.name}`);
     const uploadTask = storageRef.put(file);

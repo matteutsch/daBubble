@@ -34,4 +34,12 @@ export class SignInComponent {
       this.auth.SignIn(email, password);
     }
   }
+
+  signInWithGoogle() {
+    this.auth.GoogleAuth();
+  }
+
+  signInAAnonymously() {
+    this.auth.anonymousLogin();
+  }
 }
