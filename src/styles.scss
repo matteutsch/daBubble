@@ -25,6 +25,10 @@
   --logo-intro-text-height: 73px;
 }
 
+::-webkit-scrollbar {
+  display: none !important;
+}
+
 html,
 body {
   background-color: var(--bg-color);
