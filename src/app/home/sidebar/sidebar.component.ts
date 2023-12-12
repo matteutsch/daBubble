@@ -31,7 +31,7 @@ export class SidebarComponent implements OnChanges {
     });
   }
 
-  openDialog(): void {
+  createChannelDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
       panelClass: 'dialog-create-channel',
       // data: {name: this.name, animal: this.animal},
@@ -41,5 +41,8 @@ export class SidebarComponent implements OnChanges {
       console.log('The dialog was closed');
       // this.animal = result;
     });
+  }
+  selectUser(selectedUser: User, currentUser: User) {
+    this.chatService.selectUser(selectedUser, currentUser);
   }
 }

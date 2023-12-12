@@ -1,0 +1,9 @@
+.min-500 {
+  min-width: 500px;
+  border-radius: 30px !important;
+}
+.x {
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}

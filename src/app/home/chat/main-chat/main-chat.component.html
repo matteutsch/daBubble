@@ -5,8 +5,12 @@
       [drawerThread]="drawerThread"
     ></app-chat-channel>
     <app-chat-direct-messages
+      [selectedUser]="currentUser"
       *ngIf="!chatService.isMainChatChannel"
     ></app-chat-direct-messages>
-    <app-custom-textarea style="padding: 0 35px 40px"></app-custom-textarea>
+    <app-custom-textarea
+      #customTextArea
+      style="padding: 0 35px 40px"
+    ></app-custom-textarea>
   </mat-card-content>
 </mat-card>

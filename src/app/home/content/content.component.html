@@ -10,7 +10,10 @@
       >
         <app-sidebar [currentUser]="user"></app-sidebar>
       </mat-drawer>
-      <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
+      <app-main-chat
+        [drawerThread]="drawerThread"
+        [currentUser]="user"
+      ></app-main-chat>
       <mat-drawer
         #drawerThread
         [opened]="false"

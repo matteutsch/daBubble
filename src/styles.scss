@@ -131,6 +131,10 @@ input {
 .dialog-add-members
   .mat-mdc-dialog-container
   .mdc-dialog__container
+  .mat-mdc-dialog-surface,
+.dialog-member-profile
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
   .mat-mdc-dialog-surface {
   border-radius: 30px;
 }

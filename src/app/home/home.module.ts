@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChatModule } from './chat/chat.module';
-import { ThreadComponent } from './chat/thread/thread.component';
 import { ContentComponent } from './content/content.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeRoutingModule } from './home-routing.module';
@@ -19,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
 import { DialogEditProfileComponent } from './dialogs/dialog-edit-profile/dialog-edit-profile.component';
+import { DialogMemberProfileComponent } from './dialogs/dialog-member-profile/dialog-member-profile.component';
 
 @NgModule({
   providers: [AuthService],
@@ -31,6 +31,7 @@ import { DialogEditProfileComponent } from './dialogs/dialog-edit-profile/dialog
     DialogEditChannelComponent,
     DialogMembersComponent,
     DialogEditProfileComponent,
+    DialogMemberProfileComponent,
   ],
   imports: [
     CommonModule,

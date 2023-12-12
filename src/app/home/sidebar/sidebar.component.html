@@ -104,7 +104,7 @@
             </div>
             <div
               class="icon-single pointer flex-centered"
-              (click)="openDialog()"
+              (click)="createChannelDialog()"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@
               <li class="li-add-channel">
                 <div
                   class="text-and-icon_interactions pointer"
-                  (click)="openDialog()"
+                  (click)="createChannelDialog()"
                 >
                   <svg
                     class="add-circle"
@@ -284,7 +284,10 @@
           </header>
           <main *ngIf="showDirectMessages">
             <ul>
-              <li class="pointer" (click)="chatService.openMyPrivatChat()">
+              <li
+                class="pointer"
+                (click)="selectUser(currentUser, currentUser)"
+              >
                 <div class="position-relative">
                   <img
                     width="50px"
@@ -302,7 +305,7 @@
               <li
                 *ngFor="let user of users"
                 class="pointer"
-                (click)="chatService.openDirectChat()"
+                (click)="selectUser(user, currentUser)"
               >
                 <div class="position-relative">
                   <img

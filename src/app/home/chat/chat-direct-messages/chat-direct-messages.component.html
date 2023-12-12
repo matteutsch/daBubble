@@ -1,40 +1,50 @@
 <div class="head-members box-shadow-style-1">
-    <div *ngIf="chatService.isNotChat" class="input-container">
-        <label  class="mb-4 custom-text" for="title">Neue Nachricht</label>
-        <mat-form-field class="form-field mb-2" appearance="outline">
-            <input id="title" matInput placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
-        </mat-form-field>
-    </div>
-    <div *ngIf="!chatService.isNotChat" class="user-name-img flex-centered">
-        <img src="../../../assets/characters/character_2.png">
-        <span class="custom-text">Noah Braun</span>
-    </div>
+  <div *ngIf="chatService.isNotChat" class="input-container">
+    <label class="mb-4 custom-text" for="title">Neue Nachricht</label>
+    <mat-form-field class="form-field mb-2" appearance="outline">
+      <input
+        id="title"
+        matInput
+        placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      />
+    </mat-form-field>
+  </div>
+  <div
+    *ngIf="!chatService.isNotChat"
+    class="user-name-img flex-centered pointer"
+    (click)="openUserProfile()"
+  >
+    <img width="70px" height="70px" src="{{ selectedUser.photoURL }}" />
+    <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
+  </div>
 </div>
 <ul class="ul-messages">
-    <li *ngIf="!chatService.isNotChat" class="user-container">
-        <div class="user-name-img flex-centered">
-            <img src="../../../assets/characters/character_2.png">
-            <span class="custom-text">Noah Braun</span>
-        </div>
-        <div *ngIf="!chatService.isMyPrivatChat" class="text flex-centered">
-            <span>
-                Diese Unterhaltung findet nur zwischen
-            </span>
-            <button>@Sofia Müller</button>
-            <span>und dir statt.</span>
-        </div>
-        <div *ngIf="chatService.isMyPrivatChat" class="my-text">
-            <span style="font-weight: 700;">
-                Dieser Raum ist nur für dich da.
-            </span>
-            <span>
-                Mache dir Notizen, liste deine To-dos auf oder bewahre Links und
-                Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.
-            </span>
-        </div>
-    </li>
+  <li *ngIf="!chatService.isNotChat" class="user-container">
+    <div
+      class="user-name-img flex-centered pointer"
+      (click)="openUserProfile()"
+    >
+      <img widht="100px" height="100px" src="{{ selectedUser.photoURL }}" />
+      <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
+    </div>
+    <div *ngIf="!chatService.isMyPrivatChat" class="text flex-centered">
+      <span> Diese Unterhaltung findet nur zwischen </span>
+      <button (click)="openUserProfile()">
+        @{{ selectedUser.name | titlecase }}
+      </button>
+      <span>und dir statt.</span>
+    </div>
+    <div *ngIf="chatService.isMyPrivatChat" class="my-text">
+      <span style="font-weight: 700"> Dieser Raum ist nur für dich da. </span>
+      <span>
+        Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
+        griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
+        besprechen.
+      </span>
+    </div>
+  </li>
 
-    <li *ngFor="let message of chatMessages">
-        <app-channel-message></app-channel-message>
-    </li>
+  <li *ngFor="let message of chatMessages">
+    <app-channel-message></app-channel-message>
+  </li>
 </ul>

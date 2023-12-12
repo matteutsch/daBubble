@@ -1,33 +1,53 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
+import { User } from 'src/app/models/models';
+import { SelectService } from './select.service';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class ChatService {
+  private customTextAreaRef: any;
+  isMainChatChannel: boolean = false;
+  isNotChat: boolean = true;
+  isMyPrivatChat: boolean = false;
 
-    isMainChatChannel: boolean = false;
-    isNotChat: boolean = true;
-    isMyPrivatChat: boolean = false;
+  constructor(public select: SelectService) {}
 
-    openChannelChat() {
-        this.isMainChatChannel = true;
+  setTextareaRef(ref: ElementRef) {
+    this.customTextAreaRef = ref;
+  }
+  getTextareaRef(): any {
+    return this.customTextAreaRef;
+  }
+
+  selectUser(selectedUser: User, currentUser: User) {
+    this.select.setSelectedUser(selectedUser);
+    if (selectedUser === currentUser) {
+      this.openMyPrivatChat();
+    } else {
+      this.openDirectChat();
     }
+  }
 
-    openNewChat() {
-        this.isMainChatChannel = false;
-        this.isNotChat = true;
-        this.isMyPrivatChat = false;
-    }
+  openChannelChat() {
+    this.isMainChatChannel = true;
+  }
 
-    openDirectChat() {
-        this.isMainChatChannel = false;
-        this.isNotChat = false;
-        this.isMyPrivatChat = false;
-    }
+  openNewChat() {
+    this.isMainChatChannel = false;
+    this.isNotChat = true;
+    this.isMyPrivatChat = false;
+  }
 
-    openMyPrivatChat() {
-        this.isMainChatChannel = false;
-        this.isNotChat = false;
-        this.isMyPrivatChat = true;
-    }
+  openDirectChat() {
+    this.isMainChatChannel = false;
+    this.isNotChat = false;
+    this.isMyPrivatChat = false;
+  }
+
+  openMyPrivatChat() {
+    this.isMainChatChannel = false;
+    this.isNotChat = false;
+    this.isMyPrivatChat = true;
+  }
 }
