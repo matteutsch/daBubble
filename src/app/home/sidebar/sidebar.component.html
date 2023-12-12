@@ -23,7 +23,8 @@
             <main class="main-sidebar">
                 <div class="channels">
                     <header>
-                        <div class="left text-and-icon_interactions pointer flex-centered" (click)="showChannels = !showChannels">
+                        <div class="left text-and-icon_interactions pointer flex-centered"
+                            (click)="showChannels = !showChannels">
                             <svg [ngClass]="{'rotate0': showChannels, 'rotate-90': !showChannels}"
                                 class="arrow-drop-down" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                                 viewBox="0 0 30 30" fill="none">
@@ -75,7 +76,8 @@
                     </header>
                     <main *ngIf="showChannels">
                         <ul>
-                            <li class="btn-channel-name pointer" (click)="chatService.openChannelChat()">
+                            <li *ngFor="let channel of chats?.channel" class="btn-channel-name pointer"
+                                (click)="chatService.openChannelChat()">
                                 <svg class="hash" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                     viewBox="0 0 25 25" fill="none">
                                     <mask id="mask0_239_1574" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -88,7 +90,7 @@
                                             fill="black" />
                                     </g>
                                 </svg>
-                                <span>Entwicklerteam</span>
+                                <span>{{channel.name}}</span>
                             </li>
                             <li class="li-add-channel">
                                 <div class="text-and-icon_interactions pointer" (click)="openDialog()">

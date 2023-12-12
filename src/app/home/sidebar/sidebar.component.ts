@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 import { ChatService } from 'src/app/home/shared/chat.service';
+import { Chats } from 'src/app/models/models';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,11 +13,14 @@ export class SidebarComponent {
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
   @Input() isMainChatChannel: any;
+  @Input() chats!: Chats;
 
   constructor(
     public dialog: MatDialog,
     public chatService: ChatService
-    ) {}
+    ) {
+      
+    }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {

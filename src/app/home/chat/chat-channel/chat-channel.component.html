@@ -49,10 +49,10 @@
     </div>
 </div>
 <ul class="ul-messages">
-    <li>
+    <li *ngFor="let message of channel[0].messages">
         <app-channel-message [drawerThread]="drawerThread"></app-channel-message>
     </li>
-    <li>
+    <!-- <li>
         <app-channel-message [drawerThread]="drawerThread"></app-channel-message>
     </li>
     <li>
@@ -72,5 +72,5 @@
     </li>
     <li>
         <app-channel-message [drawerThread]="drawerThread"></app-channel-message>
-    </li>
+    </li> -->
 </ul>

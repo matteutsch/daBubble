@@ -1,32 +1,36 @@
+import { Data } from "@angular/router";
+
 export interface User {
   uid: string;
   email: string;
   emailVerified?: boolean;
   name: string;
   photoURL: string;
-  chats?: Chat[];
+  chats: {
+    channel?: Chat[];
+    private?: Chat[];
+  };
   status: StatusType;
 }
 
+export interface Chats {
+  channel: Chat[];
+  private: Chat[];
+}
 export interface Chat {
   id: string;
-  type: ChatType;
-  participants: string[]; // IDs der Chat-Teilnehmer
+  name: string;
+  members: string[];
   messages: Message[];
-}
-
-export enum ChatType {
-  Channel = 'channel',
-  Private = 'private',
-}
+};
 
 export interface Message {
-  id: string;
-  senderId: string;
+  author: string;
   content: string;
-  timestamp: Date;
-  answer?: Message[];
-}
+  emoji: string[];
+  timestampData: Date;
+  answers?: Message[];
+};
 
 export enum StatusType {
   Online = 'online',

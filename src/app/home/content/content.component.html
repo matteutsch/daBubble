@@ -3,9 +3,9 @@
   <div class="content">
     <mat-drawer-container class="mat-drawer-container" autosize>
       <mat-drawer #drawerSidebar [opened]="true" class="mat-drawer rounded-4" mode="side">
-        <app-sidebar></app-sidebar>
+        <app-sidebar [chats]="user.chats"></app-sidebar>
       </mat-drawer>
-      <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
+      <app-main-chat [drawerThread]="drawerThread" [chats]="user.chats"></app-main-chat>
       <mat-drawer #drawerThread [opened]="false" class="mat-drawer rounded-4" mode="side" position="end">
         <app-thread [drawerThread]="drawerThread"></app-thread>
       </mat-drawer>

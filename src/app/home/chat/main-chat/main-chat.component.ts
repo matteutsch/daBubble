@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ChatService } from 'src/app/home/shared/chat.service';
+import { Chats } from 'src/app/models/models';
 
 @Component({
   selector: 'app-main-chat',
@@ -8,6 +9,7 @@ import { ChatService } from 'src/app/home/shared/chat.service';
 })
 export class MainChatComponent {
   @Input() drawerThread: any;
+  @Input() chats!: Chats;
 
-  constructor(public chatService: ChatService) {}
+  constructor(public chatService: ChatService) { }
 }
