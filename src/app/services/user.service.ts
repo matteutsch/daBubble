@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, finalize } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
+import { User } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  usersCollection: AngularFirestoreCollection<any>;
+  private users: User[] = [];
+  private usersSubject = new BehaviorSubject<User[]>([]);
+
   constructor(
     private afs: AngularFirestore,
     private storage: AngularFireStorage
-  ) {}
+  ) {
+    this.usersCollection = this.afs.collection('users');
+    this.getAllUsers();
+  }
 
   uploadFile(file: File, form: any): void {
     const storageRef = this.storage.ref(`images/${file.name}`);
@@ -49,7 +60,20 @@ export class UserService {
   }
 
   getUser(userID: any): Observable<any> {
-    return this.afs.collection('users').doc(userID).valueChanges();
+    return this.usersCollection.doc(userID).valueChanges();
+  }
+
+  getAllUsers() {
+    this.usersCollection
+      .snapshotChanges()
+      .pipe(
+        map((users) => {
+          this.users = users.map((user) => user.payload.doc.data());
+          this.usersSubject.next(this.users);
+        })
+      )
+      .subscribe();
+    return this.usersSubject.asObservable();
   }
 
   updateUser(id: any, data: any) {

@@ -1,128 +1,129 @@
 .head-members {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 32px 45px 20px;
+
+  .input-container {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
     width: 100%;
-    padding: 32px 45px 20px;
+  }
 
-    .input-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
+  .user-name-img {
+    gap: 15px;
+    padding: 4px 20px;
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
     }
-
-    .user-name-img {
-        gap: 15px;
-        padding: 4px 20px;
-
-        img {
-            width: 50px;
-            border-radius: 50%;
-        }
-    }
+  }
 }
 
 .ul-messages {
-    flex-grow: 1;
-    list-style-type: none;
-    padding-left: 0;
-    padding-bottom: 38px;
-    overflow: scroll;
-    overflow-x: hidden;
-    position: relative;
+  flex-grow: 1;
+  list-style-type: none;
+  padding-left: 0;
+  padding-bottom: 38px;
+  overflow: scroll;
+  overflow-x: hidden;
+  position: relative;
 
-    &::-webkit-scrollbar {
-        width: 0;
-        height: 0;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  li {
+    margin: 15px 0;
+  }
+
+  .user-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: inline-flex;
+    padding-right: 41px;
+    padding-left: 45px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+
+    .user-name-img {
+      display: flex;
+      align-items: flex-end;
+      gap: 25px;
+      padding: 4px 20px;
+
+      img {
+        width: 100px;
+        border-radius: 50%;
+      }
     }
 
-    li {
-        margin: 15px 0;
+    .text {
+      gap: 5px;
+      align-self: stretch;
+      padding: 4px 20px;
+
+      span {
+        color: var(--dark-grey);
+        font-size: 20px;
+        font-weight: 400;
+      }
+
+      button {
+        color: var(--purple-3);
+        font-size: 18px;
+        font-weight: 400;
+        border: none;
+        background-color: transparent;
+
+        &:hover {
+          font-weight: 700;
+        }
+      }
     }
 
-    .user-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: inline-flex;
-        padding-right: 41px;
-        padding-left: 45px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 24px;
+    .my-text {
+      padding: 4px 20px;
 
-        .user-name-img {
-            display: flex;
-            align-items: flex-end;
-            gap: 25px;
-            padding: 4px 20px;
-
-            img {
-                width: 100px;
-                border-radius: 50%;
-            }
-        }
-
-        .text {
-            gap: 5px;
-            align-self: stretch;
-            padding: 4px 20px;
-
-            span {
-                color: var(--dark-grey);
-                font-size: 20px;
-                font-weight: 400;
-            }
-
-            button {
-                color: var(--purple-3);
-                font-size: 18px;
-                font-weight: 400;
-                border: none;
-                background-color: transparent;
-
-                &:hover {
-                    font-weight: 700;
-                }
-            }
-        }
-
-        .my-text {
-            padding: 4px 20px;
-            
-            span {
-                color: var(--dark-grey);
-                font-size: 20px;
-                font-weight: 400;
-            }
-        }
+      span {
+        color: var(--dark-grey);
+        font-size: 20px;
+        font-weight: 400;
+      }
     }
+  }
 }
 
 // For INPUT_NOT_TOUCHED:
 ::ng-deep .mdc-notched-outline__trailing {
-    border: 1px solid var(--light-grey) !important;
-    border-radius: 40px !important;
+  border: 1px solid var(--light-grey) !important;
+  border-radius: 40px !important;
 }
 
 // For INPUT_FOCUSED:
-::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
-    border: 1px solid var(--purple-3) !important;
-    border-radius: 40px !important;
+::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
+  border: 1px solid var(--purple-3) !important;
+  border-radius: 40px !important;
 }
 
 // For INPUT_ERROR:
-::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
-    border: 1px solid var(--red) !important;
-    border-radius: 40px !important;
+::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
+  border: 1px solid var(--red) !important;
+  border-radius: 40px !important;
 }
 
 ::ng-deep .mdc-notched-outline__leading {
-    display: none !important;
+  display: none !important;
 }
 
 ::ng-deep .mdc-notched-outline__notch {
-    display: none !important;
+  display: none !important;
 }

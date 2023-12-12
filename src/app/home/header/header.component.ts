@@ -47,7 +47,6 @@ export class HeaderComponent {
       if (data) {
         this.userService.updateUser(this.user.uid, data);
       }
-      console.log('dialog output', data);
     });
   }
 

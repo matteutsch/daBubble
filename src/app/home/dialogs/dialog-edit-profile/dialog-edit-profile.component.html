@@ -11,8 +11,9 @@
     <div class="w-100 flex-centered">
       <img
         width="214px"
+        height="214px"
         src="{{ user.photoURL }}"
-        class="img-fluid rounded-circle mt-3"
+        class="rounded-circle my-3"
       />
     </div>
     <!--  -->
@@ -41,7 +42,7 @@
         <a class="text-mail pointer gap-start">{{ user.email }}</a>
       </div>
     </div>
-    <!--  -->
+    <!-- TODO: edit email readonly?! -->
     <div *ngIf="isEditing">
       <form [formGroup]="editForm" (ngSubmit)="submit()">
         <label for="fullname" class="form-label"
@@ -62,6 +63,7 @@
           class="form-control rounded-pill p-2 px-3 mb-4"
           id="email"
           type="email"
+          readonly
           [ngClass]="{ 'is-invalid': editForm.get('mailControl')?.invalid }"
         />
         <div class="flex-centered gap-5">
