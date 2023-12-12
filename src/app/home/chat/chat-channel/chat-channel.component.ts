@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddMembersComponent } from 'src/app/home/dialogs/dialog-add-members/dialog-add-members.component';
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dialog-members.component';
+import { Chat } from 'src/app/models/models';
 
 @Component({
   selector: 'app-chat-channel',
@@ -12,8 +13,16 @@ import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dial
 export class ChatChannelComponent {
 
   @Input() drawerThread: any;
+  @Input() channel!: Chat[];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { 
+    setTimeout(()=> {
+      console.log('channel:', this.channel);
+      
+    }, 1000)
+  }
+
+  
 
   openEditChannelDialog(): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {

@@ -9,6 +9,7 @@ import {
 import { UserService } from './user.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as auth from 'firebase/auth';
+import { chats } from '../models/chats-example';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,8 @@ export class AuthService {
   userID: any;
   private userSubject = new BehaviorSubject<any | null>(null);
   user: Observable<any> = this.userSubject.asObservable();
+
+  exampleChats = chats;
 
   constructor(
     public afs: AngularFirestore,
@@ -100,7 +103,10 @@ export class AuthService {
       emailVerified: user.emailVerified,
       name: userName,
       photoURL: photoURL,
-      chats: user.chats !== undefined ? user.chats : null,
+      //start
+      chats: this.exampleChats,
+    //end
+      // chats: user.chats !== undefined ? user.chats : null,
       status: user.status !== undefined ? user.status : null,
     };
     return userRef.set(userData, {

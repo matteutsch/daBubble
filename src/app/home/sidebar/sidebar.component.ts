@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 import { ChatService } from 'src/app/home/shared/chat.service';
+import { Chats } from 'src/app/models/models';
 import { User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 
@@ -18,6 +19,7 @@ export class SidebarComponent implements OnChanges {
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
+  @Input() chats!: Chats;
 
   constructor(
     public dialog: MatDialog,

@@ -42,6 +42,7 @@
           <header>
             <div
               class="left text-and-icon_interactions pointer flex-centered"
+                           
               (click)="showChannels = !showChannels"
             >
               <svg
@@ -143,7 +144,8 @@
           <main *ngIf="showChannels">
             <ul>
               <li
-                class="btn-channel-name pointer"
+                *ngFor="let channel of chats?.channel" class="btn-channel-name pointer"
+                               
                 (click)="chatService.openChannelChat()"
               >
                 <svg
@@ -178,7 +180,7 @@
                     />
                   </g>
                 </svg>
-                <span>Entwicklerteam</span>
+                <span>{{channel.name}}</span>
               </li>
               <li class="li-add-channel">
                 <div
