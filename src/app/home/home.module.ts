@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
 import { DialogEditProfileComponent } from './dialogs/dialog-edit-profile/dialog-edit-profile.component';
 import { DialogMemberProfileComponent } from './dialogs/dialog-member-profile/dialog-member-profile.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   providers: [AuthService],
@@ -32,6 +33,7 @@ import { DialogMemberProfileComponent } from './dialogs/dialog-member-profile/di
     DialogMembersComponent,
     DialogEditProfileComponent,
     DialogMemberProfileComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,

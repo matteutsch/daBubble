@@ -1,4 +1,4 @@
-import { Data } from "@angular/router";
+import { Data } from '@angular/router';
 
 export interface User {
   uid: string;
@@ -20,9 +20,9 @@ export interface Chats {
 export interface Chat {
   id: string;
   name: string;
-  members: string[];
+  members?: string[];
   messages: Message[];
-};
+}
 
 export interface Message {
   author: string;
@@ -30,7 +30,7 @@ export interface Message {
   emoji: string[];
   timestampData: Date;
   answers?: Message[];
-};
+}
 
 export enum StatusType {
   Online = 'online',

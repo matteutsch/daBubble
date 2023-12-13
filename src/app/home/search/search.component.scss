@@ -1,0 +1,34 @@
+.search {
+  width: 51vw;
+
+  &:focus {
+    outline: none;
+  }
+
+  background-image: url("/assets/icons/search_icon.png");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 32px);
+  background-position-y: center;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+.custom-mat-option .mat-option-check {
+  display: none;
+}
+
+.rounded-bottom {
+  border-radius: 0 0 24px 24px !important;
+  overflow: hidden;
+}
+
+.results {
+  min-width: 256px;
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}

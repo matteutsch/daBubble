@@ -14,12 +14,12 @@ import { UserService } from 'src/app/services/user.service';
 export class SidebarComponent implements OnChanges {
   @Input() currentUser!: User;
   @Input() isMainChatChannel: any;
+  @Input() chats!: Chats;
 
   users: User[] = [];
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
-  @Input() chats!: Chats;
 
   constructor(
     public dialog: MatDialog,
@@ -31,6 +31,8 @@ export class SidebarComponent implements OnChanges {
     this.userService.getAllUsers().subscribe((users) => {
       this.users = users.filter((user) => user.uid !== this.currentUser.uid);
     });
+
+    console.log(this.chats);
   }
 
   createChannelDialog(): void {

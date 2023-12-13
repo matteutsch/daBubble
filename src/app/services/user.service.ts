@@ -13,7 +13,7 @@ import { User } from '../models/models';
 export class UserService {
   usersCollection: AngularFirestoreCollection<any>;
   private users: User[] = [];
-  private usersSubject = new BehaviorSubject<User[]>([]);
+  public usersSubject = new BehaviorSubject<User[]>([]);
 
   constructor(
     private afs: AngularFirestore,

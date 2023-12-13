@@ -12,12 +12,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  @Input() user!: User;
+
   editForm!: FormGroup;
   isOpen: boolean = false;
-  isCheckingProfile: boolean = false;
-  isEditing: boolean = false;
-
-  @Input() user!: User;
 
   constructor(
     public auth: AuthService,
