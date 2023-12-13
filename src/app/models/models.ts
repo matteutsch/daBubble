@@ -1,5 +1,3 @@
-import { Data } from '@angular/router';
-
 export interface User {
   uid: string;
   email: string;
@@ -21,7 +19,7 @@ export interface Chat {
   id: string;
   name: string;
   members?: string[];
-  messages: Message[];
+  messages?: Message[];
 }
 
 export interface Message {

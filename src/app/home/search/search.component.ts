@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   Observable,
   Subject,
@@ -9,9 +9,10 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { User } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { SelectService } from '../shared/select.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -19,13 +20,19 @@ import { SelectService } from '../shared/select.service';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent {
+  @Input() currentUser!: User;
+  searchInputValue: string = '';
   input$ = new Subject<string>();
   isLoading = false;
   results$!: Observable<User[]>;
 
   //TODO: add searchChannel() / searchThread etc..
   //TODO: hide dropdown in case there's no input value
-  constructor(private userService: UserService, private select: SelectService) {
+  constructor(
+    private userService: UserService,
+    private select: SelectService,
+    private auth: AuthService
+  ) {
     this.results$ = this.input$.pipe(
       filter((term) => term.length >= 3),
       debounceTime(500),
@@ -47,8 +54,11 @@ export class SearchComponent {
   }
 
   selectUserFromDropdown(user: User) {
-    console.log(user);
-    /*     this.select.setSelectedUser(user);
-     */
+    this.searchInputValue = '';
+    const privateChat: Chat = {
+      id: user.uid,
+      name: user.name,
+    };
+    this.userService.updatePrivateChat(this.currentUser.uid, privateChat);
   }
 }

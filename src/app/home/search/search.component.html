@@ -1,5 +1,6 @@
 <div class="position-relative">
   <input
+    [(ngModel)]="searchInputValue"
     #searchInput
     type="search"
     aria-label="Search"
@@ -22,6 +23,7 @@
   >
     <ul class="bg-white shadow rounded-bottom p-0">
       <li
+        (click)="selectUserFromDropdown(result)"
         *ngFor="let result of results$ | async"
         class="results text-center py-2 fs-5 text-hover px-3 pointer"
       >

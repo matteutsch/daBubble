@@ -4,8 +4,8 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
-import { User } from '../models/models';
+import { BehaviorSubject, Observable, finalize, map, take } from 'rxjs';
+import { Chat, User } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +80,30 @@ export class UserService {
     return this.afs.collection('users').doc(id).update({
       name: data.nameControl,
       email: data.mailControl,
+    });
+  }
+
+  async updatePrivateChat(id: any, newChat: Chat) {
+    const userRef = this.afs.collection('users').doc(id);
+    let newPrivateChats: Chat[] = [];
+    let subscription = this.getUser(id).subscribe(async (user) => {
+      const existingPrivateChats: Chat[] = user.chats.private;
+      const existingChannelChats: Chat[] = user.chats.channel;
+      const isNewChatAlreadyInArray = existingPrivateChats.some(
+        (chat) => chat.id === newChat.id
+      );
+      if (!isNewChatAlreadyInArray) {
+        existingPrivateChats.push(newChat);
+      }
+      newPrivateChats = existingPrivateChats;
+
+      await userRef.update({
+        chats: {
+          channel: existingChannelChats,
+          private: newPrivateChats,
+        },
+      });
+      subscription.unsubscribe();
     });
   }
 }

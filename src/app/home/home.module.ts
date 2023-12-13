@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChatModule } from './chat/chat.module';
@@ -45,6 +45,7 @@ import { SearchComponent } from './search/search.component';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    FormsModule,
   ],
 })
 export default class HomeModule {}
