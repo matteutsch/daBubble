@@ -21,6 +21,7 @@ export class UserService {
   ) {
     this.usersCollection = this.afs.collection('users');
     this.getAllUsers();
+    console.log(this.users);
   }
 
   uploadFile(file: File, form: any): void {
@@ -85,7 +86,6 @@ export class UserService {
 
   async updatePrivateChat(id: any, newChat: Chat) {
     const userRef = this.afs.collection('users').doc(id);
-    let newPrivateChats: Chat[] = [];
     let subscription = this.getUser(id).subscribe(async (user) => {
       const existingPrivateChats: Chat[] = user.chats.private;
       const existingChannelChats: Chat[] = user.chats.channel;
@@ -95,12 +95,11 @@ export class UserService {
       if (!isNewChatAlreadyInArray) {
         existingPrivateChats.push(newChat);
       }
-      newPrivateChats = existingPrivateChats;
 
       await userRef.update({
         chats: {
           channel: existingChannelChats,
-          private: newPrivateChats,
+          private: existingPrivateChats,
         },
       });
       subscription.unsubscribe();

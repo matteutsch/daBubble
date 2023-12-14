@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chats } from 'src/app/models/models';
-import { User } from 'src/app/models/models';
+import { Chat, Chats, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
+import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,7 +15,7 @@ export class SidebarComponent implements OnChanges {
   @Input() isMainChatChannel: any;
   @Input() chats!: Chats;
 
-  users: User[] = [];
+  privateChats: Chat[] = [];
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
@@ -28,14 +27,15 @@ export class SidebarComponent implements OnChanges {
   ) {}
 
   ngOnChanges() {
-    this.userService.getAllUsers().subscribe((users) => {
-      this.users = users.filter((user) => user.uid !== this.currentUser.uid);
-    });
+    if (this.chats) {
+      this.privateChats = this.chats.private;
+      console.log(this.currentUser.uid);
+    }
   }
 
   createChannelDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
-      panelClass: 'dialog-create-channel'
+      panelClass: 'dialog-create-channel',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
