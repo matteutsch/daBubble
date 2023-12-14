@@ -29,7 +29,6 @@ export class SidebarComponent implements OnChanges {
   ngOnChanges() {
     this.chatService.getPrivateCollection().subscribe((chats) => {
       this.privateChats = chats;
-      console.log('update privateChats:', this.privateChats);
     });
   }
 
