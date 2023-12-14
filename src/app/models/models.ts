@@ -18,7 +18,7 @@ export interface Chats {
 export interface Chat {
   id: string;
   name: string;
-  members?: User[];
+  members?: string[];
   messages?: Message[];
 }
 

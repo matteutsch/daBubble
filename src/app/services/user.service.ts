@@ -83,8 +83,8 @@ export class UserService {
     });
   }
 
-  async updatePrivateChat(id: any, newChat: Chat) {
-    /* const userRef = this.afs.collection('users').doc(id);
+  /*   async updatePrivateChat(id: any, newChat: Chat) {
+ const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
       let existingPrivateChats: Chat[] = user.chats.private;
       let existingChannelChats: Chat[] = user.chats.channel;
@@ -108,6 +108,6 @@ export class UserService {
         },
       });
       subscription.unsubscribe();
-    }); */
-  }
+    });
+  } */
 }

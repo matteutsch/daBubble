@@ -4,8 +4,18 @@ import { SelectService } from './select.service';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
+  QuerySnapshot,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  combineLatest,
+  forkJoin,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
@@ -53,21 +63,14 @@ export class ChatService {
     return this.privateChatsCollection.doc(id).valueChanges();
   }
 
-  createPrivateChat(user: User, currentUser: User) {
+  /*   createPrivateChat(user: User, currentUser: User) {
     const newChatId = this.afs.createId();
     const newChatData: Chat = {
       id: newChatId,
       name: user.name,
       members: [user, currentUser],
     };
-    this.getPrivateCollection().subscribe((chats: Chat[]) => {
-      // Überprüfe, ob ein Chat mit den angegebenen Mitgliedern bereits existiert
-      const existingChat = chats.find(
-        (chat) =>
-          chat.members.some((member) => member.id === user.id) &&
-          chat.members.some((member) => member.id === currentUser.id)
-      );
-    });
+
     //TODO: condition for exisiting members
     this.afs
       .collection('privateChats')
@@ -75,13 +78,57 @@ export class ChatService {
       .set(newChatData)
       .then(() => {
         console.log('Document written with ID: ', newChatId);
-        /*       this.userService.updatePrivateChat(user.uid, newChatData);
-        this.userService.updatePrivateChat(currentUser.uid, newChatData); */
       })
       .catch((error) => {
         console.error('Error creating document: ', error);
       });
+  } */
+  createPrivateChat(user: User, currentUser: User) {
+    let exists: boolean = this.checkIfChatExists(user.uid, currentUser.uid);
+    if (!exists) {
+      // Wenn kein Chat existiert, neuen Chat hinzufügen
+      const newChatId = this.afs.createId();
+      const newChatData: Chat = {
+        id: newChatId,
+        name: user.name,
+        members: [user.uid, currentUser.uid],
+      };
+
+      this.afs
+        .collection('privateChats')
+        .doc(newChatId)
+        .set(newChatData)
+        .then(() => {
+          console.log('Document written with ID: ', newChatId);
+        })
+        .catch((error) => {
+          console.error('Error creating document: ', error);
+        });
+    } else {
+      // Falls ein Chat bereits existiert, hier könntest du eine Benachrichtigung auslösen oder nichts tun
+      console.log('Chat already exists');
+    }
   }
+
+  checkIfChatExists(userId: string, currentUserId: string) {
+    this.userService.getUser(currentUserId).subscribe((currentUser) => {
+      const privateChats = currentUser.private || [];
+      let exists: boolean;
+      if (privateChats.includes(userId)) {
+        exists = true;
+        console.log(`${userId} is already in private chats`);
+      } else {
+        exists = false;
+        console.log(`${userId} is not in private chats`);
+      }
+      return exists;
+    });
+  }
+  /*  return this.afs
+    .collection('privateChats', (ref) =>
+      ref.where('members', 'array-contains-any', [userId])
+    )
+    .get(); */
 
   setTextareaRef(ref: ElementRef) {
     this.customTextAreaRef = ref;
