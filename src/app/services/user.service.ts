@@ -63,6 +63,23 @@ export class UserService {
     return this.usersCollection.doc(userID).valueChanges();
   }
 
+  async fetchUserData(userID: any): Promise<any> {
+    try {
+      const docRef = this.afs.collection('users').doc(userID);
+      const docSnap = await docRef.get();
+      if (docSnap) {
+        const userData = docSnap;
+        return userData;
+      } else {
+        console.log('No such document!');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error getting document:', error);
+      throw error;
+    }
+  }
+
   getAllUsers() {
     this.usersCollection
       .snapshotChanges()
@@ -83,24 +100,20 @@ export class UserService {
     });
   }
 
-  async updatePrivateChat(id: any, newChat: Chat) {
-    /* const userRef = this.afs.collection('users').doc(id);
+  async updatePrivateChat(id: any, chatID: string) {
+    const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
-      let existingPrivateChats: Chat[] = user.chats.private;
-      let existingChannelChats: Chat[] = user.chats.channel;
+      let existingPrivateChats: string[] = user.chats.private;
+      let existingChannelChats: string[] = user.chats.channel;
       const isNewChatAlreadyInArray = existingPrivateChats.some(
-        (chat) => chat.id === newChat.id
+        (id) => id === chatID
       );
-
-      console.log(user.chats.private);
-      console.log(newChat);
       if (!isNewChatAlreadyInArray) {
-        existingPrivateChats.push(newChat);
+        existingPrivateChats.push(chatID);
       } else {
         console.log('Chat already exists in user object.');
         return;
       }
-
       await userRef.update({
         chats: {
           channel: existingChannelChats,
@@ -108,6 +121,6 @@ export class UserService {
         },
       });
       subscription.unsubscribe();
-    }); */
+    });
   }
 }

@@ -19,7 +19,7 @@ import { Chat, User } from 'src/app/models/models';
 })
 export class ChatDirectMessagesComponent implements OnChanges {
   @Input() selectedUser!: User;
-  @Input() privateChats!: Chat[];
+  @Input() privateChats!: string[];
   @ViewChild('') chatTextArea!: ElementRef;
 
   constructor(

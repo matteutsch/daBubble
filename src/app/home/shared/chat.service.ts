@@ -58,29 +58,37 @@ export class ChatService {
     const newChatData: Chat = {
       id: newChatId,
       name: user.name,
-      members: [user, currentUser],
+      members: [user.uid, currentUser.uid],
     };
-    this.getPrivateCollection().subscribe((chats: Chat[]) => {
+/*     this.getPrivateCollection().subscribe((chats) => {
+      console.log('chats:', chats);
+      
       // Überprüfe, ob ein Chat mit den angegebenen Mitgliedern bereits existiert
-      const existingChat = chats.find(
-        (chat) =>
-          chat.members.some((member) => member.id === user.id) &&
-          chat.members.some((member) => member.id === currentUser.id)
-      );
-    });
-    //TODO: condition for exisiting members
+      // const existingChat = chats.find(
+      //   (chat) =>
+      //     chat.members.some((member) => member.id === user.id) &&
+      //     chat.members.some((member) => member.id === currentUser.id)
+      // );
+    }); */
+    // TODO: condition for exisiting members
     this.afs
       .collection('privateChats')
       .doc(newChatId)
       .set(newChatData)
       .then(() => {
-        console.log('Document written with ID: ', newChatId);
-        /*       this.userService.updatePrivateChat(user.uid, newChatData);
-        this.userService.updatePrivateChat(currentUser.uid, newChatData); */
+        this.setprivateChatToUser(user.uid, newChatId);
+        this.setprivateChatToUser(currentUser.uid, newChatId);
       })
       .catch((error) => {
         console.error('Error creating document: ', error);
       });
+  }
+
+  async setprivateChatToUser(id: string, chatID: string) {
+    let user = await this.userService.fetchUserData(id);
+    user.subscribe((data: any) => {
+      this.userService.updatePrivateChat(id, chatID);
+    });
   }
 
   setTextareaRef(ref: ElementRef) {
