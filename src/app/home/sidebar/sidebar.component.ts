@@ -27,10 +27,14 @@ export class SidebarComponent implements OnChanges {
   ) {}
 
   ngOnChanges() {
-    if (this.chats) {
-      this.privateChats = this.chats.private;
-      console.log(this.currentUser.uid);
-    }
+    this.chatService.getPrivateCollection().subscribe((chats) => {
+      this.privateChats = chats;
+      console.log('update privateChats:', this.privateChats);
+    });
+  }
+
+  selectUser(selectedUser: User, currentUser: User) {
+    this.chatService.openPrivateChat(selectedUser, currentUser);
   }
 
   createChannelDialog(): void {
@@ -41,8 +45,5 @@ export class SidebarComponent implements OnChanges {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
-  }
-  selectUser(selectedUser: User, currentUser: User) {
-    this.chatService.setPrivateChat(selectedUser, currentUser);
   }
 }

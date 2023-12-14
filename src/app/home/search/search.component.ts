@@ -13,6 +13,7 @@ import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { SelectService } from '../shared/select.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ChatService } from '../shared/chat.service';
 
 @Component({
   selector: 'app-search',
@@ -30,6 +31,7 @@ export class SearchComponent {
   //TODO: hide dropdown in case there's no input value
   constructor(
     private userService: UserService,
+    private chatService: ChatService,
     private select: SelectService,
     private auth: AuthService
   ) {
@@ -55,10 +57,6 @@ export class SearchComponent {
 
   selectUserFromDropdown(user: User) {
     this.searchInputValue = '';
-    const privateChat: Chat = {
-      id: user.uid,
-      name: user.name,
-    };
-    this.userService.updatePrivateChat(this.currentUser.uid, privateChat);
+    this.chatService.createPrivateChat(user, this.currentUser);
   }
 }

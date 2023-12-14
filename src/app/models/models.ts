@@ -6,7 +6,7 @@ export interface User {
   photoURL: string;
   chats: {
     channel?: Chat[];
-    private?: Chat[];
+    private?: string[];
   };
   status: StatusType;
 }
@@ -18,7 +18,7 @@ export interface Chats {
 export interface Chat {
   id: string;
   name: string;
-  members?: string[];
+  members?: User[];
   messages?: Message[];
 }
 

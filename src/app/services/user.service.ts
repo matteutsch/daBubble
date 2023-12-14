@@ -21,7 +21,6 @@ export class UserService {
   ) {
     this.usersCollection = this.afs.collection('users');
     this.getAllUsers();
-    console.log(this.users);
   }
 
   uploadFile(file: File, form: any): void {
@@ -85,15 +84,21 @@ export class UserService {
   }
 
   async updatePrivateChat(id: any, newChat: Chat) {
-    const userRef = this.afs.collection('users').doc(id);
+    /* const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
-      const existingPrivateChats: Chat[] = user.chats.private;
-      const existingChannelChats: Chat[] = user.chats.channel;
+      let existingPrivateChats: Chat[] = user.chats.private;
+      let existingChannelChats: Chat[] = user.chats.channel;
       const isNewChatAlreadyInArray = existingPrivateChats.some(
         (chat) => chat.id === newChat.id
       );
+
+      console.log(user.chats.private);
+      console.log(newChat);
       if (!isNewChatAlreadyInArray) {
         existingPrivateChats.push(newChat);
+      } else {
+        console.log('Chat already exists in user object.');
+        return;
       }
 
       await userRef.update({
@@ -103,6 +108,6 @@ export class UserService {
         },
       });
       subscription.unsubscribe();
-    });
+    }); */
   }
 }

@@ -1,16 +1,17 @@
-import { ElementRef, Injectable, OnChanges } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Chat, Chats, User } from 'src/app/models/models';
 import { SelectService } from './select.service';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatService implements OnChanges {
+export class ChatService {
   private customTextAreaRef: any;
   isMainChatChannel: boolean = false;
   isNewChat: boolean = true;
@@ -24,20 +25,15 @@ export class ChatService implements OnChanges {
   private channelChats: Chat[] = [];
   public channelChatsSubject = new BehaviorSubject<Chat[]>([]);
 
-  constructor(public select: SelectService, private afs: AngularFirestore) {
+  constructor(
+    public select: SelectService,
+    private afs: AngularFirestore,
+    private userService: UserService
+  ) {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
 
     this.getPrivateCollection();
-    console.log('privateChats:', this.privateChats);
-  }
-
-  ngOnChanges() {
-    this.getPrivateCollection().subscribe((chats) => {
-      this.privateChats = chats;
-      console.log('update privateChats:', this.privateChats);
-      
-    });
   }
 
   getPrivateCollection() {
@@ -53,6 +49,40 @@ export class ChatService implements OnChanges {
     return this.privateChatsSubject.asObservable();
   }
 
+  getPrivateChat(id: any): Observable<any> {
+    return this.privateChatsCollection.doc(id).valueChanges();
+  }
+
+  createPrivateChat(user: User, currentUser: User) {
+    const newChatId = this.afs.createId();
+    const newChatData: Chat = {
+      id: newChatId,
+      name: user.name,
+      members: [user, currentUser],
+    };
+    this.getPrivateCollection().subscribe((chats: Chat[]) => {
+      // Überprüfe, ob ein Chat mit den angegebenen Mitgliedern bereits existiert
+      const existingChat = chats.find(
+        (chat) =>
+          chat.members.some((member) => member.id === user.id) &&
+          chat.members.some((member) => member.id === currentUser.id)
+      );
+    });
+    //TODO: condition for exisiting members
+    this.afs
+      .collection('privateChats')
+      .doc(newChatId)
+      .set(newChatData)
+      .then(() => {
+        console.log('Document written with ID: ', newChatId);
+        /*       this.userService.updatePrivateChat(user.uid, newChatData);
+        this.userService.updatePrivateChat(currentUser.uid, newChatData); */
+      })
+      .catch((error) => {
+        console.error('Error creating document: ', error);
+      });
+  }
+
   setTextareaRef(ref: ElementRef) {
     this.customTextAreaRef = ref;
   }
@@ -60,7 +90,7 @@ export class ChatService implements OnChanges {
     return this.customTextAreaRef;
   }
 
-  setPrivateChat(selectedUser: User, currentUser: User) {
+  openPrivateChat(selectedUser: User, currentUser: User) {
     this.select.setSelectedUser(selectedUser);
     if (selectedUser === currentUser) {
       this.openMyPrivatChat();
