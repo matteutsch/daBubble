@@ -20,7 +20,7 @@ export class ChatService {
     return this.customTextAreaRef;
   }
 
-  selectUser(selectedUser: User, currentUser: User) {
+  setPrivateChat(selectedUser: User, currentUser: User) {
     this.select.setSelectedUser(selectedUser);
     if (selectedUser === currentUser) {
       this.openMyPrivatChat();

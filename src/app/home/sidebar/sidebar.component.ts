@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chats } from 'src/app/models/models';
+import { Chat, Chats } from 'src/app/models/models';
 import { User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 
@@ -16,7 +16,7 @@ export class SidebarComponent implements OnChanges {
   @Input() isMainChatChannel: any;
   @Input() chats!: Chats;
 
-  users: User[] = [];
+  privateChats: Chat[] = [];
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
@@ -28,11 +28,10 @@ export class SidebarComponent implements OnChanges {
   ) {}
 
   ngOnChanges() {
-    this.userService.getAllUsers().subscribe((users) => {
-      this.users = users.filter((user) => user.uid !== this.currentUser.uid);
-    });
-
-    console.log(this.chats);
+    if (this.chats) {
+      this.privateChats = this.chats.private;
+      console.log(this.currentUser.uid);
+    }
   }
 
   createChannelDialog(): void {
@@ -47,6 +46,6 @@ export class SidebarComponent implements OnChanges {
     });
   }
   selectUser(selectedUser: User, currentUser: User) {
-    this.chatService.selectUser(selectedUser, currentUser);
+    this.chatService.setPrivateChat(selectedUser, currentUser);
   }
 }
