@@ -43,6 +43,6 @@ export class SidebarComponent implements OnChanges {
     });
   }
   selectUser(selectedUser: User, currentUser: User) {
-    this.chatService.selectUser(selectedUser, currentUser);
+    this.chatService.setPrivateChat(selectedUser, currentUser);
   }
 }
