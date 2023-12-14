@@ -1,4 +1,4 @@
-<h1 class="mb-2 custom-text" mat-dialog-title># Entwicklerteam</h1>
+<h1 class="mb-2 custom-text" mat-dialog-title># {{channelChat.name}}</h1>
 <div mat-dialog-content>
     <div class="input-container">
         <div class="channel-name-container" [ngClass]="{'container-border': !isChannelTitleEdited}">
@@ -12,7 +12,7 @@
                 <input class="pointer" id="title" matInput placeholder="# z.B. Kooperationsprojekte">
             </mat-form-field>
             <p *ngIf="!isChannelTitleEdited" class="edited-text" style="height: 78.77px;"><span
-                    style="font-weight: 700;">#</span> Entwicklerteam</p>
+                    style="font-weight: 700;">#</span> {{channelChat.name}}</p>
 
         </div>
         <div class="channel-description-container" [ngClass]="{'container-border': !isChannelDescriptionEdited}">

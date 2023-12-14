@@ -26,7 +26,6 @@ export class ContentComponent {
       if (user) {
         this.userService.getUser(user.uid).subscribe((currentUser) => {
           this.user = currentUser;
-          console.log('content user:', this.user);
         });
       }
     });

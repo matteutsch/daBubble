@@ -1,12 +1,12 @@
 <mat-card class="mat-card rounded-4">
   <mat-card-content class="mat-card-content z-2">
     <app-chat-channel
-      *ngIf="chatService.isMainChatChannel"
-      [drawerThread]="drawerThread" [channel]="chats.channel"
+      *ngIf="chatService.isMainChatChannel && chats"
+      [drawerThread]="drawerThread" [channelChats]="chats.channel"
     ></app-chat-channel>
     <app-chat-direct-messages
       [selectedUser]="currentUser"
-      *ngIf="!chatService.isMainChatChannel"
+      *ngIf="!chatService.isMainChatChannel && chats" [privateChats]="chats.private"
     ></app-chat-direct-messages>
     <app-custom-textarea
       #customTextArea

@@ -44,7 +44,7 @@
     </div>
   </li>
 
-  <li *ngFor="let message of chatMessages">
+  <li *ngFor="let message of privateChats[0]?.messages">
     <app-channel-message></app-channel-message>
   </li>
 </ul>

@@ -31,19 +31,15 @@ export class SidebarComponent implements OnChanges {
     this.userService.getAllUsers().subscribe((users) => {
       this.users = users.filter((user) => user.uid !== this.currentUser.uid);
     });
-
-    console.log(this.chats);
   }
 
   createChannelDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
-      panelClass: 'dialog-create-channel',
-      // data: {name: this.name, animal: this.animal},
+      panelClass: 'dialog-create-channel'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
   selectUser(selectedUser: User, currentUser: User) {
