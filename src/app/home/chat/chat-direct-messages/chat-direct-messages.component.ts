@@ -10,7 +10,7 @@ import { ChatService } from 'src/app/home/shared/chat.service';
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMemberProfileComponent } from '../../dialogs/dialog-member-profile/dialog-member-profile.component';
 import { SelectService } from '../../shared/select.service';
-import { User } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 
 @Component({
   selector: 'app-chat-direct-messages',
@@ -19,9 +19,8 @@ import { User } from 'src/app/models/models';
 })
 export class ChatDirectMessagesComponent implements OnChanges {
   @Input() selectedUser!: User;
+  @Input() privateChats!: Chat[];
   @ViewChild('') chatTextArea!: ElementRef;
-
-  chatMessages: any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -38,17 +37,14 @@ export class ChatDirectMessagesComponent implements OnChanges {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {
       panelClass: 'dialog-edit-channel',
-      // data: {name: this.name, animal: this.animal},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
 
   openUserProfile() {
-    //const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(DialogMemberProfileComponent, {
       panelClass: 'dialog-member-profile',
       data: {

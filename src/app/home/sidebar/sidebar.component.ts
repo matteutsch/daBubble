@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chat, Chats } from 'src/app/models/models';
-import { User } from 'src/app/models/models';
+import { Chat, Chats, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
+import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,12 +36,10 @@ export class SidebarComponent implements OnChanges {
   createChannelDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
       panelClass: 'dialog-create-channel',
-      // data: {name: this.name, animal: this.animal},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      // this.animal = result;
     });
   }
   selectUser(selectedUser: User, currentUser: User) {
