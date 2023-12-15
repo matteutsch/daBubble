@@ -9,7 +9,7 @@ import { EmojiService } from '../../shared/emoji.service';
 export class EmojiComponent {
 
   showEmojiPopup: boolean = false;
-  emojiMartVisible = false;
+  // emojiMartVisible = false;
   textareaValue: string = '';
 
 
@@ -17,9 +17,9 @@ export class EmojiComponent {
 
 
 
-  toggleEmojiPopup(): void {
-    this.emojiService.toggleEmojiPopup(this.emojiMartVisible)
-  }
+  // toggleEmojiPopup(): void {
+  //   this.emojiService.toggleEmojiPopup(this.emojiMartVisible)
+  // }
 
   // addEmoji(_emoji: string) {
   //   this.textareaValue += _emoji;

@@ -57,7 +57,7 @@
       </svg>
 
       <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
-        <app-emoji></app-emoji>
+        <app-emoji *ngIf="emojiMartVisible"></app-emoji>
         <!-- <emoji-mart class="emoji-mart-message" set="apple" #emojiMartElement
         *ngIf="emojiMartVisible"
         [style]="{

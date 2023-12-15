@@ -7,26 +7,25 @@ import { EmojiService } from '../../shared/emoji.service';
   styleUrls: ['./custom-textarea.component.scss'],
 })
 export class CustomTextareaComponent {
-
   // showEmojiPopup: boolean = false;
   emojiMartVisible = false;
   // textareaValue: string = '';
 
   // [x: string]: any;
-  
-//   toggleEmojiPicker(index: number) {
-//     this.showEmojiPicker[index] = !this.showEmojiPicker[index];
-//   }
 
-//   @ViewChild('textArea', { static: false }) textArea!: ElementRef;
-// showEmojiPicker: any;
+  //   toggleEmojiPicker(index: number) {
+  //     this.showEmojiPicker[index] = !this.showEmojiPicker[index];
+  //   }
 
-  constructor(public emojiService:EmojiService) {
+  //   @ViewChild('textArea', { static: false }) textArea!: ElementRef;
+  // showEmojiPicker: any;
 
-  }
+  constructor(public emojiService: EmojiService) {}
 
   toggleEmojiPopup(): void {
-    this.emojiService.toggleEmojiPopup(this.emojiMartVisible)
+
+    this.emojiMartVisible = !this.emojiMartVisible;
+    // this.emojiService.toggleEmojiPopup(this.emojiMartVisible);
   }
   // toggleEmojiPopup(): void {
   //   this.emojiMartVisible = !this.emojiMartVisible;
@@ -39,7 +38,6 @@ export class CustomTextareaComponent {
 
   // // closePopups(): void {
   // //   this.showEmojiPopup = false;
-    
-  // // }
 
+  // // }
 }

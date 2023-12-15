@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmojiService {
 
-  emojiMartVisible = false;
+  constructor() {}
 
-
-  constructor() { }
- 
-
-  toggleEmojiPopup(emojiMartVisible: boolean) {
-    this.emojiMartVisible = !this.emojiMartVisible;
-  }
 }

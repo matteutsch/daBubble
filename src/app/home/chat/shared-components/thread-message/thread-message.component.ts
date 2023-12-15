@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./thread-message.component.scss']
 })
 export class ThreadMessageComponent {
+  emojiMartVisible = false;
+  
+  toggleEmojiPopup(): void {
 
+    this.emojiMartVisible = !this.emojiMartVisible;
+    // this.emojiService.toggleEmojiPopup(this.emojiMartVisible);
+  }
 }
