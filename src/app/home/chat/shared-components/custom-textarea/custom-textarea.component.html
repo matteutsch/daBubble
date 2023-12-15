@@ -1,8 +1,15 @@
 <div class="textarea-container pointer">
   <textarea #textArea></textarea>
+  
+  <!-- <div (click)="toggleEmojiPicker(0)">
+  </div>
+  <emoji-mart title="Pick your emoji…" emoji="point_up"></emoji-mart> -->
+
+
   <div class="textarea-bottom">
     <div class="add-elements flex-centered">
       <div class="icon-single pointer flex-centered">
+        <!-- + -->
         <svg
           class="icon-add"
           xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +44,7 @@
           </defs>
         </svg>
       </div>
+      <!-- | -->
       <svg
         class="vertical-line"
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +55,22 @@
       >
         <path d="M1 0V40" stroke="#ADB0D9" />
       </svg>
-      <div class="icon-single pointer flex-centered">
+
+      <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
+        <app-emoji></app-emoji>
+        <!-- <emoji-mart class="emoji-mart-message" set="apple" #emojiMartElement
+        *ngIf="emojiMartVisible"
+        [style]="{
+            position: 'absolute',
+            bottom: '119px',
+            'border-radius': '15px',
+            'z-index': '11',
+            'left': ['name'] ? '-20px' : 'auto',
+            'right': ['name'] ? '100px' : 'auto'
+        }">
+    </emoji-mart> -->
+
+    <!-- :) -->
         <svg
           class="icon-sentiment"
           xmlns="http://www.w3.org/2000/svg"
@@ -74,8 +97,10 @@
             />
           </g>
         </svg>
+
       </div>
       <div class="icon-single pointer flex-centered">
+        <!-- @ -->
         <svg
           class="alternate-email"
           xmlns="http://www.w3.org/2000/svg"
@@ -105,6 +130,7 @@
       </div>
     </div>
     <div>
+      <!-- sendMessage >>> -->
       <svg
         class="icon-send pointer"
         xmlns="http://www.w3.org/2000/svg"
