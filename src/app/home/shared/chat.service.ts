@@ -3,13 +3,9 @@ import { Chat, User } from 'src/app/models/models';
 import { SelectService } from './select.service';
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import {
-  BehaviorSubject,
-  Observable,
-  map,
-} from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
@@ -22,7 +18,7 @@ export class ChatService {
   isMyPrivatChat: boolean = false;
 
   privateChatsCollection: AngularFirestoreCollection<any>;
-  private privateChats: Chat[] = [];
+  private allPrivateChats: Chat[] = [];
   public privateChatsSubject = new BehaviorSubject<Chat[]>([]);
 
   channelChatsCollection: AngularFirestoreCollection<any>;
@@ -36,7 +32,6 @@ export class ChatService {
   ) {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
-
     this.getPrivateCollection();
   }
 
@@ -45,8 +40,8 @@ export class ChatService {
       .snapshotChanges()
       .pipe(
         map((chats) => {
-          this.privateChats = chats.map((chat) => chat.payload.doc.data());
-          this.privateChatsSubject.next(this.privateChats);
+          this.allPrivateChats = chats.map((chat) => chat.payload.doc.data());
+          this.privateChatsSubject.next(this.allPrivateChats);
         })
       )
       .subscribe();
@@ -64,8 +59,11 @@ export class ChatService {
       name: user.name,
       members: [user.uid, currentUser.uid],
     };
-    let selectedUserPrivateChats = await this.fetchPrivateChats(user.uid);
-    let loggedUserPrivateChats = await this.fetchPrivateChats(currentUser.uid);
+    const [selectedUserPrivateChats, loggedUserPrivateChats] =
+      await Promise.all([
+        this.fetchPrivateChats(user.uid),
+        this.fetchPrivateChats(currentUser.uid),
+      ]);
 
     if (!this.haveCommonID(selectedUserPrivateChats, loggedUserPrivateChats)) {
       console.log('set private chat');
@@ -81,7 +79,7 @@ export class ChatService {
           console.error('Error creating document: ', error);
         });
     } else {
-      console.log('show private chat'); 
+      this.openPrivateChat(user, currentUser);
     }
   }
 
@@ -105,7 +103,7 @@ export class ChatService {
 
   async setprivateChatToUser(id: string, chatID: string) {
     let user = await this.userService.fetchUserData(id);
-    user.subscribe((data: any) => {
+    user.subscribe(() => {
       this.userService.updatePrivateChat(id, chatID);
     });
   }

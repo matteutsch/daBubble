@@ -13,12 +13,12 @@ import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/d
 export class SidebarComponent implements OnChanges {
   @Input() currentUser!: User;
   @Input() isMainChatChannel: any;
-  @Input() chats!: Chats;
+  @Input() chats!: Chats; //curretUser's Chats
 
-  privateChats: Chat[] = [];
-
+  privateChats: string[] = []; //currentUser's privateChats
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
+  privateChatMember: User[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -27,9 +27,28 @@ export class SidebarComponent implements OnChanges {
   ) {}
 
   ngOnChanges() {
-    this.chatService.getPrivateCollection().subscribe((chats) => {
-      this.privateChats = chats;
-    });
+    //get currentUsers privatechats and push them into privateChats[] for further usage
+    if (this.currentUser && this.currentUser.chats.private) {
+      for (let chatID of this.currentUser.chats.private) {
+        this.chatService.getPrivateChat(chatID).subscribe((chat) => {
+          const chatExists = this.privateChats.some(
+            (existingChat) =>
+              JSON.stringify(existingChat) === JSON.stringify(chat)
+          );
+
+          if (!chatExists) {
+            this.privateChats.push(chat);
+            console.log(this.privateChats);
+            this.getMemberFromChats(this.currentUser.uid);
+          }
+        });
+      }
+    }
+  }
+  //TODO: get all existing member from privateChats[] (!!except currentUser!!) to render in privateChatMember [] line 21
+  getMemberFromChats(userId: string) {
+    let result = this.privateChats.find((chat) => chat === userId);
+    console.log(result);
   }
 
   selectUser(selectedUser: User, currentUser: User) {

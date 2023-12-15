@@ -303,8 +303,8 @@
                 </div>
                 <span>{{ currentUser.name | titlecase }} (Du)</span>
               </li>
-              <li *ngFor="let chat of privateChats" class="pointer">
-                <!--(click)="selectUser(chat, currentUser)"-->
+              <li *ngFor="let user of privateChatMember" class="pointer">
+                <!--(click)="selectUser(user, currentUser)"-->
                 <div class="position-relative">
                   <!-- <img
                     width="50px"
@@ -318,7 +318,7 @@
                     class="position-absolute rounded-circle status online bottom-0 end-0"
                   ></div>
                 </div>
-                <span>{{ chat.name | titlecase }}</span>
+                <span>{{ "user.name" | titlecase }}</span>
               </li>
             </ul>
           </main>

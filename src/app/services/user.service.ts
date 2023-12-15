@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, Observable, finalize, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, filter, finalize, map, take } from 'rxjs';
 import { Chat, User } from '../models/models';
 
 @Injectable({
@@ -59,7 +59,7 @@ export class UserService {
     form.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
   }
 
-  getUser(userID: any): Observable<any> {
+  getUser(userID: string): Observable<any> {
     return this.usersCollection.doc(userID).valueChanges();
   }
 
