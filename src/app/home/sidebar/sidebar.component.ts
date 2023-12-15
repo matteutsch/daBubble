@@ -18,7 +18,7 @@ export class SidebarComponent implements OnChanges {
   privateChats: string[] = []; //currentUser's privateChats
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
-  privateChatMember: User[] = [];
+  privateChatMembers: User[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -26,29 +26,50 @@ export class SidebarComponent implements OnChanges {
     public userService: UserService
   ) {}
 
-  ngOnChanges() {
-    //get currentUsers privatechats and push them into privateChats[] for further usage
-    if (this.currentUser && this.currentUser.chats.private) {
-      for (let chatID of this.currentUser.chats.private) {
-        this.chatService.getPrivateChat(chatID).subscribe((chat) => {
-          const chatExists = this.privateChats.some(
-            (existingChat) =>
-              JSON.stringify(existingChat) === JSON.stringify(chat)
-          );
+  async ngOnChanges() {
+    await this.loadPrivateChats();
+    await this.getMemberFromChats();
+  }
 
-          if (!chatExists) {
-            this.privateChats.push(chat);
-            console.log(this.privateChats);
-            this.getMemberFromChats(this.currentUser.uid);
-          }
-        });
+  async loadPrivateChats() {
+    if (this.currentUser.chats && this.currentUser.chats.private) {
+      for (let chatID of this.currentUser.chats.private) {
+        await this.loadPrivateChat(chatID);
       }
     }
   }
-  //TODO: get all existing member from privateChats[] (!!except currentUser!!) to render in privateChatMember [] line 21
-  getMemberFromChats(userId: string) {
-    let result = this.privateChats.find((chat) => chat === userId);
-    console.log(result);
+
+  async loadPrivateChat(chatID: string) {
+    this.chatService.getPrivateChat(chatID).subscribe((chat) => {
+      const chatExists = this.privateChats.some(
+        (existingChat) => JSON.stringify(existingChat) === JSON.stringify(chat)
+      );
+      if (!chatExists) {
+        this.privateChats.push(chat);
+      }
+    });
+  }
+
+  async getMemberFromChats() {
+    this.privateChats.forEach((user: any) => {
+      user.members.forEach((memberID: string) => {
+        if (this.currentUser.uid !== memberID) {
+          this.loadPrivateChatsMember(memberID);
+        }
+      });
+    });
+  }
+
+  loadPrivateChatsMember(memberID: string) {
+    this.userService.getUser(memberID).subscribe((member) => {
+      if(this.isNotMember(member.uid)) {
+        this.privateChatMembers.push(member);
+      }
+    });
+  }
+
+  isNotMember(memberID: string): boolean {
+    return !this.privateChatMembers.some((member) => member.uid === memberID);
   }
 
   selectUser(selectedUser: User, currentUser: User) {

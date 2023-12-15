@@ -303,22 +303,25 @@
                 </div>
                 <span>{{ currentUser.name | titlecase }} (Du)</span>
               </li>
-              <li *ngFor="let user of privateChatMember" class="pointer">
-                <!--(click)="selectUser(user, currentUser)"-->
+              <li
+                *ngFor="let user of privateChatMembers"
+                class="pointer"
+                (click)="selectUser(user, currentUser)"
+              >
                 <div class="position-relative">
-                  <!-- <img
+                  <img
                     width="50px"
                     height="50px"
                     src="{{ user.photoURL }}"
                     class="rounded-circle"
-                  /> -->
+                  />
                   <!-- TODO: change online/offline with ngClass -->
                   <div
                     style="width: 12px; height: 12px; border-width: 1px"
                     class="position-absolute rounded-circle status online bottom-0 end-0"
                   ></div>
                 </div>
-                <span>{{ "user.name" | titlecase }}</span>
+                <span>{{ user.name | titlecase }}</span>
               </li>
             </ul>
           </main>
