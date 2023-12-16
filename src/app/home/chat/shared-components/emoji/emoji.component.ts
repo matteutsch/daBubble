@@ -16,16 +16,6 @@ export class EmojiComponent {
   constructor(public emojiService:EmojiService) { }
 
 
-
-  // toggleEmojiPopup(): void {
-  //   this.emojiService.toggleEmojiPopup(this.emojiMartVisible)
-  // }
-
-  // addEmoji(_emoji: string) {
-  //   this.textareaValue += _emoji;
-  //   // this.showEmojiPopup = false;
-  // }
-  
   // closePopups(): void {
   //   this.showEmojiPopup = false;
     

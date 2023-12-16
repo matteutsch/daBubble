@@ -11,33 +11,13 @@ export class CustomTextareaComponent {
   emojiMartVisible = false;
   // textareaValue: string = '';
 
-  // [x: string]: any;
-
-  //   toggleEmojiPicker(index: number) {
-  //     this.showEmojiPicker[index] = !this.showEmojiPicker[index];
-  //   }
-
-  //   @ViewChild('textArea', { static: false }) textArea!: ElementRef;
-  // showEmojiPicker: any;
 
   constructor(public emojiService: EmojiService) {}
 
   toggleEmojiPopup(): void {
 
     this.emojiMartVisible = !this.emojiMartVisible;
-    // this.emojiService.toggleEmojiPopup(this.emojiMartVisible);
+    
   }
-  // toggleEmojiPopup(): void {
-  //   this.emojiMartVisible = !this.emojiMartVisible;
-  // }
 
-  // addEmoji(_emoji: string) {
-  //   this.textareaValue += _emoji;
-  //   // this.showEmojiPopup = false;
-  // }
-
-  // // closePopups(): void {
-  // //   this.showEmojiPopup = false;
-
-  // // }
 }
