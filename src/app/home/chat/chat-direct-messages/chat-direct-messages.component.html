@@ -1,5 +1,5 @@
 <div class="head-members box-shadow-style-1">
-  <div *ngIf="chatService.isNewChat" class="input-container">
+  <div *ngIf="!chatService.currentChat" class="input-container">
     <label class="mb-4 custom-text" for="title">Neue Nachricht</label>
     <mat-form-field class="form-field mb-2" appearance="outline">
       <input
@@ -10,7 +10,7 @@
     </mat-form-field>
   </div>
   <div
-    *ngIf="!chatService.isNewChat"
+    *ngIf="chatService.currentChat"
     class="user-name-img flex-centered pointer"
     (click)="openUserProfile()"
   >
@@ -19,7 +19,7 @@
   </div>
 </div>
 <ul class="ul-messages">
-  <li *ngIf="!chatService.isNewChat" class="user-container">
+  <li *ngIf="chatService.currentChat?.messages?.length === 0" class="user-container">
     <div
       class="user-name-img flex-centered pointer"
       (click)="openUserProfile()"
@@ -44,7 +44,7 @@
     </div>
   </li>
 
-  <li><!--*ngFor="let message of privateChats[0]?.messages"-->
+  <li *ngFor="let message of chatService.currentChat?.messages">
     <app-channel-message></app-channel-message>
   </li>
 </ul>

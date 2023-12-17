@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User } from 'src/app/models/models';
+import { PrivatChatMember, User } from 'src/app/models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,10 @@ export class SelectService {
   selectedUser$ = this.selectedUserSubject.asObservable();
 
   setSelectedUser(user: User) {
+    this.selectedUserSubject.next(user);
+  }
+
+  setSelectedMember(user: PrivatChatMember) {
     this.selectedUserSubject.next(user);
   }
 }

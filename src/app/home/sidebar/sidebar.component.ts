@@ -1,7 +1,11 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chat, Chats, User } from 'src/app/models/models';
+import {
+  Chats,
+  PrivatChatMember,
+  User,
+} from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 
@@ -15,10 +19,10 @@ export class SidebarComponent implements OnChanges {
   @Input() isMainChatChannel: any;
   @Input() chats!: Chats; //curretUser's Chats
 
-  privateChats: string[] = []; //currentUser's privateChats
+  privateChats: string[] = []; //currentUser's privateChats 1
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
-  privateChatMembers: User[] = [];
+  privateChatMembers: PrivatChatMember[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -26,54 +30,44 @@ export class SidebarComponent implements OnChanges {
     public userService: UserService
   ) {}
 
-  async ngOnChanges() {
-    await this.loadPrivateChats();
-    await this.getMemberFromChats();
+  ngOnChanges() {
+    /* 
+      For the "user" object, a new property named "myChat" should be added. 
+      This property stores the ID of my private chat, which is located 
+      in the "privateChats" collection. This allows access to one's own 
+      private chats where only the user's messages are visible.*/
+    // const chatMember = new privateChatMemberData(
+    //   this.currentUser,
+    //   this.currentUser.myChat
+    // );
+    // this.privateChatMembers.push(chatMember);
+    this.loadPrivateChats();
   }
 
-  async loadPrivateChats() {
+  /**
+   * Loads private chats for the current user.
+   * Iterates through the private chat IDs of the current user and ensures unique private chats are added.
+   * Additionally retrieves and adds members from the newly added private chats.
+   */
+  loadPrivateChats() {
+    // Check if the current user has private chats.
     if (this.currentUser.chats && this.currentUser.chats.private) {
+      // Iterate through each private chat ID of the current user.
       for (let chatID of this.currentUser.chats.private) {
-        await this.loadPrivateChat(chatID);
+        // Add the unique private chat to the privateChats array and retrieve its members.
+        this.chatService.addUniquePrivateChats(
+          chatID,
+          this.privateChats,
+          this.currentUser,
+          this.privateChatMembers
+        );
       }
     }
   }
 
-  async loadPrivateChat(chatID: string) {
-    this.chatService.getPrivateChat(chatID).subscribe((chat) => {
-      const chatExists = this.privateChats.some(
-        (existingChat) => JSON.stringify(existingChat) === JSON.stringify(chat)
-      );
-      if (!chatExists) {
-        this.privateChats.push(chat);
-      }
-    });
-  }
-
-  async getMemberFromChats() {
-    this.privateChats.forEach((user: any) => {
-      user.members.forEach((memberID: string) => {
-        if (this.currentUser.uid !== memberID) {
-          this.loadPrivateChatsMember(memberID);
-        }
-      });
-    });
-  }
-
-  loadPrivateChatsMember(memberID: string) {
-    this.userService.getUser(memberID).subscribe((member) => {
-      if(this.isNotMember(member.uid)) {
-        this.privateChatMembers.push(member);
-      }
-    });
-  }
-
-  isNotMember(memberID: string): boolean {
-    return !this.privateChatMembers.some((member) => member.uid === memberID);
-  }
-
-  selectUser(selectedUser: User, currentUser: User) {
+  selectUser(selectedUser: PrivatChatMember, currentUser: User) {
     this.chatService.openPrivateChat(selectedUser, currentUser);
+    this.chatService.setCurrentChat(selectedUser.chatId);
   }
 
   createChannelDialog(): void {

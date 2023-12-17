@@ -6,7 +6,7 @@
     ></app-chat-channel>
     <app-chat-direct-messages
       [selectedUser]="currentUser"
-      *ngIf="!chatService.isMainChatChannel && chats" [privateChats]="chats.private"
+      *ngIf="!chatService.isMainChatChannel && chats"
     ></app-chat-direct-messages>
     <app-custom-textarea
       #customTextArea

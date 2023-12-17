@@ -10,7 +10,7 @@ import { ChatService } from 'src/app/home/shared/chat.service';
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMemberProfileComponent } from '../../dialogs/dialog-member-profile/dialog-member-profile.component';
 import { SelectService } from '../../shared/select.service';
-import { Chat, User } from 'src/app/models/models';
+import { User } from 'src/app/models/models';
 
 @Component({
   selector: 'app-chat-direct-messages',
@@ -19,7 +19,6 @@ import { Chat, User } from 'src/app/models/models';
 })
 export class ChatDirectMessagesComponent implements OnChanges {
   @Input() selectedUser!: User;
-  @Input() privateChats!: string[];
   @ViewChild('') chatTextArea!: ElementRef;
 
   constructor(
