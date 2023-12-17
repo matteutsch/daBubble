@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { User } from 'src/app/models/models';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,7 +13,6 @@ import { UserService } from 'src/app/services/user.service';
 export class HeaderComponent {
   @Input() user!: User;
 
-  editForm!: FormGroup;
   isOpen: boolean = false;
 
   constructor(

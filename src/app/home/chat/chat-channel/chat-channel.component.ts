@@ -4,6 +4,7 @@ import { DialogAddMembersComponent } from 'src/app/home/dialogs/dialog-add-membe
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dialog-members.component';
 import { Chat } from 'src/app/models/models';
+import { SelectService } from '../../shared/select.service';
 
 @Component({
   selector: 'app-chat-channel',
@@ -12,14 +13,18 @@ import { Chat } from 'src/app/models/models';
 })
 export class ChatChannelComponent {
   @Input() drawerThread: any;
-  @Input() channelChats!: Chat[];
-
-  constructor(public dialog: MatDialog) {}
+  channel!: Chat;
+  constructor(public dialog: MatDialog, public select: SelectService) {
+    this.select.selectedChannel$.subscribe((u) => {
+      this.channel = u;
+      console.log('channel', this.channel);
+    });
+  }
 
   openEditChannelDialog(channelChat: Chat): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {
       panelClass: 'dialog-edit-channel',
-      data: channelChat
+      data: channelChat,
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

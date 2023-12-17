@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chats, User } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
 
@@ -13,11 +13,11 @@ import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/d
 export class SidebarComponent implements OnChanges {
   @Input() currentUser!: User;
   @Input() isMainChatChannel: any;
-  @Input() chats!: Chats; //curretUser's Chats
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
   privateChatMembers: any[] = [];
+  channelChats: Chat[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -37,6 +37,11 @@ export class SidebarComponent implements OnChanges {
     // );
     // this.privateChatMembers.push(chatMember);
     //this.loadPrivateChats();
+    this.pushPrivateChats();
+    this.pushChannelChats();
+  }
+
+  pushPrivateChats() {
     if (this.currentUser.chats && this.currentUser.chats.private) {
       this.currentUser.chats.private.forEach((privateChat: any) => {
         const isAlreadyMember = this.privateChatMembers.some(
@@ -44,7 +49,19 @@ export class SidebarComponent implements OnChanges {
         );
         if (!isAlreadyMember) {
           this.privateChatMembers.push(privateChat);
-          console.log('privateChat,', this.privateChatMembers);
+        }
+      });
+    }
+  }
+
+  pushChannelChats() {
+    if (this.currentUser.chats && this.currentUser.chats.channel) {
+      this.currentUser.chats.channel.forEach((channel: any) => {
+        const isAlreadyExisting = this.channelChats.some(
+          (channelChat) => channelChat.id === channel.id
+        );
+        if (!isAlreadyExisting) {
+          this.channelChats.push(channel);
         }
       });
     }
@@ -55,13 +72,29 @@ export class SidebarComponent implements OnChanges {
     console.log(selectedUser.privateChatId);
   }
 
+  selectChannel(selectedChannel: any) {
+    this.chatService.setCurrentChannel(selectedChannel.id, selectedChannel);
+    console.log(selectedChannel);
+  }
+
   createChannelDialog(): void {
-    const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
-      panelClass: 'dialog-create-channel',
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'dialog-create-channel';
+
+    const dialogRef = this.dialog.open(
+      DialogCreateChannelComponent,
+      dialogConfig
+    );
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result) {
+        console.log('The dialog was closed', result);
+        this.chatService.updateChannelCollection(
+          result.nameControl,
+          result.descriptionControl,
+          this.currentUser
+        );
+      }
     });
   }
 }

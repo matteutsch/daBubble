@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogData } from '../dialog-create-channel/dialog-create-channel.component';
 import { Chat } from 'src/app/models/models';
 
 @Component({

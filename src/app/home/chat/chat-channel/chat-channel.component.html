@@ -2,7 +2,7 @@
   <div
     class="btn-channel-name channel pointer"
     mat-raised-button
-    (click)="openEditChannelDialog(channelChats[0])"
+    (click)="openEditChannelDialog(channel)"
   >
     <svg
       class="hash"
@@ -30,7 +30,7 @@
         />
       </g>
     </svg>
-    <span class="custom-text">{{ channelChats[0].name }}</span>
+    <span class="custom-text">{{ channel.name }}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="14"
@@ -47,21 +47,19 @@
   <div class="members flex-centered">
     <div
       class="mini-info btn-channel-name pointer flex-centered"
-      (click)="openMembersDialog(channelChats[0])"
+      (click)="openMembersDialog(channel)"
     >
       <div class="img-container">
-        <div
-          class="avatar flex-centered"
-          *ngFor="let member of channelChats[0].members"
-        >
+        <div class="avatar flex-centered">
+          <!-- *ngFor="let member of channel.members" -->
           <img src="../../../assets/characters/character_1.png" />
         </div>
       </div>
-      <span>{{ channelChats[0].members?.length }}</span>
+      <span>{{ channel.members?.length }}</span>
     </div>
     <div
       class="icon-single pointer flex-centered"
-      (click)="openAddMembersDialog(channelChats[0])"
+      (click)="openAddMembersDialog(channel)"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +90,7 @@
   </div>
 </div>
 <ul class="ul-messages">
-  <li *ngFor="let message of channelChats[0].messages">
+  <li *ngFor="let message of channel?.messages">
     <app-channel-message [drawerThread]="drawerThread"></app-channel-message>
   </li>
 </ul>

@@ -143,9 +143,9 @@
           <main *ngIf="showChannels">
             <ul>
               <li
-                *ngFor="let channel of chats?.channel"
+                *ngFor="let channel of channelChats"
                 class="btn-channel-name pointer"
-                (click)="chatService.openChannelChat()"
+                (click)="selectChannel(channel)"
               >
                 <svg
                   class="hash"

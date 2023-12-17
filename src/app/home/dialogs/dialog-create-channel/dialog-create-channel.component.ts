@@ -1,22 +1,38 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-create-channel',
   templateUrl: './dialog-create-channel.component.html',
-  styleUrls: ['./dialog-create-channel.component.scss']
+  styleUrls: ['./dialog-create-channel.component.scss'],
 })
-export class DialogCreateChannelComponent {
-  constructor(
-    public dialogRef: MatDialogRef<DialogCreateChannelComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) { }
+export class DialogCreateChannelComponent implements OnInit {
+  channelForm!: FormGroup;
 
-  onNoClick(): void {
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<DialogCreateChannelComponent>
+  ) {}
+
+  ngOnInit() {
+    this.channelForm = this.fb.group({
+      nameControl: new FormControl('', Validators.required),
+      descriptionControl: new FormControl(''),
+    });
+  }
+
+  submit() {
+    console.log('submit method called', this.channelForm.value);
+    this.dialogRef.close(this.channelForm.value);
+  }
+
+  close(): void {
     this.dialogRef.close();
   }
-}
-export interface DialogData {
-  animal: string;
-  name: string;
 }

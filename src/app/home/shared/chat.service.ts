@@ -27,6 +27,7 @@ export class ChatService {
   public channelChatsSubject = new BehaviorSubject<Chat[]>([]);
 
   public currentChat!: Chat;
+  public currentChannel!: Chat;
 
   constructor(
     public select: SelectService,
@@ -36,6 +37,7 @@ export class ChatService {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
     //this.getPrivateCollection();
+    this.getChannelCollection();
   }
 
   setTextareaRef(ref: ElementRef) {
@@ -44,10 +46,6 @@ export class ChatService {
 
   getTextareaRef(): any {
     return this.customTextAreaRef;
-  }
-
-  openChannelChat() {
-    this.isMainChatChannel = true;
   }
 
   openNewChat() {
@@ -90,11 +88,11 @@ export class ChatService {
    * @param chat - An array representing the private chat members.
    * @returns True if the member with the specified ID is not in the private chat; otherwise, false.
    */
-  isNotMember(memberID: string, members: User[]): boolean {
+  /* isNotMember(memberID: string, members: User[]): boolean {
     return !members.some((member: User) => member.uid === memberID);
-  }
+  } */
 
-  /**
+  /*
    * Returns all existing private chats as observable.
    * @returns {Observable<any>} An Observable that emits the private chat data.
    */
@@ -125,16 +123,17 @@ export class ChatService {
    * @param {string} chatId - id of the private chat.
    * @param {User} user - the User u want to a create a private chat with.
    */
-  createNewChatData(chatId: string, user: User, currentUser: User) {
+  createNewChatData(user: User, currentUser: User) {
+    const newChatId = this.afs.createId();
     const newChatData: Chat = {
-      id: chatId,
+      id: newChatId,
       name: user.name,
       members: [user.uid, currentUser.uid],
       messages: [],
     };
     return newChatData;
   }
-
+  //TODO: avoid creating same privatechat twice between user
   /**
    * Creates a new privateChat between currentUser and a selected user.
    * @param {User} user - selected user.
@@ -142,9 +141,8 @@ export class ChatService {
    * @returns {Promise<void>} A Promise that resolves once the private chat is created and updated for both users.
    */
   async createPrivateChat(user: User, currentUser: User): Promise<void> {
-    const newChatId = this.afs.createId();
-    const newChatData = this.createNewChatData(newChatId, user, currentUser);
-    const privateChatMember = { ...user, privateChatId: newChatId };
+    const newChatData = this.createNewChatData(user, currentUser);
+    const privateChatMember = { ...user, privateChatId: newChatData.id };
 
     const [selectedUserPrivateChats, loggedUserPrivateChats] =
       await Promise.all([
@@ -152,9 +150,8 @@ export class ChatService {
         this.fetchPrivateChats(currentUser.uid),
       ]);
     if (!this.haveCommonID(selectedUserPrivateChats, loggedUserPrivateChats)) {
-      this.afs
-        .collection('privateChats')
-        .doc(newChatId)
+      this.privateChatsCollection
+        .doc(newChatData.id)
         .set(newChatData)
         .then(() => {
           this.setPrivateChatToUser(user.uid, privateChatMember);
@@ -185,7 +182,7 @@ export class ChatService {
   /**
    * Associates a private chat ID with a user by updating the user's data.
    * @param {string} id - The id of the user.
-   * @param {string} chatID - The ID of the private chat to associate with the user.
+   * @param {User} chatMember - the ChatMember to push.
    * @returns {Promise<void>} A Promise that resolves once the user's data is updated.
    */
   async setPrivateChatToUser(id: string, chatMember: User): Promise<void> {
@@ -197,19 +194,50 @@ export class ChatService {
   /*-------------------- END  private-chat functions  --------------------*/
 
   /*-------------------- START  channel-chat functions  --------------------*/
-  /*   async setChannelChatToUser(id: string, chatID: string): Promise<void> {
+
+  nameExists(name: string): boolean {
+    return this.channelChats.some((channel) => channel.name === name);
+  }
+
+  createChannel(name: string, description: string, user: User) {
+    const newChatId = this.afs.createId();
+    const newChannel: Chat = {
+      id: newChatId,
+      name: name,
+      members: [user.uid],
+      messages: [],
+      description: description,
+      createdBy: user.name,
+    };
+    return newChannel;
+  }
+
+  updateChannelCollection(name: string, description: string, user: User) {
+    const newChannel = this.createChannel(name, description, user);
+
+    if (!this.nameExists(newChannel.name)) {
+      this.channelChatsCollection
+        .doc(newChannel.id)
+        .set(newChannel)
+        .then(() => {
+          this.setChannelToUser(user.uid, newChannel);
+        })
+        .catch((error) => {
+          console.error('Error', error);
+        });
+    }
+  }
+  async setChannelToUser(id: string, newChannel: Chat): Promise<void> {
     let user = await this.userService.fetchUserData(id);
     user.subscribe(() => {
-      this.userService.updatePrivateChat(id, chatID);
+      this.userService.updateChannel(id, newChannel);
     });
-  } */
-  /*
-  getUsersChannelChats(userID: string): Observable<any> {
+  }
+  /*   getUsersChannelChats(userID: string): Observable<any> {
     return this.userService
       .getUser(userID)
       .pipe(map((user) => user.chats.channel));
-  }
-
+  } */
   getChannelCollection() {
     this.channelChatsCollection
       .snapshotChanges()
@@ -217,12 +245,12 @@ export class ChatService {
         map((chats) => {
           this.channelChats = chats.map((chat) => chat.payload.doc.data());
           this.channelChatsSubject.next(this.channelChats);
-          console.log(this.channelChats);
+          console.log(this.channelChatsSubject);
         })
       )
       .subscribe();
     return this.channelChatsSubject.asObservable();
-  } */
+  }
   /*-------------------- END  channel-chat functions  --------------------*/
 
   // TODO: Render chat from selectedUser.chatID and edit message, delete message
@@ -246,6 +274,17 @@ export class ChatService {
     this.select.setSelectedMember(selectedUser);
     this.getPrivateChat(chatID).subscribe((chat) => {
       this.currentChat = chat;
+      console.log('currentChat', this.currentChat);
     });
+  }
+  setCurrentChannel(channelId: string, selectedChannel: User) {
+    this.select.setSelectedChannel(selectedChannel);
+    this.getChannelById(channelId).subscribe((channel) => {
+      this.currentChannel = channel;
+      console.log('currentChannel in chatservice', this.currentChannel);
+    });
+  }
+  getChannelById(id: any): Observable<any> {
+    return this.channelChatsCollection.doc(id).valueChanges();
   }
 }
