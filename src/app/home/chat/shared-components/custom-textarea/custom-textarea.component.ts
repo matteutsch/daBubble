@@ -10,12 +10,13 @@ import { EmojiService } from '../../shared/emoji.service';
   styleUrls: ['./custom-textarea.component.scss'],
 })
 export class CustomTextareaComponent {
+  @ViewChild('textArea', {static:false}) textArea!: ElementRef;
   // showEmojiPopup: boolean = false;
   emojiMartVisible = false;
   // textareaValue: string = '';
 
 
-  constructor(public emojiService: EmojiService
+  constructor(public emojiService: EmojiService,
     public chatService: ChatService,
     public authService: AuthService,
     public userService: UserService
