@@ -9,10 +9,9 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { Chat, User } from 'src/app/models/models';
+import { User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
-import { SelectService } from '../shared/select.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { ChatService } from '../shared/chat.service';
 
 @Component({
   selector: 'app-search',
@@ -27,11 +26,9 @@ export class SearchComponent {
   results$!: Observable<User[]>;
 
   //TODO: add searchChannel() / searchThread etc..
-  //TODO: hide dropdown in case there's no input value
   constructor(
     private userService: UserService,
-    private select: SelectService,
-    private auth: AuthService
+    private chatService: ChatService
   ) {
     this.results$ = this.input$.pipe(
       filter((term) => term.length >= 3),
@@ -46,19 +43,17 @@ export class SearchComponent {
   searchUsers(searchTerm: string): Observable<User[]> {
     return this.userService.usersSubject.pipe(
       map((users) =>
-        users.filter((user) =>
-          user.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+        users
+          .filter((user) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .filter((user) => user.name !== this.currentUser.name)
       )
     );
   }
 
   selectUserFromDropdown(user: User) {
     this.searchInputValue = '';
-    const privateChat: Chat = {
-      id: user.uid,
-      name: user.name,
-    };
-    this.userService.updatePrivateChat(this.currentUser.uid, privateChat);
+    this.chatService.createPrivateChat(user, this.currentUser);
   }
 }
