@@ -100,24 +100,29 @@ export class UserService {
     });
   }
 
-  async updatePrivateChat(id: any, chatID: string) {
+  async updatePrivateChat(id: any, chatMember: User) {
     const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
-      let existingPrivateChats: string[] = user.chats.private;
+      let existingPrivateChatMember: User[] = user.chats.private;
       let existingChannelChats: string[] = user.chats.channel;
-      const isNewChatAlreadyInArray = existingPrivateChats.some(
-        (id) => id === chatID
+      console.log(
+        'existing chatMember in updatePrivateChat',
+        existingPrivateChatMember
       );
-      if (!isNewChatAlreadyInArray) {
-        existingPrivateChats.push(chatID);
+      console.log('chatMember in updatePrivateChat', chatMember);
+      const isNewChatMemberAlreadyInArray = existingPrivateChatMember.some(
+        (member) => member.uid === chatMember.uid
+      );
+      if (!isNewChatMemberAlreadyInArray) {
+        existingPrivateChatMember.push(chatMember);
       } else {
-        console.log('Chat already exists in user object.');
+        console.log('Chat Member already exists in user object.');
         return;
       }
       await userRef.update({
         chats: {
           channel: existingChannelChats,
-          private: existingPrivateChats,
+          private: existingPrivateChatMember,
         },
       });
       subscription.unsubscribe();

@@ -59,34 +59,7 @@ export class MessageData {
       content: this.content,
       emoji: this.emoji,
       timestampData: this.timestampData,
-      answers: []
+      answers: [],
     };
-  }
-}
-
-export interface PrivatChatMember {
-  uid: string;
-  email: string;
-  name: string;
-  photoURL: string;
-  chatId: string;
-  status: StatusType;
-}
-
-export class PrivateChatMemberData {
-  public uid: string = '';
-  public email: string = '';
-  public name: string = '';
-  public photoURL: string = '';
-  public chatId: string = '';
-  public status: StatusType;
-
-  constructor(user: User, id: string) {
-    this.uid = user.uid;
-    this.email = user.email;
-    this.name = user.name;
-    this.photoURL = user.photoURL;
-    this.chatId = id;
-    this.status = user.status;
   }
 }
