@@ -11,6 +11,7 @@ import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-cha
 import { DialogMemberProfileComponent } from '../../dialogs/dialog-member-profile/dialog-member-profile.component';
 import { SelectService } from '../../shared/select.service';
 import { User } from 'src/app/models/models';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-chat-direct-messages',
@@ -24,7 +25,8 @@ export class ChatDirectMessagesComponent implements OnChanges {
   constructor(
     public dialog: MatDialog,
     public chatService: ChatService,
-    private select: SelectService
+    private select: SelectService,
+    public authService: AuthService
   ) {}
 
   ngOnChanges() {

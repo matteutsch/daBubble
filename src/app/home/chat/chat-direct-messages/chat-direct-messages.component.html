@@ -45,6 +45,6 @@
   </li>
 
   <li *ngFor="let message of chatService.currentChat?.messages">
-    <app-channel-message></app-channel-message>
+    <app-chat-message [ngClass]="{'my-message': authService.userID === message.authorID}"  [message]="message"></app-chat-message>
   </li>
 </ul>

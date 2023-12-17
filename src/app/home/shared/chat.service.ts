@@ -226,7 +226,7 @@ export class ChatService {
   /*-------------------- END  channel-chat functions  --------------------*/
 
   // TODO: Render chat from selectedUser.chatID and edit message, delete message
-  async sendMessage(author: string, contentText: string) {
+  async sendMessage(author: User, contentText: string) {
     const message = new MessageData(
       author,
       contentText,

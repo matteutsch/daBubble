@@ -22,7 +22,7 @@ export class CustomTextareaComponent {
     this.userService
       .getUser(this.authService.userID)
       .subscribe((currentUser) => {
-        this.chatService.sendMessage(currentUser.name, textareaValue);
+        this.chatService.sendMessage(currentUser, textareaValue);
       });
   }
 }

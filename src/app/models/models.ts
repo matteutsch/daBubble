@@ -32,34 +32,42 @@ export interface Chat {
 
 export interface Message {
   author: string;
+  authorID?: string;
   content: string;
   emoji: string[];
   timestampData: Date;
   answers?: Message[];
+  photoURL?: string;
 }
 
 export class MessageData {
   public author: string = '';
+  public authorID: string = '';
   public content: string = '';
   public emoji: string[] = [];
   public timestampData: number;
   public answers: Message[] = [];
+  public photoURL: string = ''
 
-  constructor(userName: string, contentText: string, timestamp: number) {
-    this.author = userName;
+  constructor(user: User, contentText: string, timestamp: number) {
+    this.author = user.name;
+    this.authorID = user.uid;
     this.content = contentText;
     this.emoji = [];
     this.timestampData = timestamp;
     this.answers = [];
+    this.photoURL = user.photoURL;
   }
 
   toFirestoreObject(): any {
     return {
       author: this.author,
+      authorID: this.authorID,
       content: this.content,
       emoji: this.emoji,
       timestampData: this.timestampData,
       answers: [],
+      photoURL: this.photoURL
     };
   }
 }
