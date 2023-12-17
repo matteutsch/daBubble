@@ -6,13 +6,12 @@ import { User } from 'src/app/models/models';
   providedIn: 'root',
 })
 export class SelectService {
-
   constructor() {}
 
   private selectedUserSubject = new BehaviorSubject<any>(null);
   selectedUser$ = this.selectedUserSubject.asObservable();
 
-  setSelectedUser(user: User) {
+  setSelectedMember(user: User) {
     this.selectedUserSubject.next(user);
   }
 }

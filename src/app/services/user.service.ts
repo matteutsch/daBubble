@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, Observable, finalize, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, filter, finalize, map, take } from 'rxjs';
 import { Chat, User } from '../models/models';
 
 @Injectable({
@@ -21,7 +21,6 @@ export class UserService {
   ) {
     this.usersCollection = this.afs.collection('users');
     this.getAllUsers();
-    console.log(this.users);
   }
 
   uploadFile(file: File, form: any): void {
@@ -60,8 +59,25 @@ export class UserService {
     form.get('fileControl')?.setValue(pickedImg ? pickedImg : '');
   }
 
-  getUser(userID: any): Observable<any> {
+  getUser(userID: string): Observable<any> {
     return this.usersCollection.doc(userID).valueChanges();
+  }
+
+  async fetchUserData(userID: any): Promise<any> {
+    try {
+      const docRef = this.afs.collection('users').doc(userID);
+      const docSnap = await docRef.get();
+      if (docSnap) {
+        const userData = docSnap;
+        return userData;
+      } else {
+        console.log('No such document!');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error getting document:', error);
+      throw error;
+    }
   }
 
   getAllUsers() {
@@ -84,22 +100,29 @@ export class UserService {
     });
   }
 
-  async updatePrivateChat(id: any, newChat: Chat) {
+  async updatePrivateChat(id: any, chatMember: User) {
     const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
-      const existingPrivateChats: Chat[] = user.chats.private;
-      const existingChannelChats: Chat[] = user.chats.channel;
-      const isNewChatAlreadyInArray = existingPrivateChats.some(
-        (chat) => chat.id === newChat.id
+      let existingPrivateChatMember: User[] = user.chats.private;
+      let existingChannelChats: string[] = user.chats.channel;
+      console.log(
+        'existing chatMember in updatePrivateChat',
+        existingPrivateChatMember
       );
-      if (!isNewChatAlreadyInArray) {
-        existingPrivateChats.push(newChat);
+      console.log('chatMember in updatePrivateChat', chatMember);
+      const isNewChatMemberAlreadyInArray = existingPrivateChatMember.some(
+        (member) => member.uid === chatMember.uid
+      );
+      if (!isNewChatMemberAlreadyInArray) {
+        existingPrivateChatMember.push(chatMember);
+      } else {
+        console.log('Chat Member already exists in user object.');
+        return;
       }
-
       await userRef.update({
         chats: {
           channel: existingChannelChats,
-          private: existingPrivateChats,
+          private: existingPrivateChatMember,
         },
       });
       subscription.unsubscribe();
