@@ -5,6 +5,7 @@ import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-cha
 import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dialog-members.component';
 import { Chat } from 'src/app/models/models';
 import { SelectService } from '../../shared/select.service';
+import { ChatService } from '../../shared/chat.service';
 
 @Component({
   selector: 'app-chat-channel',
@@ -14,19 +15,33 @@ import { SelectService } from '../../shared/select.service';
 export class ChatChannelComponent {
   @Input() drawerThread: any;
   channel!: Chat;
-  constructor(public dialog: MatDialog, public select: SelectService) {
-    this.select.selectedChannel$.subscribe((u) => {
-      this.channel = u;
-      console.log('channel', this.channel);
+
+  constructor(
+    public dialog: MatDialog,
+    public select: SelectService,
+    public chatService: ChatService
+  ) {
+    this.select.selectedChannel$.subscribe((c) => {
+      this.channel = c;
     });
   }
 
-  openEditChannelDialog(channelChat: Chat): void {
+  openEditChannelDialog(channel: Chat): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {
       panelClass: 'dialog-edit-channel',
-      data: channelChat,
+      data: channel,
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.componentInstance.dataChange.subscribe((result) => {
+      if (result) {
+        this.chatService.updateChannel(this.channel.id, result);
+        console.log('result in chatChannel openEdit', result);
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'leave') {
+        console.log('CHANNEL VERLASSEN');
+      }
+    });
   }
 
   openMembersDialog(channelChat: Chat): void {

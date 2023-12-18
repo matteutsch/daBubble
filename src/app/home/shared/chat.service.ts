@@ -5,7 +5,16 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  forkJoin,
+  lastValueFrom,
+  map,
+  switchMap,
+  take,
+} from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -26,8 +35,8 @@ export class ChatService {
   private channelChats: Chat[] = [];
   public channelChatsSubject = new BehaviorSubject<Chat[]>([]);
 
-  public currentChat!: Chat;
-  public currentChannel!: Chat;
+  public currentChat!: Chat | null;
+  public currentChannel!: Chat | null;
 
   constructor(
     public select: SelectService,
@@ -188,7 +197,7 @@ export class ChatService {
   async setPrivateChatToUser(id: string, chatMember: User): Promise<void> {
     let user = await this.userService.fetchUserData(id);
     user.subscribe(() => {
-      this.userService.updatePrivateChat(id, chatMember);
+      this.userService.addNewPrivateChat(id, chatMember);
     });
   }
   /*-------------------- END  private-chat functions  --------------------*/
@@ -227,12 +236,7 @@ export class ChatService {
         });
     }
   }
-  async setChannelToUser(id: string, newChannel: Chat): Promise<void> {
-    let user = await this.userService.fetchUserData(id);
-    user.subscribe(() => {
-      this.userService.updateChannel(id, newChannel);
-    });
-  }
+
   /*   getUsersChannelChats(userID: string): Observable<any> {
     return this.userService
       .getUser(userID)
@@ -251,7 +255,60 @@ export class ChatService {
       .subscribe();
     return this.channelChatsSubject.asObservable();
   }
+
+  //channel chat & direct chat being shown depending on currentChat/currentChannel
+  //- check mainChatComponent.html
+  setCurrentChat(chatID: string, selectedUser: User) {
+    this.select.setSelectedMember(selectedUser);
+    this.getPrivateChat(chatID).subscribe((chat) => {
+      this.currentChat = chat;
+      this.currentChannel = null;
+      console.log('currentChat', this.currentChat);
+    });
+  }
+  setCurrentChannel(channelId: string, selectedChannel: User) {
+    this.select.setSelectedChannel(selectedChannel);
+    this.getChannelById(channelId).subscribe((channel) => {
+      this.currentChannel = channel;
+      this.currentChat = null;
+      console.log('currentChannel in chatservice', this.currentChannel);
+    });
+  }
+  getChannelById(id: any): Observable<any> {
+    return this.channelChatsCollection.doc(id).valueChanges();
+  }
+
+  async setChannelToUser(id: string, newChannel: Chat): Promise<void> {
+    let user = await this.userService.fetchUserData(id);
+    user.subscribe(() => {
+      this.userService.addNewChannel(id, newChannel);
+    });
+  }
+
+  updateChannel(id: string, data: any) {
+    /*  this.afs.collection('channelChats').doc(id).update({
+      name: data.nameControl,
+      description: data.descriptionControl,
+    }); */
+    this.getUsersInChannel(id, data);
+  }
+
+  async getUsersInChannel(channelID: string, data: any) {
+    const channel: any = await lastValueFrom(
+      this.getChannelById(channelID).pipe(take(1))
+    );
+    console.log('channel', channel);
+    channel.members.forEach(async (memberID: string) => {
+      const user = await lastValueFrom(
+        this.userService.getUser(memberID).pipe(take(1))
+      );
+      // this.userService.updateChannelForUser(memberID, channelID, channel);
+    });
+  }
+
   /*-------------------- END  channel-chat functions  --------------------*/
+
+  /*-------------------- START  SendMessage functions  --------------------*/
 
   // TODO: Render chat from selectedUser.chatID and edit message, delete message
   async sendMessage(author: string, contentText: string) {
@@ -260,8 +317,8 @@ export class ChatService {
       contentText,
       new Date().getTime()
     ).toFirestoreObject();
-    const ref = this.privateChatsCollection.doc(this.currentChat.id);
-    const messagesArr = this.currentChat.messages;
+    const ref = this.privateChatsCollection.doc(this.currentChat!.id);
+    const messagesArr = this.currentChat!.messages;
     messagesArr?.push(message);
     console.log('message', message);
 
@@ -270,21 +327,5 @@ export class ChatService {
     });
   }
 
-  setCurrentChat(chatID: string, selectedUser: User) {
-    this.select.setSelectedMember(selectedUser);
-    this.getPrivateChat(chatID).subscribe((chat) => {
-      this.currentChat = chat;
-      console.log('currentChat', this.currentChat);
-    });
-  }
-  setCurrentChannel(channelId: string, selectedChannel: User) {
-    this.select.setSelectedChannel(selectedChannel);
-    this.getChannelById(channelId).subscribe((channel) => {
-      this.currentChannel = channel;
-      console.log('currentChannel in chatservice', this.currentChannel);
-    });
-  }
-  getChannelById(id: any): Observable<any> {
-    return this.channelChatsCollection.doc(id).valueChanges();
-  }
+  /*-------------------- START  SendMessage functions  --------------------*/
 }
