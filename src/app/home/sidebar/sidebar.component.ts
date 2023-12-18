@@ -37,6 +37,7 @@ export class SidebarComponent implements OnChanges {
     // );
     // this.privateChatMembers.push(chatMember);
     //this.loadPrivateChats();
+
     this.pushPrivateChats();
     this.pushChannelChats();
   }
@@ -74,7 +75,7 @@ export class SidebarComponent implements OnChanges {
 
   selectChannel(selectedChannel: any) {
     this.chatService.setCurrentChannel(selectedChannel.id, selectedChannel);
-    console.log(selectedChannel);
+    console.log(selectedChannel.id);
   }
 
   createChannelDialog(): void {

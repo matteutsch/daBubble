@@ -5,23 +5,15 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  forkJoin,
-  lastValueFrom,
-  map,
-  switchMap,
-  take,
-} from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  //use in ngOnDestroy and use as trigger to end subscriptions with .takeUntil(this.unsubscribe$),
+  //private unsubscribe$ = new Subject<void>();
   private customTextAreaRef: any;
   isMainChatChannel: boolean = false;
   isNewChat: boolean = true;
@@ -142,7 +134,6 @@ export class ChatService {
     };
     return newChatData;
   }
-  //TODO: avoid creating same privatechat twice between user
   /**
    * Creates a new privateChat between currentUser and a selected user.
    * @param {User} user - selected user.
@@ -152,6 +143,7 @@ export class ChatService {
   async createPrivateChat(user: User, currentUser: User): Promise<void> {
     const newChatData = this.createNewChatData(user, currentUser);
     const privateChatMember = { ...user, privateChatId: newChatData.id };
+    const thisChatMember = { ...currentUser, privateChatId: newChatData.id };
 
     const [selectedUserPrivateChats, loggedUserPrivateChats] =
       await Promise.all([
@@ -163,14 +155,14 @@ export class ChatService {
         .doc(newChatData.id)
         .set(newChatData)
         .then(() => {
-          this.setPrivateChatToUser(user.uid, privateChatMember);
+          this.setPrivateChatToUser(user.uid, thisChatMember);
           this.setPrivateChatToUser(currentUser.uid, privateChatMember);
         })
         .catch((error) => {
           console.error('Error creating document: ', error);
         });
     } else {
-      // this.openPrivateChat(user, currentUser);
+      //open private chat
     }
   }
 
@@ -249,7 +241,6 @@ export class ChatService {
         map((chats) => {
           this.channelChats = chats.map((chat) => chat.payload.doc.data());
           this.channelChatsSubject.next(this.channelChats);
-          console.log(this.channelChatsSubject);
         })
       )
       .subscribe();
@@ -261,17 +252,15 @@ export class ChatService {
   setCurrentChat(chatID: string, selectedUser: User) {
     this.select.setSelectedMember(selectedUser);
     this.getPrivateChat(chatID).subscribe((chat) => {
-      this.currentChat = chat;
       this.currentChannel = null;
-      console.log('currentChat', this.currentChat);
+      this.currentChat = chat;
     });
   }
   setCurrentChannel(channelId: string, selectedChannel: User) {
     this.select.setSelectedChannel(selectedChannel);
     this.getChannelById(channelId).subscribe((channel) => {
-      this.currentChannel = channel;
       this.currentChat = null;
-      console.log('currentChannel in chatservice', this.currentChannel);
+      this.currentChannel = channel;
     });
   }
   getChannelById(id: any): Observable<any> {
@@ -286,23 +275,33 @@ export class ChatService {
   }
 
   updateChannel(id: string, data: any) {
-    /*  this.afs.collection('channelChats').doc(id).update({
+    this.afs.collection('channelChats').doc(id).update({
       name: data.nameControl,
       description: data.descriptionControl,
-    }); */
-    this.getUsersInChannel(id, data);
+    });
+    this.getUsersInChannel(id);
   }
 
-  async getUsersInChannel(channelID: string, data: any) {
+  //wip
+  async getUsersInChannel(channelID: string) {
     const channel: any = await lastValueFrom(
       this.getChannelById(channelID).pipe(take(1))
     );
     console.log('channel', channel);
     channel.members.forEach(async (memberID: string) => {
-      const user = await lastValueFrom(
-        this.userService.getUser(memberID).pipe(take(1))
-      );
-      // this.userService.updateChannelForUser(memberID, channelID, channel);
+      const user = await this.userService.fetchUserData(memberID);
+      user.subscribe((u: any) => {
+        const userData = u.data();
+        const userChannels = userData.chats?.channel || [];
+        console.log(userData.chats.channel);
+        if (userChannels.includes(channelID)) {
+          user.update({ 'chats.channel': channel });
+        } else {
+          console.log(`User ${memberID} is not in the channel.`);
+        }
+      });
+
+      //this.userService.updateChannelForUser(memberID, channelID, channel);
     });
   }
 

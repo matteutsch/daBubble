@@ -140,10 +140,21 @@ export class UserService {
     });
   }
 
-  /*  updateChannelForUser(uid: string, channelID: string, channel: any) {
-    const userRef = this.afs.collection('users').doc(uid);
-    userRef.update({
-      'chats.channel': channel[channelID],
-    });
-  } */
+  async updateChannelForUser(uid: string, channelID: string, channel: any) {
+    /*  if (userData && userData.chats && userData.chats.channel) {
+        const existingChannel = userRef.chats.channel.find(
+          (channel: any) => channel.id === channelID
+        );
+        if (existingChannel) {
+          Object.assign(existingChannel, channel);
+          await this.afs.collection('users').doc(uid).update({
+            'chats.channel': userRef.chats.channel,
+          });
+        } else {
+          console.log('kanal nicht gefunden');
+        }
+      } else {
+        console.log('chats oder channel nicht gefunden');
+      } */
+  }
 }

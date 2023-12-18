@@ -49,9 +49,8 @@
       class="mini-info btn-channel-name pointer flex-centered"
       (click)="openMembersDialog(channel)"
     >
-      <div class="img-container">
+      <div class="img-container" *ngFor="let member of channel.members">
         <div class="avatar flex-centered">
-          <!-- *ngFor="let member of channel.members" -->
           <img src="../../../assets/characters/character_1.png" />
         </div>
       </div>
