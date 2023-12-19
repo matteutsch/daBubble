@@ -7,6 +7,8 @@ import {
 } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, lastValueFrom, map, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,11 @@ export class ChatService {
   isMainChatChannel: boolean = false;
   isNewChat: boolean = true;
   isMyPrivatChat: boolean = false;
+  user!: User;
+
+  public userChannelChatsSubject = new BehaviorSubject<Chat[]>([]);
+  userChannelChats: Chat[] = [];
+  channelChats$ = this.userChannelChatsSubject.asObservable();
 
   privateChatsCollection: AngularFirestoreCollection<any>;
   private allPrivateChats: Chat[] = [];
@@ -33,12 +40,23 @@ export class ChatService {
   constructor(
     public select: SelectService,
     private afs: AngularFirestore,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {
+    this.currentChannel = this.channelChats[0];
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
-    //this.getPrivateCollection();
     this.getChannelCollection();
+
+    //TODO: change the way we get the currentUser
+    authService.user.subscribe((user) => {
+      if (user) {
+        this.userService.getUser(user.uid).subscribe((currentUser) => {
+          this.user = currentUser;
+          this.pushChannelChats();
+        });
+      }
+    });
   }
 
   setTextareaRef(ref: ElementRef) {
@@ -82,33 +100,6 @@ export class ChatService {
   }
 
   /*-------------------- START  private-chat functions  --------------------*/
-
-  /**
-   * Checks if a member with the given ID is not already in the privateChatMembers array.
-   * @param memberID - ID of the member to check.
-   * @param chat - An array representing the private chat members.
-   * @returns True if the member with the specified ID is not in the private chat; otherwise, false.
-   */
-  /* isNotMember(memberID: string, members: User[]): boolean {
-    return !members.some((member: User) => member.uid === memberID);
-  } */
-
-  /*
-   * Returns all existing private chats as observable.
-   * @returns {Observable<any>} An Observable that emits the private chat data.
-   */
-  /*   getPrivateCollection(): Observable<Object> {
-    this.privateChatsCollection
-      .snapshotChanges()
-      .pipe(
-        map((chats) => {
-          this.allPrivateChats = chats.map((chat) => chat.payload.doc.data());
-          this.privateChatsSubject.next(this.allPrivateChats);
-        })
-      )
-      .subscribe();
-    return this.privateChatsSubject.asObservable();
-  } */
 
   /**
    * Returns a single private chat as observable.
@@ -221,7 +212,7 @@ export class ChatService {
         .doc(newChannel.id)
         .set(newChannel)
         .then(() => {
-          this.setChannelToUser(user.uid, newChannel);
+          this.userService.addNewChannel(user.uid, newChannel.id);
         })
         .catch((error) => {
           console.error('Error', error);
@@ -229,11 +220,6 @@ export class ChatService {
     }
   }
 
-  /*   getUsersChannelChats(userID: string): Observable<any> {
-    return this.userService
-      .getUser(userID)
-      .pipe(map((user) => user.chats.channel));
-  } */
   getChannelCollection() {
     this.channelChatsCollection
       .snapshotChanges()
@@ -266,43 +252,57 @@ export class ChatService {
   getChannelById(id: any): Observable<any> {
     return this.channelChatsCollection.doc(id).valueChanges();
   }
-
-  async setChannelToUser(id: string, newChannel: Chat): Promise<void> {
-    let user = await this.userService.fetchUserData(id);
-    user.subscribe(() => {
-      this.userService.addNewChannel(id, newChannel);
-    });
+  getSingleChannel(id: any) {
+    return this.channelChatsCollection.doc(id);
   }
 
   updateChannel(id: string, data: any) {
-    this.afs.collection('channelChats').doc(id).update({
-      name: data.nameControl,
-      description: data.descriptionControl,
-    });
-    this.getUsersInChannel(id);
+    this.channelChatsCollection
+      .doc(id)
+      .update({
+        name: data.nameControl,
+        description: data.descriptionControl,
+      })
+      .then(() => {
+        this.updateUserChannelSubject();
+      });
   }
 
-  //wip
-  async getUsersInChannel(channelID: string) {
-    const channel: any = await lastValueFrom(
-      this.getChannelById(channelID).pipe(take(1))
-    );
-    console.log('channel', channel);
-    channel.members.forEach(async (memberID: string) => {
-      const user = await this.userService.fetchUserData(memberID);
-      user.subscribe((u: any) => {
-        const userData = u.data();
-        const userChannels = userData.chats?.channel || [];
-        console.log(userData.chats.channel);
-        if (userChannels.includes(channelID)) {
-          user.update({ 'chats.channel': channel });
-        } else {
-          console.log(`User ${memberID} is not in the channel.`);
-        }
+  updateUserChannelSubject() {
+    if (this.user.chats && this.user.chats.channel) {
+      this.user.chats.channel.forEach((id: any) => {
+        const existingChannel = this.getChannelById(id);
+        existingChannel.pipe(take(1)).subscribe((singleChannel) => {
+          const updatedChannels = this.userChannelChatsSubject.value.map(
+            (existingChannel) =>
+              existingChannel.id === singleChannel.id
+                ? singleChannel
+                : existingChannel
+          );
+          this.userChannelChatsSubject.next(updatedChannels);
+        });
       });
+    }
+  }
 
-      //this.userService.updateChannelForUser(memberID, channelID, channel);
-    });
+  pushChannelChats() {
+    if (this.user.chats && this.user.chats.channel) {
+      this.user.chats.channel.forEach((id: any) => {
+        const existingChannel = this.getChannelById(id);
+        existingChannel.pipe(take(1)).subscribe((singleChannel) => {
+          let isExisting = this.userChannelChatsSubject.value.some(
+            (existingChannel) => existingChannel.id === singleChannel.id
+          );
+          if (!isExisting) {
+            const updatedChannels = [
+              ...this.userChannelChatsSubject.value,
+              singleChannel,
+            ];
+            this.userChannelChatsSubject.next(updatedChannels);
+          }
+        });
+      });
+    }
   }
 
   /*-------------------- END  channel-chat functions  --------------------*/
@@ -326,5 +326,5 @@ export class ChatService {
     });
   }
 
-  /*-------------------- START  SendMessage functions  --------------------*/
+  /*-------------------- END  SendMessage functions  --------------------*/
 }

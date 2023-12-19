@@ -4,8 +4,8 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, Observable, filter, finalize, map, take } from 'rxjs';
-import { Chat, User } from '../models/models';
+import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
+import { User } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -120,41 +120,35 @@ export class UserService {
     });
   }
 
-  async addNewChannel(id: string, newChannel: Chat) {
+  async addNewChannel(id: string, channelID: string) {
     const userRef = this.afs.collection('users').doc(id);
-    let subscription = this.getUser(id).subscribe(async (user) => {
-      let existingChannelChats: Chat[] = user.chats.channel;
-      const isChannelAlreadyInArray = existingChannelChats.some(
-        (channel) => channel.name === newChannel.name
-      );
-      if (!isChannelAlreadyInArray) {
-        existingChannelChats.push(newChannel);
-      } else {
-        console.log('Channel already exists in user object.');
-        return;
-      }
+    userRef.get().forEach(async (e) => {
+      const user = (await e.data()) as User;
+      const existingChannelChats = user.chats.channel;
+      existingChannelChats?.push(channelID);
       await userRef.update({
         'chats.channel': existingChannelChats,
       });
-      subscription.unsubscribe();
     });
   }
 
-  async updateChannelForUser(uid: string, channelID: string, channel: any) {
-    /*  if (userData && userData.chats && userData.chats.channel) {
-        const existingChannel = userRef.chats.channel.find(
-          (channel: any) => channel.id === channelID
-        );
-        if (existingChannel) {
-          Object.assign(existingChannel, channel);
-          await this.afs.collection('users').doc(uid).update({
-            'chats.channel': userRef.chats.channel,
-          });
-        } else {
-          console.log('kanal nicht gefunden');
-        }
-      } else {
-        console.log('chats oder channel nicht gefunden');
-      } */
-  }
+  /*   async updateUserChannel(
+    userId: string,
+    channelID: string,
+    updatedChannel: any,
+    userData: any
+  ) {
+    const userDocRef = this.afs.collection('users').doc(userId);
+    console.log('updatedChannel', updatedChannel);
+
+    try {
+      await userDocRef.update({
+        [`chats.channel.[i]`]: updatedChannel,
+      });
+
+      console.log(`User ${userId} updated with the new channel.`);
+    } catch (error) {
+      console.error('Error updating user channel:', error);
+    }
+  } */
 }

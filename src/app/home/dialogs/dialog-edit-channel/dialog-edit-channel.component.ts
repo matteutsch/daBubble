@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { Chat } from 'src/app/models/models';
 
 @Component({
@@ -21,6 +22,9 @@ export class DialogEditChannelComponent implements OnInit {
   isChannelTitleEdited: boolean = false;
   isChannelDescriptionEdited: boolean = false;
 
+  dataChangeSubject = new Subject<any>();
+  dataChange$ = this.dataChangeSubject.asObservable();
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogEditChannelComponent>,
@@ -35,8 +39,17 @@ export class DialogEditChannelComponent implements OnInit {
       descriptionControl: new FormControl(this.channel.description),
     });
   }
-
+  updateValues() {
+    this.dataChangeSubject.next(this.editChannelForm.value);
+    this.dataChange$.subscribe((e) => {
+      this.editChannelForm.setValue({
+        nameControl: e.nameControl,
+        descriptionControl: e.descriptionControl,
+      });
+    });
+  }
   submit() {
+    this.updateValues();
     this.dataChange.emit(this.editChannelForm.value);
   }
   editChannelName() {

@@ -1,4 +1,6 @@
-<h1 class="mb-2 custom-text" mat-dialog-title># {{ channel.name }}</h1>
+<h1 class="mb-2 custom-text" mat-dialog-title>
+  # {{ editChannelForm.value.nameControl }}
+</h1>
 <div mat-dialog-content>
   <form
     [formGroup]="editChannelForm"
@@ -43,7 +45,8 @@
         class="edited-text"
         style="height: 78.77px"
       >
-        <span style="font-weight: 700">#</span> {{ channel.name }}
+        <span style="font-weight: 700">#</span>
+        {{ editChannelForm.value.nameControl }}
       </p>
     </div>
     <div
@@ -84,7 +87,7 @@
         class="edited-text"
         style="width: 40vw; height: 78.77px; max-width: 790px"
       >
-        {{ channel.description }}
+        {{ editChannelForm.value.descriptionControl }}
       </p>
       <div class="img-line flex-centered">
         <img src="../../../assets/icons/line.png" />

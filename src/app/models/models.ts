@@ -5,7 +5,7 @@ export interface User {
   name: string;
   photoURL: string;
   chats: {
-    channel?: Chat[];
+    channel?: string[];
     private?: string[];
   };
   status: StatusType;

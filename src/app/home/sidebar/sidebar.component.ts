@@ -4,6 +4,7 @@ import { ChatService } from 'src/app/home/shared/chat.service';
 import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
+import { BehaviorSubject, take } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,8 +24,11 @@ export class SidebarComponent implements OnChanges {
     public dialog: MatDialog,
     public chatService: ChatService,
     public userService: UserService
-  ) {}
-
+  ) {
+    this.chatService.channelChats$.subscribe((channels) => {
+      this.channelChats = channels;
+    });
+  }
   ngOnChanges() {
     /*
       For the "user" object, a new property named "myChat" should be added.
@@ -39,30 +43,17 @@ export class SidebarComponent implements OnChanges {
     //this.loadPrivateChats();
 
     this.pushPrivateChats();
-    this.pushChannelChats();
+    //this.pushChannelChats();
   }
 
   pushPrivateChats() {
     if (this.currentUser.chats && this.currentUser.chats.private) {
       this.currentUser.chats.private.forEach((privateChat: any) => {
-        const isAlreadyMember = this.privateChatMembers.some(
+        const isMember = this.privateChatMembers.some(
           (existingMember) => existingMember.uid === privateChat.uid
         );
-        if (!isAlreadyMember) {
+        if (!isMember) {
           this.privateChatMembers.push(privateChat);
-        }
-      });
-    }
-  }
-
-  pushChannelChats() {
-    if (this.currentUser.chats && this.currentUser.chats.channel) {
-      this.currentUser.chats.channel.forEach((channel: any) => {
-        const isAlreadyExisting = this.channelChats.some(
-          (channelChat) => channelChat.id === channel.id
-        );
-        if (!isAlreadyExisting) {
-          this.channelChats.push(channel);
         }
       });
     }
