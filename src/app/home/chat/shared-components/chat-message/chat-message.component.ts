@@ -3,8 +3,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DrawerService } from 'src/app/home/shared/drawer.service';
 import localeDe from '@angular/common/locales/de';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { UserService } from 'src/app/services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { Message } from 'src/app/models/models';
 
 @Component({
   selector: 'app-chat-message',
@@ -16,25 +15,42 @@ export class ChatMessageComponent implements OnInit {
   @Input() message: any;
   @ViewChild('') chatTextArea!: ElementRef;
 
-  timestamp!: number;
   date: Date | undefined;
-  public formattedTime!: string;
-  public formattedDate!: string;
 
   constructor(
     public drawerService: DrawerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
-    console.log('message:', this.message);
-    
     registerLocaleData(localeDe);
-    if (this.message) {
-      this.timestamp = this.message.timestampData;
-      this.date = new Date(this.timestamp);
-      this.formattedTime = this.datePipe.transform(this.date, 'HH:mm') + ' Uhr';
-      this.formattedDate = this.datePipe.transform(this.date, 'EEEE, dd MMMM', 'de') ?? '';
+  }
+
+  getUpdateFormattedTime(message: Message) {
+    if (message) {
+      const date = new Date(message.timestampData);
+      const formattedTime = this.datePipe.transform(date, 'HH:mm') + ' Uhr';
+      return formattedTime;
     }
+    return null;
+  }
+
+  getUpdateFormattedDate(message: Message) {
+    if (message) {
+      const date = new Date(message.timestampData);
+      const formattedDate = this.datePipe.transform(date, 'EEEE, dd MMMM', 'de') ?? '';
+      return formattedDate;
+    }
+    return null;
+  }
+
+  async setThreadMessage() {
+    this.chatService.threadMessage = this.message;
+  }
+
+  openThread() {
+    this.setThreadMessage();
+    this.drawerService.openDrawer(this.drawerThread);
   }
 }

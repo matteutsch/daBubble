@@ -2,10 +2,12 @@
   <mat-card-content class="mat-card-content z-2">
     <app-chat-channel
       *ngIf="chatService.isMainChatChannel && chats"
-      [drawerThread]="drawerThread" [channelChats]="chats.channel"
+      [drawerThread]="drawerThread"
+      [channelChats]="chats.channel"
     ></app-chat-channel>
     <app-chat-direct-messages
       [selectedUser]="currentUser"
+      [drawerThread]="drawerThread"
       *ngIf="!chatService.isMainChatChannel && chats"
     ></app-chat-direct-messages>
     <app-custom-textarea

@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ThreadMessageComponent } from './shared-components/thread-message/thread-message.component';
 import { ThreadComponent } from './thread/thread.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     ChatChannelComponent,
@@ -27,7 +28,9 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
     ChatRoutingModule, 
     MatCardModule, 
     MatInputModule,
-    PickerComponent
+    PickerComponent,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     MainChatComponent, 

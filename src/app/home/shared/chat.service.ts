@@ -1,13 +1,12 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Chat, MessageData, User } from 'src/app/models/models';
+import { Chat, Message, MessageData, User } from 'src/app/models/models';
 import { SelectService } from './select.service';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +26,9 @@ export class ChatService {
   public channelChatsSubject = new BehaviorSubject<Chat[]>([]);
 
   public currentChat!: Chat;
+  public threadMessage!: Message;
+
+  public ulChatMessageRef!: ElementRef;
 
   constructor(
     public select: SelectService,
@@ -36,6 +38,10 @@ export class ChatService {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
     //this.getPrivateCollection();
+  }
+
+  setElementRef(elementRef: ElementRef) {
+    this.ulChatMessageRef = elementRef;
   }
 
   setTextareaRef(ref: ElementRef) {
@@ -235,8 +241,6 @@ export class ChatService {
     const ref = this.privateChatsCollection.doc(this.currentChat.id);
     const messagesArr = this.currentChat.messages;
     messagesArr?.push(message);
-    console.log('message', message);
-
     await ref.update({
       messages: messagesArr,
     });

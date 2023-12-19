@@ -19,8 +19,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./chat-direct-messages.component.scss'],
 })
 export class ChatDirectMessagesComponent implements OnChanges {
-  @Input() selectedUser!: User;
   @ViewChild('') chatTextArea!: ElementRef;
+  @ViewChild('ulChatMessages') ulChatMessagesRef!: ElementRef;
+  @Input() selectedUser!: User;
+  @Input() drawerThread: any;
 
   constructor(
     public dialog: MatDialog,
@@ -28,6 +30,10 @@ export class ChatDirectMessagesComponent implements OnChanges {
     private select: SelectService,
     public authService: AuthService
   ) {}
+
+  ngAfterViewInit() {
+    this.chatService.setElementRef(this.ulChatMessagesRef);
+  }
 
   ngOnChanges() {
     this.select.selectedUser$.subscribe((selectedUser) => {

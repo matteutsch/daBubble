@@ -1,22 +1,22 @@
 <div class="line">
   <img src="../../../assets/icons/line.png" />
   <div class="date flex-centered">
-    <span>{{formattedDate}}</span>
+    <span>{{getUpdateFormattedDate(message)}}</span>
   </div>
 </div>
 <div class="message pointer">
   <div class="avatar">
-    <img src="{{message.photoURL}}" />
+    <img src="{{message ? message.photoURL : 'assets/characters/default_character.png'}}" />
   </div>
   <div class="content">
     <div class="header flex-centered">
-      <span class="name">{{ message.author }}</span>
-      <span class="message-time">{{formattedTime}}</span>
+      <span class="name">{{ message?.author }}</span>
+      <span class="message-time">{{getUpdateFormattedTime(message)}}</span>
     </div>
-    <p class="speech">{{ message.content }}</p>
+    <pre class="speech">{{ message?.content }}</pre>
     <div class="label flex-centered">
-      <span class="answers" (click)="drawerService.openDrawer(drawerThread)"
-        >{{message.answers.length}} Antworten</span
+      <span class="answers" (click)="openThread()"
+        >{{message?.answers?.length}} Antworten</span
       >
       <span class="answer-time">Letzte Antwort 14:56</span>
     </div>
@@ -190,7 +190,7 @@
         </g>
       </svg>
     </div>
-    <div class="icon-single pointer flex-centered">
+    <div class="icon-single pointer flex-centered" (click)="openThread()">
       <svg
         class="icon-comment"
         xmlns="http://www.w3.org/2000/svg"

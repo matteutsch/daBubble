@@ -18,7 +18,7 @@
     <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
   </div>
 </div>
-<ul class="ul-messages">
+<ul #ulChatMessages class="ul-messages">
   <li *ngIf="chatService.currentChat?.messages?.length === 0" class="user-container">
     <div
       class="user-name-img flex-centered pointer"
@@ -45,6 +45,6 @@
   </li>
 
   <li *ngFor="let message of chatService.currentChat?.messages">
-    <app-chat-message [ngClass]="{'my-message': authService.userID === message.authorID}"  [message]="message"></app-chat-message>
+    <app-chat-message [ngClass]="{'my-message': authService.userID === message.authorID}"  [message]="message" [drawerThread]="drawerThread"></app-chat-message>
   </li>
 </ul>

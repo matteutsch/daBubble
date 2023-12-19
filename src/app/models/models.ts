@@ -35,7 +35,7 @@ export interface Message {
   authorID?: string;
   content: string;
   emoji: string[];
-  timestampData: Date;
+  timestampData: number;
   answers?: Message[];
   photoURL?: string;
 }
