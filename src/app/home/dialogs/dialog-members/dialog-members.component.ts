@@ -1,38 +1,41 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { DialogAddMembersComponent } from '../dialog-add-members/dialog-add-members.component';
-import { Chat } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 
 @Component({
   selector: 'app-dialog-members',
   templateUrl: './dialog-members.component.html',
-  styleUrls: ['./dialog-members.component.scss']
+  styleUrls: ['./dialog-members.component.scss'],
 })
 export class DialogMembersComponent implements OnInit {
-  channelChat!: Chat;
+  channelMember: User[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DialogMembersComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Chat,
+    @Inject(MAT_DIALOG_DATA) public data: User[],
     public dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.channelChat = this.data; 
+    this.channelMember = this.data;
   }
 
-  openAddMembersDialog(channelChat: Chat): void {
+  openAddMembersDialog(): void {
     const dialogRef = this.dialog.open(DialogAddMembersComponent, {
       panelClass: 'dialog-add-members',
-      data: channelChat
+      data: this.channelMember,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  onNoClick(): void {
+  close(): void {
     this.dialogRef.close();
-    this.openAddMembersDialog(this.channelChat);
+    this.openAddMembersDialog();
   }
 }

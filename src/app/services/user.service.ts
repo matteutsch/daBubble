@@ -4,8 +4,8 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { BehaviorSubject, Observable, filter, finalize, map, take } from 'rxjs';
-import { Chat, User } from '../models/models';
+import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
+import { User } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -100,16 +100,27 @@ export class UserService {
     });
   }
 
-  async updatePrivateChat(id: any, chatMember: User) {
+  async deleteChannelFromUser(userID: string, channelID: string) {
+    let userRef = this.usersCollection.doc(userID);
+    let userDoc = userRef.get();
+    userDoc.subscribe(async (e) => {
+      let array = e.data().chats.channel;
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if (element === channelID) {
+          array.splice(i, 1);
+          await userRef.update({
+            'chats.channel': array,
+          });
+        }
+      }
+    });
+  }
+
+  async addNewPrivateChat(id: any, chatMember: User) {
     const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
       let existingPrivateChatMember: User[] = user.chats.private;
-      let existingChannelChats: string[] = user.chats.channel;
-      console.log(
-        'existing chatMember in updatePrivateChat',
-        existingPrivateChatMember
-      );
-      console.log('chatMember in updatePrivateChat', chatMember);
       const isNewChatMemberAlreadyInArray = existingPrivateChatMember.some(
         (member) => member.uid === chatMember.uid
       );
@@ -120,12 +131,21 @@ export class UserService {
         return;
       }
       await userRef.update({
-        chats: {
-          channel: existingChannelChats,
-          private: existingPrivateChatMember,
-        },
+        'chats.private': existingPrivateChatMember,
       });
       subscription.unsubscribe();
+    });
+  }
+
+  async addNewChannel(id: string, channelID: string) {
+    const userRef = this.afs.collection('users').doc(id);
+    userRef.get().forEach(async (e) => {
+      const user = (await e.data()) as User;
+      const existingChannelChats = user.chats.channel;
+      existingChannelChats?.push(channelID);
+      await userRef.update({
+        'chats.channel': existingChannelChats,
+      });
     });
   }
 }

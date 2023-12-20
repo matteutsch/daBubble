@@ -103,10 +103,10 @@ export class AuthService {
       emailVerified: user.emailVerified,
       name: userName,
       photoURL: photoURL,
-      //start
-      chats: this.exampleChats,
-    //end
-      // chats: user.chats !== undefined ? user.chats : null,
+      chats: {
+        channel: [],
+        private: [],
+      },
       status: user.status !== undefined ? user.status : null,
     };
     return userRef.set(userData, {
@@ -123,15 +123,18 @@ export class AuthService {
 
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-    });
+    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {});
   }
 
   AuthLogin(provider: any) {
     return this.afAuth
       .signInWithPopup(provider)
       .then((result) => {
-        this.SetUserData(result.user, result.user?.displayName, 'assets/characters/default_character.png');
+        this.SetUserData(
+          result.user,
+          result.user?.displayName,
+          'assets/characters/default_character.png'
+        );
         this.router.navigate(['home', result.user?.uid]);
       })
       .catch((error) => {
@@ -141,10 +144,13 @@ export class AuthService {
 
   //TODO: Delete Anonym User on log out
   anonymousLogin() {
-    return this.afAuth.signInAnonymously()
-      .then((result) => {
-        this.SetUserData(result.user, 'Guest', 'assets/characters/default_character.png');
-        this.router.navigate(['home', result.user?.uid]);
-      })
+    return this.afAuth.signInAnonymously().then((result) => {
+      this.SetUserData(
+        result.user,
+        'Guest',
+        'assets/characters/default_character.png'
+      );
+      this.router.navigate(['home', result.user?.uid]);
+    });
   }
 }

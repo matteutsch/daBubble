@@ -2,14 +2,14 @@
 <div mat-dialog-content class="dialog-content">
   <div
     class="user-name-img pointer flex-centered"
-    *ngFor="let member of channelChat.members"
+    *ngFor="let member of channelMember"
   >
-    <img src="../../../assets/characters/character_2.png" />
-    <span>Noah Braun</span>
+    <img src="{{ member.photoURL }}" />
+    <span>{{ member.name }}</span>
   </div>
   <div
     class="btn-add-members text-and-icon_interactions btn-channel-name pointer flex-centered"
-    (click)="onNoClick()"
+    (click)="close()"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@
 <div class="icon-close icon-single pointer flex-centered">
   <svg
     class="close-icon"
-    (click)="onNoClick()"
+    (click)="close()"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"

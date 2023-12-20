@@ -1,5 +1,10 @@
 <h1 class="custom-text" mat-dialog-title>Leute hinzufügen</h1>
-<div mat-dialog-content class="dialog-content">
+<form
+  [formGroup]="addMemberGroup"
+  mat-dialog-content
+  class="dialog-content"
+  (ngSubmit)="submit()"
+>
   <label class="mb-4" for="title">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,24 +33,46 @@
     </svg>
     <span>{{ channelChat.name }}</span>
   </label>
-  <mat-form-field class="form-field mb-2" appearance="outline">
-    <input id="title" matInput placeholder="# z.B. Kooperationsprojekte" />
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button
-    mat-button
-    [mat-dialog-close]=""
-    [disabled]="true"
-    class="btn-primary flex-centered"
-  >
-    Hinzufügen
-  </button>
-</div>
+  <div class="mb-2 position-relative">
+    <input
+      #searchInput
+      formControlName="memberName"
+      class="w-100 p-3 ol-none rounded-pill"
+      id="title"
+      placeholder="# z.B. Kooperationsprojekte"
+      (input)="input$.next(searchInput.value)"
+    />
+
+    <div
+      *ngIf="!isSelected"
+      class="position-absolute top-100 start-0 ms-4 z-1000"
+    >
+      <ul class="bg-white shadow rounded-bottom p-0">
+        <li
+          (click)="selectMemberFromDropdown(result)"
+          *ngFor="let result of results$ | async"
+          class="results text-center py-2 fs-5 text-hover px-3 pointer"
+        >
+          {{ result.name | titlecase }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      type="submit"
+      mat-button
+      [mat-dialog-close]=""
+      class="btn-primary flex-centered"
+    >
+      Hinzufügen
+    </button>
+  </div>
+</form>
 <div class="icon-close icon-single pointer flex-centered">
   <svg
     class="close-icon"
-    (click)="onNoClick()"
+    (click)="close()"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
