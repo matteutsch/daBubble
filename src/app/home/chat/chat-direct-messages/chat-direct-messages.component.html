@@ -19,7 +19,10 @@
   </div>
 </div>
 <ul #ulChatMessages class="ul-messages">
-  <li *ngIf="chatService.currentChat?.messages?.length === 0" class="user-container">
+  <li
+    *ngIf="chatService.currentChat?.messages?.length === 0"
+    class="user-container"
+  >
     <div
       class="user-name-img flex-centered pointer"
       (click)="openUserProfile()"
@@ -43,8 +46,12 @@
       </span>
     </div>
   </li>
-
-  <li *ngFor="let message of chatService.currentChat?.messages">
-    <app-chat-message [ngClass]="{'my-message': authService.userID === message.authorID}"  [message]="message" [drawerThread]="drawerThread"></app-chat-message>
+  <li *ngFor="let message of chatService.currentChat?.messages; let i = index">
+    <app-chat-message
+      [ngClass]="{ 'my-message': authService.userID === message.authorID }"
+      [message]="message"
+      [messageIndex]="i"
+      [drawerThread]="drawerThread"
+    ></app-chat-message>
   </li>
 </ul>

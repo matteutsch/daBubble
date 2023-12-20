@@ -318,6 +318,11 @@ input {
 }
 
 .my-message {
+
+  .more-wert-div {
+    display: flex !important;
+  }
+  
   .message {
     flex-direction: row-reverse !important;
     cursor: default !important;
@@ -349,6 +354,10 @@ input {
       left: 112px !important;
     }
   }
+}
+
+.more-wert-div {
+  display: none;
 }
 
 .my-message-thread {

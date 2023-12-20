@@ -126,6 +126,10 @@ export class ChatService {
     return this.privateChatsCollection.doc(id).valueChanges();
   }
 
+  getPrivateChatRef(id: any) {
+    return this.privateChatsCollection.doc(id);
+  }
+
   /**
    * Returns a new Chat object for createPrivateChat().
    * @param {string} chatId - id of the private chat.

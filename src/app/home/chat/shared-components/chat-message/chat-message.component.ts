@@ -1,9 +1,16 @@
-import { DatePipe, registerLocaleData } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { DrawerService } from 'src/app/home/shared/drawer.service';
 import localeDe from '@angular/common/locales/de';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Message } from 'src/app/models/models';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-chat-message',
@@ -13,36 +20,41 @@ import { Message } from 'src/app/models/models';
 export class ChatMessageComponent implements OnInit {
   @Input() drawerThread: any;
   @Input() message: any;
+  @Input() messageIndex!: number;
   @ViewChild('') chatTextArea!: ElementRef;
 
   date: Date | undefined;
 
+  targetElementColor: string = '';
+  targetElementDisplay: string = '';
+  isEditing: boolean = false;
+  user: any = {};
+
   constructor(
     public drawerService: DrawerService,
-    private datePipe: DatePipe,
-    private chatService: ChatService
+    private chatService: ChatService,
+    public authService: AuthService,
+    public userService: UserService
   ) {}
 
   ngOnInit() {
     registerLocaleData(localeDe);
+    this.authService.user.subscribe((user) => {
+      if (user) {
+        this.userService.getUser(user.uid).subscribe((currentUser) => {
+          this.user = currentUser;
+        });
+      }
+    });
   }
 
-  getUpdateFormattedTime(message: Message) {
-    if (message) {
-      const date = new Date(message.timestampData);
-      const formattedTime = this.datePipe.transform(date, 'HH:mm') + ' Uhr';
-      return formattedTime;
-    }
-    return null;
+  onIsEditingChanged(newValue: boolean) {
+    this.isEditing = newValue;
   }
 
-  getUpdateFormattedDate(message: Message) {
-    if (message) {
-      const date = new Date(message.timestampData);
-      const formattedDate = this.datePipe.transform(date, 'EEEE, dd MMMM', 'de') ?? '';
-      return formattedDate;
-    }
-    return null;
+  changeStyle(isMouseOver: boolean) {
+    this.targetElementColor = isMouseOver ? '#eceefe' : '';
+    this.targetElementDisplay = isMouseOver ? 'inline-flex' : '';
   }
 
   async setThreadMessage() {
@@ -52,5 +64,9 @@ export class ChatMessageComponent implements OnInit {
   openThread() {
     this.setThreadMessage();
     this.drawerService.openDrawer(this.drawerThread);
+  }
+
+  toggleEditing() {
+    this.isEditing = !this.isEditing;
   }
 }

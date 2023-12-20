@@ -13,6 +13,8 @@ import { ThreadMessageComponent } from './shared-components/thread-message/threa
 import { ThreadComponent } from './thread/thread.component';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { EditMessageFormComponent } from './shared-components/edit-message-form/edit-message-form.component';
 @NgModule({
   declarations: [
     ChatChannelComponent,
@@ -21,26 +23,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ChatDirectMessagesComponent,
     CustomTextareaComponent,
     ThreadMessageComponent,
-    ThreadComponent
+    ThreadComponent,
+    EditMessageFormComponent
   ],
   imports: [
-    CommonModule, 
-    ChatRoutingModule, 
-    MatCardModule, 
+    CommonModule,
+    ChatRoutingModule,
+    MatCardModule,
     MatInputModule,
     PickerComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatMenuModule
   ],
   exports: [
-    MainChatComponent, 
-    ThreadMessageComponent, 
+    MainChatComponent,
+    ThreadMessageComponent,
     CustomTextareaComponent,
-    ThreadComponent
+    ThreadComponent,
   ],
-  providers: [
-    DatePipe,
-    { provide: LOCALE_ID, useValue: 'de' }
-  ],
+  providers: [DatePipe, { provide: LOCALE_ID, useValue: 'de' }],
 })
 export class ChatModule {}

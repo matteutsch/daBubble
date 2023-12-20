@@ -1,150 +1,182 @@
 .line {
-    position: relative;
-    padding: 0 35px;
+  position: relative;
+  padding: 0 35px;
 
-    img {
-        width: 100%;
-        height: 1px;
+  img {
+    width: 100%;
+    height: 1px;
+  }
+
+  .date {
+    position: absolute;
+    top: -7px;
+    width: calc(100% - 70px);
+
+    span {
+      padding: 5px 15px;
+      gap: 10px;
+      border-radius: 30px;
+      border: 1px solid var(--light-grey);
+      background-color: white;
+      font-size: 18px;
+      font-weight: 400;
     }
-
-    .date {
-        position: absolute;
-        top: -7px;
-        width: calc(100% - 70px);
-
-        span {
-            padding: 5px 15px;
-            gap: 10px;
-            border-radius: 30px;
-            border: 1px solid var(--light-grey);
-            background-color: white;
-            font-size: 18px;
-            font-weight: 400;
-        }
-    }
+  }
 }
 
 .message {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    width: 100%;
-    padding: 10px 35px;
-    margin-top: 25px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
+  padding: 10px 35px;
+  margin-top: 25px;
 
-    &:hover {
-        background-color: var(--bg-color);
-
-        .content {
-            .speech {
-                background-color: white;
-            }
-
-            .label {
-
-                .answer-time {
-                    color: black;
-                    font-weight: 700;
-                }
-            }
-        }
-
-        .reaction-bar {
-            display: inline-flex;
-        }
-    }
-
-    .avatar {
-
-        img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-    }
+  &:hover {
+    background-color: var(--bg-color);
 
     .content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+      .speech {
+        background-color: white;
+      }
 
-        .header {
-            gap: 20px;
-
-            .name {
-                font-size: 18px;
-                font-weight: 700;
-            }
-
-            .message-time {
-                color: var(--dark-grey);
-                font-size: 14px;
-                font-weight: 400;
-            }
+      .label {
+        .answer-time {
+          color: black;
+          font-weight: 700;
         }
-
-        .speech {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            width: 352px;
-            padding: 15px;
-            border-radius: 0px 30px 30px 30px;
-            background: var(--bg-color);
-            font-size: 18px;
-            font-weight: 400;
-            font-family: "Nunito";
-        }
-
-        .label {
-            gap: 20px;
-
-            .answers {
-                color: var(--purple-3);
-                font-size: 18px;
-                font-weight: 400;
-
-                &:hover {
-                    font-weight: 700;
-                }
-            }
-
-            .answer-time {
-                color: var(--dark-grey);
-                font-size: 14px;
-                font-weight: 400;
-            }
-        }
-
-        .message-reactions {
-            display: none;
-            padding: 3px 15px 3px 20px;
-
-            ul {
-                gap: 5px;
-            }
-        }
+      }
     }
 
     .reaction-bar {
-        position: absolute;
-        top: -25px;
-        right: 112px;
         display: inline-flex;
-        padding: 3px 15px 3px 20px;
-        align-items: flex-start;
-        gap: 5px;
-        border-radius: 25px 25px 0px 25px;
-        border: 1px solid var(--light-grey);
-        background: white;
-        display: none;
-
-        .icon-single {
-            padding: 10px !important;
-        }
     }
+  }
+
+  .avatar {
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .header {
+      gap: 20px;
+
+      .name {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .message-time {
+        color: var(--dark-grey);
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+
+    .speech {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      width: 352px;
+      padding: 15px;
+      border-radius: 0px 30px 30px 30px;
+      background: var(--bg-color);
+      font-size: 18px;
+      font-weight: 400;
+      font-family: "Nunito";
+    }
+
+    .label {
+      gap: 20px;
+
+      .answers {
+        color: var(--purple-3);
+        font-size: 18px;
+        font-weight: 400;
+
+        &:hover {
+          font-weight: 700;
+        }
+      }
+
+      .answer-time {
+        color: var(--dark-grey);
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+
+    .message-reactions {
+      display: none;
+      padding: 3px 15px 3px 20px;
+
+      ul {
+        gap: 5px;
+      }
+    }
+  }
+
+  .reaction-bar {
+    position: absolute;
+    top: -25px;
+    right: 112px;
+    display: inline-flex;
+    padding: 3px 15px 3px 20px;
+    align-items: flex-start;
+    gap: 5px;
+    border-radius: 25px 25px 0px 25px;
+    border: 1px solid var(--light-grey);
+    background: white;
+    display: none;
+
+    .icon-single {
+      padding: 10px !important;
+    }
+  }
+}
+
+.custom-menu-item {
+  display: inline-flex;
+  padding: 10px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  border-radius: 0px 30px 30px 30px;
+  background: var(--White, #fff);
+  box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .mat-mdc-menu-content,
+::ng-deep .mat-mdc-menu-panel {
+  padding: 0 !important;
+  border-radius: 0px 30px 30px 30px !important;
+
+  &:hover {
+    background-color: white !important;
+    box-shadow: 0px 6px 14px 0px rgba(83, 90, 241, 0.7);
+
+    &::ng-deep .mat-mdc-menu-item-text {
+      color: var(--purple-3) !important;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-menu-item-text {
+  font-family: "Nunito" !important;
+  font-weight: 600 !important;
+}
+
+app-edit-message-form {
+  width: 100%;
 }
