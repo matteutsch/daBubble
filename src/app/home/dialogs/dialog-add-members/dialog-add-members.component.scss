@@ -1,44 +1,71 @@
 :host {
-    display: block;
-    padding: 40px;
-    max-width: 872px;
+  display: block;
+  padding: 40px;
+  max-width: 872px;
 
-    h1 {
-        width: 434px;
-        padding-left: 0px;
+  h1 {
+    width: 434px;
+    padding-left: 0px;
+    font-family: "Nunito";
+    margin-bottom: 20px;
+  }
+
+  .mdc-dialog__title::before {
+    height: 0 !important;
+  }
+
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: visible;
+
+    label {
+      display: flex;
+      gap: 15px;
+
+      span {
+        color: var(--dark-blue);
         font-family: "Nunito";
-        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 400;
+      }
     }
+  }
 
-    .mdc-dialog__title::before {
-        height: 0 !important;
-    }
-
-    .dialog-content {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-
-        label {
-            display: flex;
-            gap: 15px;
-
-            span {
-                color: var(--dark-blue);
-                font-family: "Nunito";
-                font-size: 18px;
-                font-weight: 400;
-            }
-        }
-    }
-
-    .icon-close {
-        position: absolute;
-        top: 40px;
-        right: 40px;
-    }
+  .icon-close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+  }
 }
 
 .mat-mdc-dialog-actions {
-    justify-content: flex-end !important;
+  justify-content: flex-end !important;
+}
+
+.ol-none {
+  border: 1px solid var(--light-grey);
+  &:focus {
+    outline: none;
+    border: 1px solid var(--purple);
+  }
+}
+
+.results {
+  min-width: 256px;
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}
+.custom-mat-option .mat-option-check {
+  display: none;
+}
+.rounded-bottom {
+  border-radius: 0 0 24px 24px !important;
+  overflow: hidden;
+}
+
+.z-1000 {
+  z-index: 10000;
 }

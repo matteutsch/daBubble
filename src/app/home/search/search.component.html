@@ -8,15 +8,6 @@
     placeholder="Code learning durchsuchen..."
     (input)="input$.next(searchInput.value)"
   />
-  <!-- TODO: add fancy animation -->
-  <div
-    *ngIf="isLoading"
-    class="text-white p-3 position-absolute top-0 left-0 z-5 rounded-pill"
-    style="background-color: var(--purple)"
-  >
-    ..Suchergebnisse werden geladen..
-  </div>
-  <!--  -->
   <div
     *ngIf="searchInput.value !== ''"
     class="z-2 position-absolute top-100 start-0 ms-4"

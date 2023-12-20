@@ -17,14 +17,15 @@ export class ChatService {
   //use in ngOnDestroy and use as trigger to end subscriptions with .takeUntil(this.unsubscribe$),
   //private unsubscribe$ = new Subject<void>();
   private customTextAreaRef: any;
-  isMainChatChannel: boolean = false;
-  isNewChat: boolean = true;
-  isMyPrivatChat: boolean = false;
   user!: User;
 
   public userChannelChatsSubject = new BehaviorSubject<Chat[]>([]);
   userChannelChats: Chat[] = [];
   channelChats$ = this.userChannelChatsSubject.asObservable();
+
+  public channelMember = new BehaviorSubject<Chat[]>([]);
+  channelMembers: Chat[] = [];
+  channelMember$ = this.userChannelChatsSubject.asObservable();
 
   privateChatsCollection: AngularFirestoreCollection<any>;
   private allPrivateChats: Chat[] = [];
@@ -43,12 +44,11 @@ export class ChatService {
     private userService: UserService,
     private authService: AuthService
   ) {
-    this.currentChannel = this.channelChats[0];
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
     this.getChannelCollection();
 
-    //TODO: change the way we get the currentUser
+    //TODO: change the way we get the currentUser ?
     authService.user.subscribe((user) => {
       if (user) {
         this.userService.getUser(user.uid).subscribe((currentUser) => {
@@ -65,23 +65,6 @@ export class ChatService {
 
   getTextareaRef(): any {
     return this.customTextAreaRef;
-  }
-
-  openNewChat() {
-    this.isMainChatChannel = false;
-    this.isMyPrivatChat = false;
-  }
-
-  openDirectChat() {
-    this.isMainChatChannel = false;
-    this.isNewChat = false;
-    this.isMyPrivatChat = false;
-  }
-
-  openMyPrivatChat() {
-    this.isMainChatChannel = false;
-    this.isNewChat = false;
-    this.isMyPrivatChat = true;
   }
 
   /**
@@ -266,6 +249,26 @@ export class ChatService {
       .then(() => {
         this.updateUserChannelSubject();
       });
+  }
+
+  updateChannelMember(id: string, memberId: string) {
+    const channelRef = this.channelChatsCollection.doc(id);
+    channelRef.get().subscribe((channelDoc) => {
+      if (channelDoc.exists) {
+        const channelData = channelDoc.data() as any;
+        if (!channelData.members.includes(memberId)) {
+          channelData.members.push(memberId);
+          channelRef
+            .update({
+              members: channelData.members,
+            })
+            .then(() => {
+              this.userService.addNewChannel(memberId, id);
+              this.updateUserChannelSubject();
+            });
+        }
+      }
+    });
   }
 
   updateUserChannelSubject() {

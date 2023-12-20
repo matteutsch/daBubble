@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddMembersComponent } from 'src/app/home/dialogs/dialog-add-members/dialog-add-members.component';
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
 import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dialog-members.component';
-import { Chat } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 import { SelectService } from '../../shared/select.service';
 import { ChatService } from '../../shared/chat.service';
 
@@ -15,7 +15,7 @@ import { ChatService } from '../../shared/chat.service';
 export class ChatChannelComponent {
   @Input() drawerThread: any;
   channel!: Chat;
-
+  channelMember!: User;
   constructor(
     public dialog: MatDialog,
     public select: SelectService,
@@ -23,9 +23,11 @@ export class ChatChannelComponent {
   ) {
     this.select.selectedChannel$.subscribe((c) => {
       this.channel = c;
+      console.log(this.channel.members);
     });
   }
 
+  //TODO: splice member from channel & update
   openEditChannelDialog(channel: Chat): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {
       panelClass: 'dialog-edit-channel',
@@ -34,7 +36,6 @@ export class ChatChannelComponent {
     dialogRef.componentInstance.dataChange.subscribe((result) => {
       if (result) {
         this.chatService.updateChannel(this.channel.id, result);
-        console.log('result in chatChannel openEdit', result);
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -43,13 +44,15 @@ export class ChatChannelComponent {
       }
     });
   }
-
+  //TODO:show member names, link to dialogaddmembercomponent
   openMembersDialog(channelChat: Chat): void {
     const dialogRef = this.dialog.open(DialogMembersComponent, {
       panelClass: 'dialog-members',
       data: channelChat,
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('result', result);
+    });
   }
 
   openAddMembersDialog(channelChat: Chat): void {
@@ -58,7 +61,9 @@ export class ChatChannelComponent {
       data: channelChat,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result !== undefined && result !== null) {
+        this.chatService.updateChannelMember(this.channel.id, result);
+      }
     });
   }
 }

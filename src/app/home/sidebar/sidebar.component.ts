@@ -45,7 +45,7 @@ export class SidebarComponent implements OnChanges {
     this.pushPrivateChats();
     //this.pushChannelChats();
   }
-
+  //TODO: get pivatechats from observable
   pushPrivateChats() {
     if (this.currentUser.chats && this.currentUser.chats.private) {
       this.currentUser.chats.private.forEach((privateChat: any) => {
