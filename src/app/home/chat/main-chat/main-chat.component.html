@@ -1,6 +1,7 @@
 <mat-card class="mat-card rounded-4">
   <mat-card-content class="mat-card-content z-2">
     <app-chat-channel
+      [currentUser]="currentUser"
       *ngIf="chatService.currentChannel && !chatService.currentChat"
       [drawerThread]="drawerThread"
     ></app-chat-channel>

@@ -5,10 +5,9 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, lastValueFrom, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +22,9 @@ export class ChatService {
   userChannelChats: Chat[] = [];
   channelChats$ = this.userChannelChatsSubject.asObservable();
 
-  public channelMember = new BehaviorSubject<Chat[]>([]);
-  channelMembers: Chat[] = [];
-  channelMember$ = this.userChannelChatsSubject.asObservable();
+  public channelMemberSubject = new BehaviorSubject<User[]>([]);
+  channelMembers: User[] = [];
+  channelMember$ = this.channelMemberSubject.asObservable();
 
   privateChatsCollection: AngularFirestoreCollection<any>;
   private allPrivateChats: Chat[] = [];
@@ -53,7 +52,7 @@ export class ChatService {
       if (user) {
         this.userService.getUser(user.uid).subscribe((currentUser) => {
           this.user = currentUser;
-          this.pushChannelChats();
+          this.updateAndPushChannelChats();
         });
       }
     });
@@ -247,7 +246,7 @@ export class ChatService {
         description: data.descriptionControl,
       })
       .then(() => {
-        this.updateUserChannelSubject();
+        this.updateAndPushChannelChats();
       });
   }
 
@@ -264,48 +263,57 @@ export class ChatService {
             })
             .then(() => {
               this.userService.addNewChannel(memberId, id);
-              this.updateUserChannelSubject();
+              this.updateAndPushChannelChats();
             });
         }
       }
     });
   }
 
-  updateUserChannelSubject() {
+  updateAndPushChannelChats() {
     if (this.user.chats && this.user.chats.channel) {
       this.user.chats.channel.forEach((id: any) => {
         const existingChannel = this.getChannelById(id);
         existingChannel.pipe(take(1)).subscribe((singleChannel) => {
-          const updatedChannels = this.userChannelChatsSubject.value.map(
-            (existingChannel) =>
-              existingChannel.id === singleChannel.id
-                ? singleChannel
-                : existingChannel
+          const isExisting = this.userChannelChatsSubject.value.some(
+            (existingChannel) => existingChannel.id === singleChannel.id
           );
+
+          const updatedChannels = isExisting
+            ? this.userChannelChatsSubject.value.map((existingChannel) =>
+                existingChannel.id === singleChannel.id
+                  ? singleChannel
+                  : existingChannel
+              )
+            : [...this.userChannelChatsSubject.value, singleChannel];
+
           this.userChannelChatsSubject.next(updatedChannels);
         });
       });
     }
   }
 
-  pushChannelChats() {
-    if (this.user.chats && this.user.chats.channel) {
-      this.user.chats.channel.forEach((id: any) => {
-        const existingChannel = this.getChannelById(id);
-        existingChannel.pipe(take(1)).subscribe((singleChannel) => {
-          let isExisting = this.userChannelChatsSubject.value.some(
-            (existingChannel) => existingChannel.id === singleChannel.id
-          );
-          if (!isExisting) {
-            const updatedChannels = [
-              ...this.userChannelChatsSubject.value,
-              singleChannel,
-            ];
-            this.userChannelChatsSubject.next(updatedChannels);
+  //TODO: add function, that updates the sidebar properly
+  async deleteUserFromChannel(userID: string, channelID: string) {
+    const channelRef = this.getSingleChannel(channelID);
+    let channelDoc = channelRef.get();
+    channelDoc.subscribe(async (c) => {
+      let array = c.data().members;
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if (element === userID) {
+          array.splice(i, 1);
+          if (array.length <= 0) {
+            channelRef.delete();
+          } else {
+            await channelRef.update({
+              members: array,
+            });
           }
-        });
-      });
-    }
+          await this.userService.deleteChannelFromUser(userID, channelID);
+        }
+      }
+    });
   }
 
   /*-------------------- END  channel-chat functions  --------------------*/

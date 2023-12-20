@@ -1,17 +1,17 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChatService } from 'src/app/home/shared/chat.service';
 import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
-import { BehaviorSubject, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnChanges {
+export class SidebarComponent implements OnChanges, OnDestroy {
   @Input() currentUser!: User;
   @Input() isMainChatChannel: any;
 
@@ -20,14 +20,20 @@ export class SidebarComponent implements OnChanges {
   privateChatMembers: any[] = [];
   channelChats: Chat[] = [];
 
+  channelSub!: Subscription;
   constructor(
     public dialog: MatDialog,
     public chatService: ChatService,
     public userService: UserService
   ) {
-    this.chatService.channelChats$.subscribe((channels) => {
+    this.channelSub = this.chatService.channelChats$.subscribe((channels) => {
       this.channelChats = channels;
     });
+  }
+  //TODO: chatsubjects should have users content, not the content of previous user
+  //      recreate bug by logout & login with different account
+  ngOnDestroy() {
+    this.channelSub.unsubscribe();
   }
   ngOnChanges() {
     /*

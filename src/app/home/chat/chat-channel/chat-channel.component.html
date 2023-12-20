@@ -47,11 +47,14 @@
   <div class="members flex-centered">
     <div
       class="mini-info btn-channel-name pointer flex-centered"
-      (click)="openMembersDialog(channel)"
+      (click)="openMembersDialog()"
     >
-      <div class="img-container" *ngFor="let member of channel.members">
+      <div
+        class="img-container"
+        *ngFor="let member of channelMember.slice(0, 3); let i = index"
+      >
         <div class="avatar flex-centered">
-          <img src="../../../assets/characters/character_1.png" />
+          <img src="{{ member.photoURL }}" />
         </div>
       </div>
       <span>{{ channel.members?.length }}</span>

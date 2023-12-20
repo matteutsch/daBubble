@@ -100,6 +100,23 @@ export class UserService {
     });
   }
 
+  async deleteChannelFromUser(userID: string, channelID: string) {
+    let userRef = this.usersCollection.doc(userID);
+    let userDoc = userRef.get();
+    userDoc.subscribe(async (e) => {
+      let array = e.data().chats.channel;
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if (element === channelID) {
+          array.splice(i, 1);
+          await userRef.update({
+            'chats.channel': array,
+          });
+        }
+      }
+    });
+  }
+
   async addNewPrivateChat(id: any, chatMember: User) {
     const userRef = this.afs.collection('users').doc(id);
     let subscription = this.getUser(id).subscribe(async (user) => {
@@ -131,24 +148,4 @@ export class UserService {
       });
     });
   }
-
-  /*   async updateUserChannel(
-    userId: string,
-    channelID: string,
-    updatedChannel: any,
-    userData: any
-  ) {
-    const userDocRef = this.afs.collection('users').doc(userId);
-    console.log('updatedChannel', updatedChannel);
-
-    try {
-      await userDocRef.update({
-        [`chats.channel.[i]`]: updatedChannel,
-      });
-
-      console.log(`User ${userId} updated with the new channel.`);
-    } catch (error) {
-      console.error('Error updating user channel:', error);
-    }
-  } */
 }

@@ -24,6 +24,7 @@ export class DialogEditChannelComponent implements OnInit {
 
   dataChangeSubject = new Subject<any>();
   dataChange$ = this.dataChangeSubject.asObservable();
+  chatService: any;
 
   constructor(
     private fb: FormBuilder,

@@ -6,6 +6,7 @@ import { DialogMembersComponent } from 'src/app/home/dialogs/dialog-members/dial
 import { Chat, User } from 'src/app/models/models';
 import { SelectService } from '../../shared/select.service';
 import { ChatService } from '../../shared/chat.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-chat-channel',
@@ -14,20 +15,33 @@ import { ChatService } from '../../shared/chat.service';
 })
 export class ChatChannelComponent {
   @Input() drawerThread: any;
+  @Input() currentUser!: User;
   channel!: Chat;
-  channelMember!: User;
+  channelMember: any[] = [];
+
   constructor(
     public dialog: MatDialog,
     public select: SelectService,
-    public chatService: ChatService
+    public chatService: ChatService,
+    public userService: UserService
   ) {
+    this.loadChannelMember();
+  }
+
+  loadChannelMember() {
     this.select.selectedChannel$.subscribe((c) => {
       this.channel = c;
-      console.log(this.channel.members);
+      this.channelMember = [];
+      c.members.forEach((id: string) => {
+        this.userService.getUser(id).forEach((e) => {
+          if (!this.channelMember.some((member) => member.uid === e.uid)) {
+            this.channelMember.push(e);
+          }
+        });
+      });
     });
   }
 
-  //TODO: splice member from channel & update
   openEditChannelDialog(channel: Chat): void {
     const dialogRef = this.dialog.open(DialogEditChannelComponent, {
       panelClass: 'dialog-edit-channel',
@@ -40,18 +54,19 @@ export class ChatChannelComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'leave') {
+        this.chatService.deleteUserFromChannel(
+          this.currentUser.uid,
+          this.channel.id
+        );
         console.log('CHANNEL VERLASSEN');
       }
     });
   }
-  //TODO:show member names, link to dialogaddmembercomponent
-  openMembersDialog(channelChat: Chat): void {
+
+  openMembersDialog(): void {
     const dialogRef = this.dialog.open(DialogMembersComponent, {
       panelClass: 'dialog-members',
-      data: channelChat,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('result', result);
+      data: this.channelMember,
     });
   }
 
