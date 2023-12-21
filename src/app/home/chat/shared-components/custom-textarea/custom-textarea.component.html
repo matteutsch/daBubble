@@ -1,10 +1,10 @@
 <div class="textarea-container pointer">
   <textarea #textArea></textarea>
-  
-  <!-- <div (click)="toggleEmojiPicker(0)">
-  </div>
-  <emoji-mart title="Pick your emoji…" emoji="point_up"></emoji-mart> -->
-
+  <!-- <textarea *ngIf="textareaValue" {{ emojiComponent.selectedEmoji }}></textarea> -->
+  <!-- <textarea *ngIf="textareaValue" [(ngModel)]="textareaValue"></textarea> -->
+<!-- <textarea *ngIf="textareaValue"></textarea> -->
+<!-- <textarea [(ngModel)]="textareaValue"></textarea> -->
+  <!-- <span *ngIf="emojiComponent.selectedEmoji">{{ emojiComponent.selectedEmoji }}</span> -->
 
   <div class="textarea-bottom">
     <div class="add-elements flex-centered">
@@ -58,17 +58,6 @@
 
       <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
         <app-emoji *ngIf="emojiMartVisible"></app-emoji>
-        <!-- <emoji-mart class="emoji-mart-message" set="apple" #emojiMartElement
-        *ngIf="emojiMartVisible"
-        [style]="{
-            position: 'absolute',
-            bottom: '119px',
-            'border-radius': '15px',
-            'z-index': '11',
-            'left': ['name'] ? '-20px' : 'auto',
-            'right': ['name'] ? '100px' : 'auto'
-        }">
-    </emoji-mart> -->
 
     <!-- :) -->
         <svg

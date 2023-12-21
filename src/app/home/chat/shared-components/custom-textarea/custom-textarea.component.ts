@@ -3,7 +3,7 @@ import { ChatService } from 'src/app/home/shared/chat.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { EmojiService } from '../../shared/emoji.service';
-
+// import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 @Component({
   selector: 'app-custom-textarea',
   templateUrl: './custom-textarea.component.html',
@@ -11,10 +11,14 @@ import { EmojiService } from '../../shared/emoji.service';
 })
 export class CustomTextareaComponent {
   @ViewChild('textArea', {static:false}) textArea!: ElementRef;
+  @ViewChild(EmojiService) emojiComponent!: EmojiService;
+  // @ViewChild(EmojiComponent) emojiComponent!: EmojiComponent;
+
   // showEmojiPopup: boolean = false;
   emojiMartVisible = false;
-  // textareaValue: string = '';
-
+  textareaValue: string = '';
+  selectedEmoji: string | null = null;
+  
 
   constructor(public emojiService: EmojiService,
     public chatService: ChatService,

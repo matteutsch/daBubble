@@ -23,7 +23,7 @@ export class EmojiComponent {
   emojiMessageIndex = 0;
 
 
-  constructor(public emojiService:EmojiService, private emojiPickerElement: ElementRef) { }
+  constructor(public emojiService: EmojiService, private emojiPickerElement: ElementRef) { }
 
 
   @HostListener('document:click', ['$event'])
@@ -36,10 +36,24 @@ export class EmojiComponent {
       this.emojiMartVisible = false;
     }
   }
+
   toggleEmojiPopup(): void {
     this.emojiMartVisible = !this.emojiMartVisible;
   }
 
+
+  generateEmoji(): void {
+    if (this.selectedEmoji) {
+      // Hier können Sie weitere Aktionen mit dem ausgewählten Emoji durchführen, wenn nötig
+      console.log(`Generiertes Emoji: ${this.selectedEmoji}, Anzahl: ${this.emojiCount}`);
+
+      // Fügen Sie das Emoji dem aktuellen Text im Input-/Textfeld hinzu
+      this.textareaValue += this.selectedEmoji;
+
+      // Setzen Sie das ausgewählte Emoji zurück
+      this.selectedEmoji = null;
+    }
+  }
 
 
   saveEmoji(emoji: any): void {
@@ -50,37 +64,46 @@ export class EmojiComponent {
       // Wenn ein neues Emoji ausgewählt wird, setze den Zähler zurück
       this.emojiCount = 1;
     }
-console.log(emoji)
+    console.log(emoji)
     // Aktualisiere das ausgewählte Emoji
     this.selectedEmoji = emoji;
 
     // Hier können Sie weitere Aktionen mit dem ausgewählten Emoji durchführen, wenn nötig
     console.log(`Ausgewähltes Emoji: ${this.selectedEmoji}, Anzahl: ${this.emojiCount}`);
 
-        // Fügen Sie das Emoji dem Text hinzu oder verarbeiten Sie es anderweitig
-        this.textareaValue += emoji;
+    // Fügen Sie das Emoji dem Text hinzu oder verarbeiten Sie es anderweitig
+    this.textareaValue += emoji;
 
-        // Schließen Sie den Emoji-Picker nach der Auswahl
-        this.emojiMartVisible = false;
+    // Schließen Sie den Emoji-Picker nach der Auswahl
+    this.emojiMartVisible = false;
   }
 
 
-// saveEmoji(e: { emoji: { unified: string; }; }) {
-//   let unicodeCode: string = e.emoji.unified;
-//   let emoji = String.fromCodePoint(parseInt(unicodeCode, 16));
-//   if (this.showEmojis) {
-//     this.text += emoji;
-//     this.showEmojis = !this.showEmojis;
-//   }
-//   if (this.showEmojisEdit) {
-//     this.textEdit += emoji;
-//     this.showEmojisEdit = !this.showEmojisEdit;
-//   }
-// }
+  // saveEmoji(e: { emoji: { unified: string; }; }) {
+  //   let unicodeCode: string = e.emoji.unified;
+  //   let emoji = String.fromCodePoint(parseInt(unicodeCode, 16));
+  //   if (this.showEmojis) {
+  //     this.text += emoji;
+  //     this.toggleEmojiPopup();
+  //   }
+  // }
+
+  // saveEmoji(e: { emoji: { unified: string; }; }) {
+  //   let unicodeCode: string = e.emoji.unified;
+  //   let emoji = String.fromCodePoint(parseInt(unicodeCode, 16));
+  //   if (this.showEmojis) {
+  //     this.text += emoji;
+  //     this.showEmojis = !this.showEmojis;
+  //   }
+  //   if (this.showEmojisEdit) {
+  //     this.textEdit += emoji;
+  //     this.showEmojisEdit = !this.showEmojisEdit;
+  //   }
+  // }
 
 
-//   closePopups(): void {
-//     this.showEmojiPopup = false;
-    
-//   }
+  // closePopups(): void {
+  //   this.showEmojiPopup = false;
+
+  // }
 }
