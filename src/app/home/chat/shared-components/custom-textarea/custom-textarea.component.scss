@@ -1,71 +1,86 @@
 .textarea-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  height: 145px;
+  padding: 20px;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid var(--light-grey);
+
+  &:hover {
+    border: 1px solid var(--dark-blue);
+  }
+
+  &:active {
+    border: 1px solid var(--purple);
+  }
+
+  form {
     width: 100%;
-    height: 145px;
-    padding: 20px;
-    flex-direction: column;
-    border-radius: 20px;
-    border: 1px solid var(--light-grey);
+  }
 
-    &:hover {
-        border: 1px solid var(--dark-blue);
+  textarea {
+    width: 100%;
+    flex-grow: 1;
+    resize: none;
+    border: none;
+
+    &:focus {
+      border: none;
+      outline: none;
     }
 
-    &:active {
-        border: 1px solid var(--purple);
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
     }
+  }
 
-    textarea {
-        width: 100%;
-        flex-grow: 1;
-        resize: none;
-        border: none;
+  .textarea-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 
-        &:focus {
-            border: none;
-            outline: none;
-        }
+    button {
+      padding: 0;
+      border: none;
+      background: transparent;
+      transition: all 225ms ease;
 
-        &::-webkit-scrollbar {
-            width: 0;
-            height: 0;
-        }
-    }
-
-    .textarea-bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-
-        .add-elements {
-            position: relative;
-            gap: 5px;
-
-            &:hover {
-
-                path {
-                    fill: black;
-                }
-            }
-
-            .vertical-line {
-                position: absolute;
-                left: 30px;
-            }
-        }
-
+      &:hover {
         .icon-send {
-            transition: all 225ms ease;
-
-            &:hover {
-
-                path {
-                    fill: var(--dark-blue);
-                }
-            }
+          path {
+            fill: var(--dark-blue);
+          }
         }
+      }
+
+      &:disabled {
+        .icon-send {
+          path {
+            fill: var(--dark-grey);
+          }
+        }
+      }
     }
+
+    .add-elements {
+      position: relative;
+      gap: 5px;
+
+      &:hover {
+        path {
+          fill: black;
+        }
+      }
+
+      .vertical-line {
+        position: absolute;
+        left: 30px;
+      }
+    }
+  }
 }

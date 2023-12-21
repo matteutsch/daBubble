@@ -1,0 +1,43 @@
+.edit-message-form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  padding: 20px;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid var(--light-grey);
+  background-color: white;
+
+  &:hover {
+    border: 1px solid var(--dark-blue);
+  }
+
+  &:active {
+    border: 1px solid var(--purple);
+  }
+
+  textarea {
+    width: 100%;
+    flex-grow: 1;
+    resize: none;
+    border: none;
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  .form-bottom {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

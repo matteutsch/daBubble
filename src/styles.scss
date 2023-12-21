@@ -325,6 +325,10 @@ input {
 }
 
 .my-message {
+  .more-wert-div {
+    display: flex !important;
+  }
+
   .message {
     flex-direction: row-reverse !important;
     cursor: default !important;
@@ -358,6 +362,10 @@ input {
   }
 }
 
+.more-wert-div {
+  display: none;
+}
+
 .my-message-thread {
   .message {
     .reaction-bar {
@@ -385,11 +393,13 @@ input {
 
         ul {
           padding: 0 !important;
+          justify-content: flex-end;
         }
       }
     }
 
     .reaction-bar {
+      .div-icon-comment,
       .more-vert {
         display: none;
       }

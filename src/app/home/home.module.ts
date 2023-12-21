@@ -45,7 +45,7 @@ import { SearchComponent } from './search/search.component';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    FormsModule,
+    FormsModule
   ],
 })
 export default class HomeModule {}

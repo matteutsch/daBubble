@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Chat, MessageData, User } from 'src/app/models/models';
+import { Chat, Message, MessageData, User } from 'src/app/models/models';
 import { SelectService } from './select.service';
 import {
   AngularFirestore,
@@ -33,6 +33,11 @@ export class ChatService {
 
   public currentChat!: Chat | null;
   public currentChannel!: Chat | null;
+  public threadMessage!: Message;
+  public threadMessageIndex!: number;
+
+  public ulChatMessageRef!: ElementRef;
+  public ulThreadMessageRef!: ElementRef;
 
   constructor(
     public select: SelectService,
@@ -87,6 +92,10 @@ export class ChatService {
    */
   getPrivateChat(id: any): Observable<any> {
     return this.privateChatsCollection.doc(id).valueChanges();
+  }
+
+  getPrivateChatRef(id: any) {
+    return this.privateChatsCollection.doc(id);
   }
 
   /**
@@ -348,10 +357,11 @@ export class ChatService {
 
   /*-------------------- END  channel-chat functions  --------------------*/
 
+
   /*-------------------- START  SendMessage functions  --------------------*/
 
-  // TODO: Render chat from selectedUser.chatID and edit message, delete message
-  async sendMessage(author: string, contentText: string) {
+  // TODO: delete message
+  async sendMessage(author: User, contentText: string) {
     const message = new MessageData(
       author,
       contentText,
@@ -360,12 +370,26 @@ export class ChatService {
     const ref = this.privateChatsCollection.doc(this.currentChat!.id);
     const messagesArr = this.currentChat!.messages;
     messagesArr?.push(message);
-    console.log('message', message);
-
     await ref.update({
       messages: messagesArr,
     });
   }
+
+  // TODO: delete answer
+  async sendAnswer(author: User, contentText: string) {
+    const message = new MessageData(
+      author,
+      contentText,
+      new Date().getTime()
+    ).toFirestoreObject();
+    const ref = this.privateChatsCollection.doc(this.currentChat!.id);
+    const messagesArr = this.currentChat!.messages;
+    messagesArr![this.threadMessageIndex].answers?.push(message);
+    await ref.update({
+      messages: messagesArr,
+    });
+  }
+
 
   /*-------------------- END  SendMessage functions  --------------------*/
 }

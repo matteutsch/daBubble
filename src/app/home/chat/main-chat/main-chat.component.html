@@ -7,10 +7,12 @@
     ></app-chat-channel>
     <app-chat-direct-messages
       [selectedUser]="currentUser"
+      [drawerThread]="drawerThread"
       *ngIf="chatService.currentChat && !chatService.currentChannel"
     ></app-chat-direct-messages>
     <app-custom-textarea
       #customTextArea
+      [type]="'chat'"
       style="padding: 0 35px 40px"
     ></app-custom-textarea>
   </mat-card-content>

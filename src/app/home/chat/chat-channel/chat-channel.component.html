@@ -91,6 +91,6 @@
 </div>
 <ul class="ul-messages">
   <li *ngFor="let message of channel?.messages">
-    <app-channel-message [drawerThread]="drawerThread"></app-channel-message>
+    <app-chat-message [message]="message" [drawerThread]="drawerThread"></app-chat-message>
   </li>
 </ul>
