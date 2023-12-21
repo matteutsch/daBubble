@@ -26,9 +26,11 @@ export class SidebarComponent implements OnChanges, OnDestroy {
     public chatService: ChatService,
     public userService: UserService
   ) {
-    this.channelSub = this.chatService.channelChats$.subscribe((channels) => {
-      this.channelChats = channels;
-    });
+    this.channelSub = this.chatService.userChannelChats$.subscribe(
+      (channels) => {
+        this.channelChats = channels;
+      }
+    );
   }
   //TODO: chatsubjects should have users content, not the content of previous user
   //      recreate bug by logout & login with different account
@@ -49,7 +51,6 @@ export class SidebarComponent implements OnChanges, OnDestroy {
     //this.loadPrivateChats();
 
     this.pushPrivateChats();
-    //this.pushChannelChats();
   }
   //TODO: get pivatechats from observable
   pushPrivateChats() {
@@ -67,12 +68,10 @@ export class SidebarComponent implements OnChanges, OnDestroy {
 
   selectUser(selectedUser: any) {
     this.chatService.setCurrentChat(selectedUser.privateChatId, selectedUser);
-    console.log(selectedUser.privateChatId);
   }
 
   selectChannel(selectedChannel: any) {
     this.chatService.setCurrentChannel(selectedChannel.id, selectedChannel);
-    console.log(selectedChannel.id);
   }
 
   createChannelDialog(): void {
@@ -86,7 +85,6 @@ export class SidebarComponent implements OnChanges, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('The dialog was closed', result);
         this.chatService.updateChannelCollection(
           result.nameControl,
           result.descriptionControl,

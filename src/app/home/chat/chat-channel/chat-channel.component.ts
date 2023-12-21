@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddMembersComponent } from 'src/app/home/dialogs/dialog-add-members/dialog-add-members.component';
 import { DialogEditChannelComponent } from 'src/app/home/dialogs/dialog-edit-channel/dialog-edit-channel.component';
@@ -7,17 +7,20 @@ import { Chat, User } from 'src/app/models/models';
 import { SelectService } from '../../shared/select.service';
 import { ChatService } from '../../shared/chat.service';
 import { UserService } from 'src/app/services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat-channel',
   templateUrl: './chat-channel.component.html',
   styleUrls: ['./chat-channel.component.scss'],
 })
-export class ChatChannelComponent {
+export class ChatChannelComponent implements OnDestroy {
   @Input() drawerThread: any;
   @Input() currentUser!: User;
   channel!: Chat;
   channelMember: any[] = [];
+
+  memberSub!: Subscription;
 
   constructor(
     public dialog: MatDialog,
@@ -27,7 +30,6 @@ export class ChatChannelComponent {
   ) {
     this.loadChannelMember();
   }
-
   loadChannelMember() {
     this.select.selectedChannel$.subscribe((c) => {
       this.channel = c;
@@ -80,5 +82,9 @@ export class ChatChannelComponent {
         this.chatService.updateChannelMember(this.channel.id, result);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.memberSub.unsubscribe();
   }
 }

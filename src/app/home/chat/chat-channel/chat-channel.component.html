@@ -30,7 +30,7 @@
         />
       </g>
     </svg>
-    <span class="custom-text">{{ channel.name }}</span>
+    <span class="custom-text">{{ channel.name | titlecase }}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="14"
@@ -45,11 +45,9 @@
     </svg>
   </div>
   <div class="members flex-centered">
-    <div
-      class="mini-info btn-channel-name pointer flex-centered"
-      (click)="openMembersDialog()"
-    >
+    <div class="mini-info btn-channel-name pointer flex-centered">
       <div
+        (click)="openMembersDialog()"
         class="img-container"
         *ngFor="let member of channelMember.slice(0, 3); let i = index"
       >

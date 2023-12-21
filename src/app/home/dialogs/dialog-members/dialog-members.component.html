@@ -5,7 +5,7 @@
     *ngFor="let member of channelMember"
   >
     <img src="{{ member.photoURL }}" />
-    <span>{{ member.name }}</span>
+    <span>{{ member.name | titlecase }}</span>
   </div>
   <div
     class="btn-add-members text-and-icon_interactions btn-channel-name pointer flex-centered"

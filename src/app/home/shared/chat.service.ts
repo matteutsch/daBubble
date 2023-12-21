@@ -5,7 +5,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  lastValueFrom,
+  map,
+  take,
+} from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -19,15 +26,14 @@ export class ChatService {
   user!: User;
 
   public userChannelChatsSubject = new BehaviorSubject<Chat[]>([]);
-  userChannelChats: Chat[] = [];
-  channelChats$ = this.userChannelChatsSubject.asObservable();
+  userChannelChats: any[] = [];
+  userChannelChats$ = this.userChannelChatsSubject.asObservable();
 
   public channelMemberSubject = new BehaviorSubject<User[]>([]);
   channelMembers: User[] = [];
   channelMember$ = this.channelMemberSubject.asObservable();
 
   privateChatsCollection: AngularFirestoreCollection<any>;
-  private allPrivateChats: Chat[] = [];
   public privateChatsSubject = new BehaviorSubject<Chat[]>([]);
 
   channelChatsCollection: AngularFirestoreCollection<any>;
@@ -263,6 +269,10 @@ export class ChatService {
             })
             .then(() => {
               this.userService.addNewChannel(memberId, id);
+              this.select.selectedChannelSubject.next({
+                ...channelData,
+                members: channelData.members,
+              });
               this.updateAndPushChannelChats();
             });
         }
@@ -297,7 +307,9 @@ export class ChatService {
   async deleteUserFromChannel(userID: string, channelID: string) {
     const channelRef = this.getSingleChannel(channelID);
     let channelDoc = channelRef.get();
+
     channelDoc.subscribe(async (c) => {
+      let channelData = c.data();
       let array = c.data().members;
       for (let i = 0; i < array.length; i++) {
         const element = array[i];
@@ -309,8 +321,40 @@ export class ChatService {
             await channelRef.update({
               members: array,
             });
+            this.channelMemberSubject.next(array);
+            this.select.selectedChannelSubject.next({
+              ...channelData,
+              members: array,
+            });
           }
-          await this.userService.deleteChannelFromUser(userID, channelID);
+          await this.deleteChannelFromUser(userID, channelID);
+        }
+      }
+    });
+  }
+
+  async deleteChannelFromUser(userID: string, channelID: string) {
+    let userRef = this.userService.usersCollection.doc(userID);
+    let userDoc = userRef.get();
+    userDoc.subscribe(async (e) => {
+      let array = e.data().chats.channel;
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        if (element === channelID) {
+          array.splice(i, 1);
+          await userRef
+            .update({
+              'chats.channel': array,
+            })
+            .then(() => {
+              array.forEach((e: any) => {
+                let channel = this.getSingleChannel(e);
+                channel.get().subscribe((c) => {
+                  this.userChannelChats.push(c.data());
+                });
+                this.userChannelChatsSubject.next(this.userChannelChats);
+              });
+            });
         }
       }
     });
