@@ -1,10 +1,23 @@
 <div class="textarea-container pointer">
   <textarea #textArea></textarea>
-  <!-- <textarea *ngIf="textareaValue" {{ emojiComponent.selectedEmoji }}></textarea> -->
-  <!-- <textarea *ngIf="textareaValue" [(ngModel)]="textareaValue"></textarea> -->
-<!-- <textarea *ngIf="textareaValue"></textarea> -->
-<!-- <textarea [(ngModel)]="textareaValue"></textarea> -->
-  <!-- <span *ngIf="emojiComponent.selectedEmoji">{{ emojiComponent.selectedEmoji }}</span> -->
+
+  <input
+    placeholder="Type a message. Hit Enter to send"
+    type="text"
+    (blur)="onBlur()"
+    (focus)="onFocus()"
+    name="message"
+    [(ngModel)]="message"
+  />
+  <button (click)="toggleEmojiPicker()">😀</button><br />
+  <emoji-mart
+    class="emoji-mart"
+    set="twitter"
+    *ngIf="showEmojiPicker"
+    (emojiSelect)="addEmoji($event)"
+    title="Pick your emoji…"
+  ></emoji-mart>
+  {{ message }}
 
   <div class="textarea-bottom">
     <div class="add-elements flex-centered">
@@ -56,10 +69,16 @@
         <path d="M1 0V40" stroke="#ADB0D9" />
       </svg>
 
-      <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
-        <app-emoji *ngIf="emojiMartVisible"></app-emoji>
+      <div
+        class="icon-single pointer flex-centered"
+        (click)="toggleEmojiPopup()"
+      >
+        <app-emoji
+          class="position-absolute top-0 left-0"
+          *ngIf="emojiMartVisible"
+        ></app-emoji>
 
-    <!-- :) -->
+        <!-- :) -->
         <svg
           class="icon-sentiment"
           xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +105,6 @@
             />
           </g>
         </svg>
-
       </div>
       <div class="icon-single pointer flex-centered">
         <!-- @ -->

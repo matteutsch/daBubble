@@ -11,8 +11,9 @@ import { CustomTextareaComponent } from './shared-components/custom-textarea/cus
 import { MatInputModule } from '@angular/material/input';
 import { ThreadMessageComponent } from './shared-components/thread-message/thread-message.component';
 import { ThreadComponent } from './thread/thread.component';
-import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiComponent } from './shared-components/emoji/emoji.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,20 +24,21 @@ import { EmojiComponent } from './shared-components/emoji/emoji.component';
     CustomTextareaComponent,
     ThreadMessageComponent,
     ThreadComponent,
-    EmojiComponent
+    EmojiComponent,
   ],
   imports: [
-    CommonModule, 
-    ChatRoutingModule, 
-    MatCardModule, 
+    FormsModule,
+    PickerModule,
+    CommonModule,
+    ChatRoutingModule,
+    MatCardModule,
     MatInputModule,
-    PickerComponent
   ],
   exports: [
-    MainChatComponent, 
-    ThreadMessageComponent, 
+    MainChatComponent,
+    ThreadMessageComponent,
     CustomTextareaComponent,
-    ThreadComponent
+    ThreadComponent,
   ],
 })
 export class ChatModule {}

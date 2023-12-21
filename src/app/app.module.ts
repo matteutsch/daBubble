@@ -6,8 +6,6 @@ import { environment } from 'src/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
-import  { PickerComponent }  from  '@ctrl/ngx-emoji-mart';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +14,6 @@ import  { PickerComponent }  from  '@ctrl/ngx-emoji-mart';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
-    PickerComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

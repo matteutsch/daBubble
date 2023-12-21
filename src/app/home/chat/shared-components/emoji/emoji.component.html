@@ -1,24 +1,18 @@
-<!-- <emoji-mart (emojiClick)="saveEmoji($event)" class="emoji-mart-message" color="#92C83E" set="apple" #emojiMartElement
-    
-    [style]="{
-        position: 'absolute',
-        bottom: '119px',
-        'border-radius': '15px',
-        'z-index': '1100',
-        'left': ['name'] ? '35px' : 'auto',
-        'right': ['name'] ? '100px' : 'auto'
-    }">
-</emoji-mart> -->
-
 <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
-    <emoji-mart (emojiClick)="saveEmoji($event)" class="emoji-mart-message" color="#92C83E" set="apple"
-        #emojiMartElement [style]="{
-        position: 'absolute',
-        bottom: '119px',
-        'border-radius': '15px',
-        'z-index': '1100',
-        'left': ['name'] ? '35px' : 'auto',
-        'right': ['name'] ? '100px' : 'auto'
-      }">
-    </emoji-mart>
+  <emoji-mart
+    (emojiSelect)="saveEmoji($event)"
+    class="emoji-mart-message"
+    color="#92C83E"
+    set="apple"
+    #emojiMartElement
+    [style]="{
+      position: 'absolute',
+      bottom: '119px',
+      'border-radius': '15px',
+      'z-index': '1100',
+      left: ['name'] ? '35px' : 'auto',
+      right: ['name'] ? '100px' : 'auto'
+    }"
+  >
+  </emoji-mart>
 </div>
