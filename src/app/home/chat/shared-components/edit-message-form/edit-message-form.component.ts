@@ -26,6 +26,7 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
   @Input() message: any;
   @Input() messageIndex!: number;
   @Input() user!: User;
+  @Input() type!: string;
   @ViewChild('messageTextArea', { static: false }) messageTextArea!: ElementRef;
   editMessageForm!: FormGroup;
 
@@ -51,28 +52,46 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
   async saveEditedMessage() {
     const textareaValue = this.editMessageForm.value.messageControl as string;
     const newMessage = this.createMessage(textareaValue);
-    this.updateMessagesArray(newMessage);
+    if (this.type === 'chat') {
+      this.updateMessagesArray(newMessage);
+    } else if (this.type === 'thread') {
+      this.updateAnswersArray(newMessage);
+    }
     await this.updateChatMessages();
     this.toggleEditing();
   }
-  
+
   private createMessage(textareaValue: string): Message {
-    return new MessageData(this.user, textareaValue, new Date().getTime()).toFirestoreObject();
+    return new MessageData(
+      this.user,
+      textareaValue,
+      new Date().getTime()
+    ).toFirestoreObject();
   }
-  
+
   private updateMessagesArray(newMessage: Message): void {
     const messagesArr = this.chatService.currentChat.messages;
     messagesArr?.forEach(() => {
       messagesArr[this.messageIndex] = newMessage;
     });
   }
-  
+
+  private updateAnswersArray(newMessage: any): void {
+    const messagesArr = this.chatService.currentChat.messages;
+    messagesArr?.forEach(() => {
+      messagesArr[this.chatService.threadMessageIndex].answers![
+        this.messageIndex
+      ] = newMessage;
+    });
+  }
+
   private async updateChatMessages(): Promise<void> {
-    const ref = this.chatService.getPrivateChatRef(this.chatService.currentChat.id);
+    const ref = this.chatService.getPrivateChatRef(
+      this.chatService.currentChat.id
+    );
     const messagesArr = this.chatService.currentChat.messages;
     await ref.update({ messages: messagesArr });
   }
-  
 
   adjustTextareaHeight() {
     this.messageTextArea.nativeElement.style.overflow = 'hidden';

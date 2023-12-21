@@ -27,8 +27,10 @@ export class ChatService {
 
   public currentChat!: Chat;
   public threadMessage!: Message;
+  public threadMessageIndex!: number;
 
   public ulChatMessageRef!: ElementRef;
+  public ulThreadMessageRef!: ElementRef;
 
   constructor(
     public select: SelectService,
@@ -38,10 +40,6 @@ export class ChatService {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
     //this.getPrivateCollection();
-  }
-
-  setElementRef(elementRef: ElementRef) {
-    this.ulChatMessageRef = elementRef;
   }
 
   setTextareaRef(ref: ElementRef) {
@@ -235,7 +233,7 @@ export class ChatService {
   } */
   /*-------------------- END  channel-chat functions  --------------------*/
 
-  // TODO: Render chat from selectedUser.chatID and edit message, delete message
+  // TODO: delete message
   async sendMessage(author: User, contentText: string) {
     const message = new MessageData(
       author,
@@ -245,6 +243,21 @@ export class ChatService {
     const ref = this.privateChatsCollection.doc(this.currentChat.id);
     const messagesArr = this.currentChat.messages;
     messagesArr?.push(message);
+    await ref.update({
+      messages: messagesArr,
+    });
+  }
+
+  // TODO: delete answer
+  async sendAnswer(author: User, contentText: string) {
+    const message = new MessageData(
+      author,
+      contentText,
+      new Date().getTime()
+    ).toFirestoreObject();
+    const ref = this.privateChatsCollection.doc(this.currentChat.id);
+    const messagesArr = this.currentChat.messages;
+    messagesArr![this.threadMessageIndex].answers?.push(message);
     await ref.update({
       messages: messagesArr,
     });

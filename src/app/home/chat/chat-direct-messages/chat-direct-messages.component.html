@@ -51,6 +51,7 @@
       [ngClass]="{ 'my-message': authService.userID === message.authorID }"
       [message]="message"
       [messageIndex]="i"
+      [type]="'chat'"
       [drawerThread]="drawerThread"
     ></app-chat-message>
   </li>

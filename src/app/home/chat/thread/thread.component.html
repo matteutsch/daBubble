@@ -37,23 +37,35 @@
         </svg>
       </div>
     </div>
-    <ul class="ul-messages">
+    <ul #ulThreadMessages class="ul-messages">
       <li>
-        <app-chat-message [message]="chatService.threadMessage" class="thread-message thread-question"></app-chat-message>
+        <app-chat-message
+          [message]="chatService.threadMessage"
+          class="thread-message thread-question"
+        ></app-chat-message>
       </li>
       <li class="separator flex-centered">
-        <span>2 Antworten</span>
+        <span *ngIf="chatService.threadMessage?.answers">{{ chatService.threadMessage.answers?.length }} Antworten</span>
         <img src="../../../assets/icons/line.png" />
       </li>
-      <li>
-        <app-thread-message class="thread-message"></app-thread-message>
-      </li>
-      <li>
-        <app-thread-message
-          class="my-message my-message-thread thread-message"
-        ></app-thread-message>
+      <li
+        *ngFor="let answer of chatService.threadMessage?.answers; let i = index"
+      >
+        <app-chat-message
+          [ngClass]="{
+            'my-message my-message-thread':
+              authService.userID === answer.authorID
+          }"
+          class="thread-message"
+          [message]="answer"
+          [messageIndex]="i"
+          [type]="'thread'"
+        ></app-chat-message>
       </li>
     </ul>
-    <app-custom-textarea style="padding: 0 35px 40px"></app-custom-textarea>
+    <app-custom-textarea
+      [type]="'thread'"
+      style="padding: 0 35px 40px"
+    ></app-custom-textarea>
   </mat-card-content>
 </mat-card>

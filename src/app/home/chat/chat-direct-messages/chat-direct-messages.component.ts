@@ -32,7 +32,7 @@ export class ChatDirectMessagesComponent implements OnChanges {
   ) {}
 
   ngAfterViewInit() {
-    this.chatService.setElementRef(this.ulChatMessagesRef);
+    this.chatService.ulChatMessageRef = this.ulChatMessagesRef;
   }
 
   ngOnChanges() {

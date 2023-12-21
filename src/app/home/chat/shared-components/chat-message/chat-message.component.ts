@@ -21,6 +21,7 @@ export class ChatMessageComponent implements OnInit {
   @Input() drawerThread: any;
   @Input() message: any;
   @Input() messageIndex!: number;
+  @Input() type!: string;
   @ViewChild('') chatTextArea!: ElementRef;
 
   date: Date | undefined;
@@ -59,11 +60,14 @@ export class ChatMessageComponent implements OnInit {
 
   async setThreadMessage() {
     this.chatService.threadMessage = this.message;
+    this.chatService.threadMessageIndex = this.messageIndex;
   }
 
   openThread() {
     this.setThreadMessage();
     this.drawerService.openDrawer(this.drawerThread);
+    console.log('this.chatService.threadMessage', this.chatService.threadMessage);
+    
   }
 
   toggleEditing() {

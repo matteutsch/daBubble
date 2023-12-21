@@ -1,5 +1,5 @@
 <div class="textarea-container pointer">
-  <form [formGroup]="messageForm" (ngSubmit)="send()">
+  <form [formGroup]="messageForm" (ngSubmit)="submit()">
     <textarea #textArea formControlName="messageControl"></textarea>
     <div class="textarea-bottom">
       <div class="add-elements flex-centered">
@@ -105,7 +105,7 @@
           </svg>
         </div>
       </div>
-      <button type="submit" [disabled]="messageForm.invalid"  (click)="send()">
+      <button type="submit" [disabled]="messageForm.invalid">
         <svg
           class="icon-send pointer"
           xmlns="http://www.w3.org/2000/svg"

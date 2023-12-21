@@ -200,7 +200,7 @@
         </g>
       </svg>
     </div>
-    <div class="icon-single pointer flex-centered" (click)="openThread()">
+    <div class="icon-single pointer flex-centered div-icon-comment" (click)="openThread()">
       <svg
         class="icon-comment"
         xmlns="http://www.w3.org/2000/svg"
@@ -278,6 +278,7 @@
     [message]="message"
     [user]="user"
     [messageIndex]="messageIndex"
+    [type]="type"
     (isEditingChanged)="onIsEditingChanged($event)"
   ></app-edit-message-form>
 </div>
