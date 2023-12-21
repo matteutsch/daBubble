@@ -70,14 +70,14 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
   }
 
   private updateMessagesArray(newMessage: Message): void {
-    const messagesArr = this.chatService.currentChat.messages;
+    const messagesArr = this.chatService.currentChat!.messages;
     messagesArr?.forEach(() => {
       messagesArr[this.messageIndex] = newMessage;
     });
   }
 
   private updateAnswersArray(newMessage: any): void {
-    const messagesArr = this.chatService.currentChat.messages;
+    const messagesArr = this.chatService.currentChat!.messages;
     messagesArr?.forEach(() => {
       messagesArr[this.chatService.threadMessageIndex].answers![
         this.messageIndex
@@ -87,9 +87,9 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
 
   private async updateChatMessages(): Promise<void> {
     const ref = this.chatService.getPrivateChatRef(
-      this.chatService.currentChat.id
+      this.chatService.currentChat!.id
     );
-    const messagesArr = this.chatService.currentChat.messages;
+    const messagesArr = this.chatService.currentChat!.messages;
     await ref.update({ messages: messagesArr });
   }
 

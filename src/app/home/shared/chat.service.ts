@@ -7,6 +7,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -383,7 +384,7 @@ export class ChatService {
     ).toFirestoreObject();
     const ref = this.privateChatsCollection.doc(this.currentChat!.id);
     const messagesArr = this.currentChat!.messages;
-    messagesArr?.push(message);
+    messagesArr![this.threadMessageIndex].answers?.push(message);
     await ref.update({
       messages: messagesArr,
     });
