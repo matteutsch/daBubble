@@ -1,30 +1,42 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnChanges, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chats, User } from 'src/app/models/models';
+import { Chat, User } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
 import { DialogCreateChannelComponent } from '../dialogs/dialog-create-channel/dialog-create-channel.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnChanges {
+export class SidebarComponent implements OnChanges, OnDestroy {
   @Input() currentUser!: User;
   @Input() isMainChatChannel: any;
-  @Input() chats!: Chats; //curretUser's Chats
 
   showChannels: boolean = true;
   showDirectMessages: boolean = true;
   privateChatMembers: any[] = [];
+  channelChats: Chat[] = [];
 
+  channelSub!: Subscription;
   constructor(
     public dialog: MatDialog,
     public chatService: ChatService,
     public userService: UserService
-  ) {}
-
+  ) {
+    this.channelSub = this.chatService.userChannelChats$.subscribe(
+      (channels) => {
+        this.channelChats = channels;
+      }
+    );
+  }
+  //TODO: chatsubjects should have users content, not the content of previous user
+  //      recreate bug by logout & login with different account
+  ngOnDestroy() {
+    this.channelSub.unsubscribe();
+  }
   ngOnChanges() {
     /*
       For the "user" object, a new property named "myChat" should be added.
@@ -37,14 +49,18 @@ export class SidebarComponent implements OnChanges {
     // );
     // this.privateChatMembers.push(chatMember);
     //this.loadPrivateChats();
+
+    this.pushPrivateChats();
+  }
+  //TODO: get pivatechats from observable
+  pushPrivateChats() {
     if (this.currentUser.chats && this.currentUser.chats.private) {
       this.currentUser.chats.private.forEach((privateChat: any) => {
-        const isAlreadyMember = this.privateChatMembers.some(
+        const isMember = this.privateChatMembers.some(
           (existingMember) => existingMember.uid === privateChat.uid
         );
-        if (!isAlreadyMember) {
+        if (!isMember) {
           this.privateChatMembers.push(privateChat);
-          console.log('privateChat,', this.privateChatMembers);
         }
       });
     }
@@ -52,16 +68,29 @@ export class SidebarComponent implements OnChanges {
 
   selectUser(selectedUser: any) {
     this.chatService.setCurrentChat(selectedUser.privateChatId, selectedUser);
-    console.log(selectedUser.privateChatId);
+  }
+
+  selectChannel(selectedChannel: any) {
+    this.chatService.setCurrentChannel(selectedChannel.id, selectedChannel);
   }
 
   createChannelDialog(): void {
-    const dialogRef = this.dialog.open(DialogCreateChannelComponent, {
-      panelClass: 'dialog-create-channel',
-    });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'dialog-create-channel';
+
+    const dialogRef = this.dialog.open(
+      DialogCreateChannelComponent,
+      dialogConfig
+    );
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result) {
+        this.chatService.updateChannelCollection(
+          result.nameControl,
+          result.descriptionControl,
+          this.currentUser
+        );
+      }
     });
   }
 }

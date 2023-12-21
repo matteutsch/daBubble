@@ -10,8 +10,13 @@ export class SelectService {
 
   private selectedUserSubject = new BehaviorSubject<any>(null);
   selectedUser$ = this.selectedUserSubject.asObservable();
+  public selectedChannelSubject = new BehaviorSubject<any>(null);
+  selectedChannel$ = this.selectedChannelSubject.asObservable();
 
   setSelectedMember(user: User) {
     this.selectedUserSubject.next(user);
+  }
+  setSelectedChannel(channel: User) {
+    this.selectedChannelSubject.next(channel);
   }
 }

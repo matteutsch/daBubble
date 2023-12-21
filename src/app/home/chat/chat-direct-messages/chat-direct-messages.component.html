@@ -20,8 +20,11 @@
 </div>
 <ul #ulChatMessages class="ul-messages">
   <li
+   
     *ngIf="chatService.currentChat?.messages?.length === 0"
+   
     class="user-container"
+  
   >
     <div
       class="user-name-img flex-centered pointer"
@@ -30,21 +33,21 @@
       <img widht="100px" height="100px" src="{{ selectedUser.photoURL }}" />
       <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
     </div>
-    <div *ngIf="!chatService.isMyPrivatChat" class="text flex-centered">
+    <div class="text flex-centered">
       <span> Diese Unterhaltung findet nur zwischen </span>
       <button (click)="openUserProfile()">
         @{{ selectedUser.name | titlecase }}
       </button>
       <span>und dir statt.</span>
     </div>
-    <div *ngIf="chatService.isMyPrivatChat" class="my-text">
+    <!-- <div class="my-text">
       <span style="font-weight: 700"> Dieser Raum ist nur für dich da. </span>
       <span>
         Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
         griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
         besprechen.
       </span>
-    </div>
+    </div> -->
   </li>
   <li *ngFor="let message of chatService.currentChat?.messages; let i = index">
     <app-chat-message

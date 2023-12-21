@@ -8,10 +8,11 @@
         class="mat-drawer rounded-4"
         mode="side"
       >
-        <app-sidebar [chats]="user.chats" [currentUser]="user"></app-sidebar>
+        <app-sidebar [currentUser]="user"></app-sidebar>
       </mat-drawer>
       <app-main-chat
-        [drawerThread]="drawerThread" [chats]="user.chats"
+        [drawerThread]="drawerThread"
+        [chats]="user.chats"
         [currentUser]="user"
       ></app-main-chat>
       <mat-drawer

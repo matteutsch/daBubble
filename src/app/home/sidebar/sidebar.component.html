@@ -6,10 +6,7 @@
           <img src="../../../assets/icons/workspace_logo.png" />
           <span class="custom-text">Code learning</span>
         </div>
-        <div
-          class="edit-square icon-single pointer flex-centered"
-          (click)="chatService.openNewChat()"
-        >
+        <div class="edit-square icon-single pointer flex-centered">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -143,9 +140,9 @@
           <main *ngIf="showChannels">
             <ul>
               <li
-                *ngFor="let channel of chats?.channel"
+                *ngFor="let channel of channelChats"
                 class="btn-channel-name pointer"
-                (click)="chatService.openChannelChat()"
+                (click)="selectChannel(channel)"
               >
                 <svg
                   class="hash"
@@ -179,7 +176,7 @@
                     />
                   </g>
                 </svg>
-                <span>{{ channel.name }}</span>
+                <span>{{ channel.name | titlecase }}</span>
               </li>
               <li class="li-add-channel">
                 <div

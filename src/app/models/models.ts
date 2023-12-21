@@ -5,7 +5,7 @@ export interface User {
   name: string;
   photoURL: string;
   chats: {
-    channel?: Chat[];
+    channel?: string[];
     private?: string[];
   };
   status: StatusType;
@@ -18,16 +18,13 @@ export enum StatusType {
   AFK = 'afk', */
 }
 
-export interface Chats {
-  channel: Chat[];
-  private: string[];
-}
-
 export interface Chat {
   id: string;
   name: string;
   members?: string[];
   messages?: Message[];
+  description?: string;
+  createdBy?: string;
 }
 
 export interface Message {

@@ -5,13 +5,12 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  map,
   switchMap,
   tap,
 } from 'rxjs';
 import { User } from 'src/app/models/models';
-import { UserService } from 'src/app/services/user.service';
 import { ChatService } from '../shared/chat.service';
+import { SearchService } from '../shared/search.service';
 
 @Component({
   selector: 'app-search',
@@ -26,30 +25,8 @@ export class SearchComponent {
   results$!: Observable<User[]>;
 
   //TODO: add searchChannel() / searchThread etc..
-  constructor(
-    private userService: UserService,
-    private chatService: ChatService
-  ) {
-    this.results$ = this.input$.pipe(
-      filter((term) => term.length >= 3),
-      debounceTime(500),
-      distinctUntilChanged(),
-      tap(() => (this.isLoading = true)),
-      switchMap((term) => this.searchUsers(term)),
-      tap(() => (this.isLoading = false))
-    );
-  }
-
-  searchUsers(searchTerm: string): Observable<User[]> {
-    return this.userService.usersSubject.pipe(
-      map((users) =>
-        users
-          .filter((user) =>
-            user.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .filter((user) => user.name !== this.currentUser.name)
-      )
-    );
+  constructor(private chatService: ChatService, private search: SearchService) {
+    this.results$ = this.search.getResults(this.input$);
   }
 
   selectUserFromDropdown(user: User) {

@@ -139,6 +139,13 @@ input {
   border-radius: 30px;
 }
 
+.dialog-add-members
+  .mat-mdc-dialog-container
+  .mdc-dialog__container
+  .mat-mdc-dialog-surface {
+  overflow: visible !important;
+}
+
 .custom-rounded
   .mat-mdc-dialog-container
   .mdc-dialog__container
