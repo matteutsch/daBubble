@@ -5,14 +5,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest,
-  lastValueFrom,
-  map,
-  take,
-} from 'rxjs';
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -20,8 +13,6 @@ import { AuthService } from 'src/app/services/auth.service';
   providedIn: 'root',
 })
 export class ChatService {
-  //use in ngOnDestroy and use as trigger to end subscriptions with .takeUntil(this.unsubscribe$),
-  //private unsubscribe$ = new Subject<void>();
   private customTextAreaRef: any;
   user!: User;
 
@@ -221,8 +212,6 @@ export class ChatService {
     return this.channelChatsSubject.asObservable();
   }
 
-  //channel chat & direct chat being shown depending on currentChat/currentChannel
-  //- check mainChatComponent.html
   setCurrentChat(chatID: string, selectedUser: User) {
     this.select.setSelectedMember(selectedUser);
     this.getPrivateChat(chatID).subscribe((chat) => {
@@ -322,10 +311,7 @@ export class ChatService {
               members: array,
             });
             this.channelMemberSubject.next(array);
-            this.select.selectedChannelSubject.next({
-              ...channelData,
-              members: array,
-            });
+            this.currentChannel = null;
           }
           await this.deleteChannelFromUser(userID, channelID);
         }

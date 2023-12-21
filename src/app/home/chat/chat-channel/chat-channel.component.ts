@@ -20,8 +20,6 @@ export class ChatChannelComponent implements OnDestroy {
   channel!: Chat;
   channelMember: any[] = [];
 
-  memberSub!: Subscription;
-
   constructor(
     public dialog: MatDialog,
     public select: SelectService,
@@ -70,6 +68,11 @@ export class ChatChannelComponent implements OnDestroy {
       panelClass: 'dialog-members',
       data: this.channelMember,
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'add') {
+        this.openAddMembersDialog(this.channel);
+      }
+    });
   }
 
   openAddMembersDialog(channelChat: Chat): void {
@@ -84,7 +87,5 @@ export class ChatChannelComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.memberSub.unsubscribe();
-  }
+  ngOnDestroy() {}
 }

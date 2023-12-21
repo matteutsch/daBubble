@@ -6,8 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ChatService } from 'src/app/home/shared/chat.service';
-import { Chat, User } from 'src/app/models/models';
-import { SelectService } from '../../shared/select.service';
+import { User } from 'src/app/models/models';
 
 @Component({
   selector: 'app-main-chat',
@@ -20,7 +19,7 @@ export class MainChatComponent implements AfterViewInit {
   @Input() chats!: any;
   @Input() currentUser!: User;
 
-  constructor(public chatService: ChatService, public select: SelectService) {}
+  constructor(public chatService: ChatService) {}
 
   ngAfterViewInit() {
     this.chatService.setTextareaRef(this.customTextArea);
