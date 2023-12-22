@@ -20,7 +20,7 @@ export class EmojiComponent {
     this.emojiService.emojiSubject.next(emoji.emoji);
   }
 
-  toggleEmojiPopup(): void {
+  toggleEmojiPicker(): void {
     this.emojiMartVisible = !this.emojiMartVisible;
   }
 }

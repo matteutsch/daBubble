@@ -1,23 +1,24 @@
+<emoji-mart
+class="emoji-mart emoji-picker"
+set="apple"
+*ngIf="showEmojiPicker"
+(emojiSelect)="addEmoji($event)"
+title="Pick your emoji…"
+></emoji-mart>
+
 <div class="textarea-container pointer">
   <textarea #textArea></textarea>
-
-  <input
+{{ message }}
+  <!-- <input
     placeholder="Type a message. Hit Enter to send"
     type="text"
     (blur)="onBlur()"
     (focus)="onFocus()"
     name="message"
     [(ngModel)]="message"
-  />
-  <button (click)="toggleEmojiPicker()">😀</button><br />
-  <emoji-mart
-    class="emoji-mart"
-    set="twitter"
-    *ngIf="showEmojiPicker"
-    (emojiSelect)="addEmoji($event)"
-    title="Pick your emoji…"
-  ></emoji-mart>
-  {{ message }}
+  /> -->
+  <!-- <button (click)="toggleEmojiPicker()">😀</button><br /> -->
+
 
   <div class="textarea-bottom">
     <div class="add-elements flex-centered">
@@ -70,8 +71,8 @@
       </svg>
 
       <div
-        class="icon-single pointer flex-centered"
-        (click)="toggleEmojiPopup()"
+        class="icon-single pointer flex-centered icon-sentiment"
+        (click)="toggleEmojiPicker()"
       >
         <app-emoji
           class="position-absolute top-0 left-0"

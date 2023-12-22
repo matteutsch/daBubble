@@ -16,7 +16,7 @@ export class ChannelMessageComponent {
 
   constructor(public drawerService: DrawerService, public emojiService: EmojiService) {}
 
-  toggleEmojiPopup(): void {
+  toggleEmojiPicker(): void {
 
     this.emojiMartVisible = !this.emojiMartVisible;
     // this.emojiService.toggleEmojiPopup(this.emojiMartVisible);

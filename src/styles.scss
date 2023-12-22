@@ -487,15 +487,14 @@ input {
   background-color: var(--dark-grey);
 }
 
-
-
 // ------------ Emoji ----------- //
 
 .emoji-mart,
 .emoji-mart * h1 {
-
   background-color: #eceefe;
   color: #222427;
+  border-radius: 15px;
+  border-color: #adb0d9;
 }
 
 .emoji-mart-dark .emoji-mart-category-label span {
@@ -511,7 +510,7 @@ input {
 
 .emoji-mart-dark .emoji-mart-category-label span {
   color: #000;
-  background-color: #fff;
+  background-color: #adb0d9;
 }
 
 .emoji-mart-dark .emoji-mart-search input {
@@ -519,3 +518,6 @@ input {
   // border-color: #555453;
 }
 
+.emoji-mart-dark .emoji-mart-search input {
+  color: #222;
+}

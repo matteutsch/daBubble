@@ -1,3 +1,10 @@
+<emoji-mart
+class="emoji-mart emoji-picker"
+set="apple"
+*ngIf="showEmojiPicker"
+(emojiSelect)="addEmoji($event)"
+title="Pick your emoji…"
+></emoji-mart>
 <div class="message pointer">
     <div class="avatar">
         <img src="../../../assets/characters/character_1.png">
@@ -10,29 +17,29 @@
         <p class="speech">Welche Version ist aktuell von Angular?</p>
         <div class="message-reactions">
             <ul class="flex-centered">
-                <li class="reaction pointer flex-centered">
+                <li class="reaction pointer flex-centered" (click)="addEmoji('check-mark')">
                     <img src="../../../assets/emoji/emoji _check mark_.png">
-                    <span>1</span>
+                    <span>{{ emojiCountCheckMark }}</span>
                     <div class="tool-tip">
-                        <div class="flex-centered">
+                        <div class="flex-centered" (click)="addEmoji('check-mark')">
                             <img src="../../../assets/emoji/emoji _check mark_.png">
                             <span class="name">Sofia Müller</span>
                             <span class="text">hat reagiert</span>
                         </div>
                     </div>
                 </li>
-                <li class="reaction pointer flex-centered">
+                <li class="reaction pointer flex-centered" (click)="addEmoji('rocket')">
                     <img src="../../../assets/emoji/emoji _rocket_.png">
-                    <span>1</span>
+                    <span>{{ emojiCountRocket }}</span>
                     <div class="tool-tip">
-                        <div class="flex-centered">
+                        <div class="flex-centered" (click)="addEmoji('rocket')">
                             <img src="../../../assets/emoji/emoji _rocket_.png">
                             <span class="name">Noah Braun</span>
                             <span class="text">hat reagiert</span>
                         </div>
                     </div>
                 </li>
-                <li class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
+                <li class="icon-single pointer flex-centered icon-sentiment emoji-picker" (click)="toggleEmojiPicker()">
                     <svg class="icon-add-reaction" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_1817_19447" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -50,7 +57,7 @@
         </div>
     </div>
     <div class="reaction-bar">
-        <div class="icon-single pointer flex-centered" (click)="toggleEmojiPopup()">
+        <div class="icon-single pointer flex-centered icon-sentiment emoji-picker" (click)="toggleEmojiPicker()">
             <svg class="icon-add-reaction" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                 fill="none">
                 <mask id="mask0_1817_19447" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
