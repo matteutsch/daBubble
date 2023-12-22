@@ -1,104 +1,219 @@
 <div class="container flex-centered">
-    <div class="signup-page flex-centered">
-        <img class="logo" src="../../assets/icons/logo_with_text.png">
-        <mat-card>
-            <mat-card-header *ngIf="!showAvatarSection" class="authentication-header">
-                <svg class="icon-single pointer flex-centered" routerLink="/login" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <mask id="mask0_21857_10900" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_21857_10900)">
-                        <path
-                            d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
-                            fill="black" />
-                    </g>
-                </svg>
-                <mat-card-title class="authentication-title">Konto erstellen</mat-card-title>
-                <mat-card-subtitle class="authentication-subtitle">
-                    Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-header *ngIf="showAvatarSection" class="authentication-header">
-                <svg class="icon-single pointer flex-centered" (click)="toggleFormSection()"
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <mask id="mask0_21857_10900" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_21857_10900)">
-                        <path
-                            d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
-                            fill="black" />
-                    </g>
-                </svg>
-                <mat-card-title class="authentication-title">Wähle deinen Avatar</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <form class="authentication-form" [formGroup]="signupForm" (ngSubmit)="signUp()">
-                    <div class="form-section-1" *ngIf="!showAvatarSection">
-                        <div class="name-container">
-                            <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <input matInput placeholder="Name und Nachname" formControlName="nameControl"
-                                    [ngClass]="{ 'is-invalid': signupForm.get('nameControl')?.invalid }">
-                                <img src="../../../assets/icons/person_icon.png">
-                            </mat-form-field>
-                        </div>
-                        <div class="email-container">
-                            <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <input matInput placeholder="pat@example.com" formControlName="emailControl"
-                                    [ngClass]="{ 'is-invalid': signupForm.get('email')?.invalid }">
-                                <mat-error *ngIf="signupForm.get('emailControl')?.invalid">{{ getErrorMessage()
-                                    }}</mat-error>
-                                <img src="../../../assets/icons/email_icon.png">
-                            </mat-form-field>
-                        </div>
-                        <div class="password-container">
-                            <mat-form-field class="form-field mb-2 w-100" appearance="outline">
-                                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort"
-                                    formControlName="passwordControl"
-                                    [ngClass]="{ 'is-invalid': signupForm.get('passwordControl')?.invalid }">
-                                <img class="pointer" (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="hide"
-                                    src="{{hide ? '../../../assets/icons/password_icon.png' : '../../../assets/icons/no_lock.png'}}">
-                            </mat-form-field>
-                        </div>
-                        <div class="privacy-policy-checkbox">
-                            <mat-checkbox color="primary">
-                                <span>Ich stimme der</span>
-                                <a class="anchor" routerLink="/data-policy">Datenschutzerklärung</a>
-                                <span>zu.</span>
-                            </mat-checkbox>
-                        </div>
-                    </div>
-                    <div class="form-section-2" *ngIf="showAvatarSection">
-                        <div class="person pointer rounded-circle">
-                            <img class="rounded-circle" src="{{ signupForm.get('fileControl')?.invalid ? 'assets/characters/default_character.png' : signupForm.get('fileControl')?.value }}"/>
-                        </div>
-                        <h2 class="mb-4">Frederik Beck</h2>
-                        <span>Aus der Liste wählen</span>
-                        <div class="avatar-picker">
-                            <img *ngFor="let img of avatar_list" (click)="userService.chooseUserAvatar(img, signupForm)" src="{{ img }}" />
-                        </div>
-                        <div class="avatar-upload mb-4">
-                            <div class="text">eigenes Bild verwenden</div>
-                            <label class="avatar-upload-btn pointer">Datei hochladen
-                                <input class="pointer" type="file" (change)="onFileSelected($event)">
-                                <input type="hidden" name="fileHidden" formControlName="fileControl"/>
-                            </label>
-                        </div>
-                    </div>
-                    <button *ngIf="!showAvatarSection" type="button" class="btn-primary flex-centered"
-                        (click)="toggleFormSection()"  [disabled]="signupForm.get('nameControl')?.invalid || signupForm.get('emailControl')?.invalid || signupForm.get('passwordControl')?.invalid">Weiter</button>
-                    <button *ngIf="showAvatarSection" type="submit" [disabled]="signupForm.invalid" 
-                        class="btn-primary flex-centered">Weiter</button>
-                </form>
-            </mat-card-content>
-        </mat-card>
-        <div class="data-policies">
-            <a routerLink="/impressum">Impressum</a>
-            <a routerLink="/data-policy">Datenschutz</a>
-        </div>
+  <div class="signup-page flex-centered">
+    <img class="logo" src="../../assets/icons/logo_with_text.png" />
+    <mat-card>
+      <mat-card-header *ngIf="!showAvatarSection" class="authentication-header">
+        <svg
+          class="icon-single pointer flex-centered"
+          routerLink="/login"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <mask
+            id="mask0_21857_10900"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+          >
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_21857_10900)">
+            <path
+              d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
+              fill="black"
+            />
+          </g>
+        </svg>
+        <mat-card-title class="authentication-title"
+          >Konto erstellen</mat-card-title
+        >
+        <mat-card-subtitle class="authentication-subtitle">
+          Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+          DABubble-Konto.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-header *ngIf="showAvatarSection" class="authentication-header">
+        <svg
+          class="icon-single pointer flex-centered"
+          (click)="toggleFormSection()"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <mask
+            id="mask0_21857_10900"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+          >
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_21857_10900)">
+            <path
+              d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
+              fill="black"
+            />
+          </g>
+        </svg>
+        <mat-card-title class="authentication-title"
+          >Wähle deinen Avatar</mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <form
+          class="authentication-form"
+          [formGroup]="signupForm"
+          (ngSubmit)="signUp()"
+        >
+          <div class="form-section-1" *ngIf="!showAvatarSection">
+            <div class="name-container">
+              <mat-form-field
+                class="form-field mb-2 w-100"
+                appearance="outline"
+              >
+                <input
+                  matInput
+                  placeholder="Name und Nachname"
+                  formControlName="nameControl"
+                  [ngClass]="{
+                    'is-invalid': signupForm.get('nameControl')?.invalid
+                  }"
+                />
+                <img src="../../../assets/icons/person_icon.png" />
+              </mat-form-field>
+            </div>
+            <div class="email-container">
+              <mat-form-field
+                class="form-field mb-2 w-100"
+                appearance="outline"
+              >
+                <input
+                  matInput
+                  placeholder="pat@example.com"
+                  formControlName="emailControl"
+                  [ngClass]="{ 'is-invalid': signupForm.get('email')?.invalid }"
+                />
+                <mat-error *ngIf="signupForm.get('emailControl')?.invalid">{{
+                  getErrorMessage()
+                }}</mat-error>
+                <img src="../../../assets/icons/email_icon.png" />
+              </mat-form-field>
+            </div>
+            <div class="password-container">
+              <mat-form-field
+                class="form-field mb-2 w-100"
+                appearance="outline"
+              >
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  placeholder="Passwort"
+                  formControlName="passwordControl"
+                  [ngClass]="{
+                    'is-invalid': signupForm.get('passwordControl')?.invalid
+                  }"
+                />
+                <img
+                  class="pointer"
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                  src="{{
+                    hide
+                      ? '../../../assets/icons/password_icon.png'
+                      : '../../../assets/icons/no_lock.png'
+                  }}"
+                />
+              </mat-form-field>
+            </div>
+            <div class="privacy-policy-checkbox">
+              <mat-checkbox color="primary" (click)="toggleCheck()">
+                <span>Ich stimme der</span>
+                <a class="anchor" routerLink="/data-policy"
+                  >Datenschutzerklärung</a
+                >
+                <span>zu.</span>
+              </mat-checkbox>
+            </div>
+          </div>
+          <div class="form-section-2" *ngIf="showAvatarSection">
+            <div class="person pointer rounded-circle">
+              <img
+                class="rounded-circle"
+                src="{{
+                  signupForm.get('fileControl')?.invalid
+                    ? 'assets/characters/default_character.png'
+                    : signupForm.get('fileControl')?.value
+                }}"
+              />
+            </div>
+            <h2 class="mb-4">
+              {{ signupForm.get("nameControl")?.value | titlecase }}
+            </h2>
+            <span>Aus der Liste wählen</span>
+            <div class="avatar-picker">
+              <img
+                *ngFor="let img of avatar_list"
+                (click)="userService.chooseUserAvatar(img, signupForm)"
+                src="{{ img }}"
+              />
+            </div>
+            <div class="avatar-upload mb-4">
+              <div class="text">eigenes Bild verwenden</div>
+              <label class="avatar-upload-btn pointer"
+                >Datei hochladen
+                <input
+                  class="pointer"
+                  type="file"
+                  (change)="onFileSelected($event)"
+                />
+                <input
+                  type="hidden"
+                  name="fileHidden"
+                  formControlName="fileControl"
+                />
+              </label>
+            </div>
+          </div>
+          <button
+            *ngIf="!showAvatarSection"
+            type="button"
+            class="btn-primary flex-centered"
+            (click)="toggleFormSection()"
+            [disabled]="
+              signupForm.get('nameControl')?.invalid ||
+              signupForm.get('emailControl')?.invalid ||
+              signupForm.get('passwordControl')?.invalid ||
+              !isChecked
+            "
+          >
+            Weiter
+          </button>
+          <button
+            *ngIf="showAvatarSection"
+            type="submit"
+            [disabled]="signupForm.invalid"
+            class="btn-primary flex-centered"
+          >
+            Weiter
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <div class="data-policies">
+      <a routerLink="/impressum">Impressum</a>
+      <a routerLink="/data-policy">Datenschutz</a>
     </div>
+  </div>
 </div>

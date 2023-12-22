@@ -44,7 +44,7 @@ export class MessageData {
   public emoji: string[] = [];
   public timestampData: number;
   public answers: Message[] = [];
-  public photoURL: string = ''
+  public photoURL: string = '';
 
   constructor(user: User, contentText: string, timestamp: number) {
     this.author = user.name;
@@ -64,7 +64,7 @@ export class MessageData {
       emoji: this.emoji,
       timestampData: this.timestampData,
       answers: [],
-      photoURL: this.photoURL
+      photoURL: this.photoURL,
     };
   }
 }

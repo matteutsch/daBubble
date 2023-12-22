@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../models/models';
+import { StatusType, User } from '../models/models';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { UserService } from './user.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 import * as auth from 'firebase/auth';
 import { chats } from '../models/chats-example';
 
@@ -67,12 +67,29 @@ export class AuthService {
         this.afAuth.authState.subscribe((user) => {
           if (user) {
             this.router.navigate(['home', user.uid]);
+            this.setOnlineStatus('online');
           }
         });
       })
       .catch((error) => {
         window.alert(error.message);
       });
+  }
+
+  setOnlineStatus(status: string) {
+    const userRef = this.userService.getUser(this.userID);
+    const docRef = this.afs.collection('users').doc(this.userID);
+    userRef.pipe(take(1)).subscribe(() => {
+      let statusType;
+      if (status === 'online') {
+        statusType = StatusType.Online;
+      } else if (status === 'offline') {
+        statusType = StatusType.Offline;
+      }
+      docRef.update({
+        status: status,
+      });
+    });
   }
 
   SignUp(email: string, password: string, userName: string, photoURL: string) {
@@ -115,6 +132,7 @@ export class AuthService {
   }
 
   SignOut() {
+    this.setOnlineStatus('offline');
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['login']);

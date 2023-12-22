@@ -49,7 +49,12 @@ export class SidebarComponent implements OnChanges, OnDestroy {
     // );
     // this.privateChatMembers.push(chatMember);
     //this.loadPrivateChats();
-
+    this.userService.getAllUsers().subscribe((u) => {
+      u.forEach((e) => {
+        console.log('all users status', e.status);
+      });
+    });
+    //this.userService.getAllUsers();
     this.pushPrivateChats();
   }
   //TODO: get pivatechats from observable

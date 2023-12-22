@@ -6,18 +6,24 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
-
+  isChecked: boolean = false;
   hide = true;
   showAvatarSection: boolean = false;
 
   signupForm = new FormGroup({
-    nameControl: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    nameControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
     emailControl: new FormControl('', [Validators.required, Validators.email]),
-    passwordControl: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    fileControl: new FormControl('', [Validators.required])
+    passwordControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+    fileControl: new FormControl('', [Validators.required]),
   });
 
   avatar_list: string[] = [
@@ -29,10 +35,11 @@ export class SignUpComponent {
     'assets/characters/character_6.png',
   ];
 
-  constructor(
-    public auth: AuthService,
-    public userService: UserService
-  ) { }
+  constructor(public auth: AuthService, public userService: UserService) {}
+
+  toggleCheck() {
+    this.isChecked = !this.isChecked;
+  }
 
   getErrorMessage() {
     const emailControl = this.signupForm.get('email');
