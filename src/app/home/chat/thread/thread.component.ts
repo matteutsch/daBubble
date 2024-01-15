@@ -9,6 +9,7 @@ import { DrawerService } from 'src/app/home/shared/drawer.service';
 export class ThreadComponent {
 
   @Input() drawerThread: any;
+  message = '';
 
   constructor(public drawerService: DrawerService) { }
 }

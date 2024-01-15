@@ -17,6 +17,21 @@ title="Pick your emoji…"
         <p class="speech">Welche Version ist aktuell von Angular?</p>
         <div class="message-reactions">
             <ul class="flex-centered">
+
+<!-- Fügen Sie dies in das Template ein, um die vorhandenen Emojis anzuzeigen -->
+<li *ngFor="let emoji of emojis">
+  <img [src]="emoji.imageUrl" (click)="addEmoji(emoji.type)">
+  <span>{{ emoji.count }}</span>
+  <div class="tool-tip">
+    <div class="flex-centered">
+      <img [src]="emoji.imageUrl">
+      <span class="name">{{ emoji.name }}</span>
+      <span class="text">{{ emoji.text }}</span>
+    </div>
+  </div>
+</li>
+
+                
                 <li class="reaction pointer flex-centered" (click)="addEmoji('check-mark')">
                     <img src="../../../assets/emoji/emoji _check mark_.png">
                     <span>{{ emojiCountCheckMark }}</span>

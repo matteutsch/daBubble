@@ -54,6 +54,6 @@
         ></app-thread-message>
       </li>
     </ul>
-    <app-custom-textarea style="padding: 0 35px 40px"></app-custom-textarea>
+    <app-custom-textarea [(ngModel)]="message" ngDefaultControl style="padding: 0 35px 40px"></app-custom-textarea>
   </mat-card-content>
 </mat-card>
