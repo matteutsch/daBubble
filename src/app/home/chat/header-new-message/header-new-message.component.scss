@@ -1,0 +1,33 @@
+.input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+.custom-mat-option .mat-option-check {
+  display: none;
+}
+
+.rounded-bottom {
+  border-radius: 0 0 24px 24px !important;
+  overflow: hidden;
+}
+
+.results {
+  min-width: 256px;
+  &:hover {
+    background-color: var(--bg-color);
+  }
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}

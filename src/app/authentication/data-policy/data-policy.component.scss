@@ -48,6 +48,7 @@
       align-self: start;
     }
   
+    p,
     span {
       color: #000000;
       font-family: Nunito;
@@ -64,6 +65,11 @@
       font-style: normal;
       font-weight: 700;
       line-height: 120%; 
+    }
+
+    li,
+    a {
+      font-size: 18px;
     }
   }
   

@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { User } from 'src/app/models/models';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogEditProfileComponent } from '../dialogs/dialog-edit-profile/dialog-edit-profile.component';
 import { UserService } from 'src/app/services/user.service';
@@ -11,14 +10,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() user!: User;
-
   isOpen: boolean = false;
 
   constructor(
     public auth: AuthService,
     private dialog: MatDialog,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   openDialog() {
@@ -32,7 +29,7 @@ export class HeaderComponent {
     dialogConfig.panelClass = 'custom-rounded';
 
     dialogConfig.data = {
-      user: this.user,
+      user: this.userService.user,
     };
 
     const dialogRef = this.dialog.open(
@@ -41,7 +38,7 @@ export class HeaderComponent {
     );
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        this.userService.updateUser(this.user.uid, data);
+        this.userService.updateUser(this.userService.user.uid, data);
       }
     });
   }

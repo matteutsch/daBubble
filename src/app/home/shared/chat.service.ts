@@ -1,395 +1,319 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Chat, Message, MessageData, User } from 'src/app/models/models';
-import { SelectService } from './select.service';
+import {
+  ChannelChat,
+  Chat,
+  ChatData,
+  PrivateChat,
+  User,
+} from 'src/app/models/models';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map, take } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { PrivateChatService } from './private-chat.service';
+import { ChannelChatService } from './channel-chat.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  public currentChat: Chat = new ChatData();
+  public chatType = new BehaviorSubject('default');
+  public chatMemberPhotoUrls = new BehaviorSubject<string[]>([]);
+  public privateChatsCollection: AngularFirestoreCollection<Chat>;
+  public channelChatsCollection: AngularFirestoreCollection<Chat>;
   private customTextAreaRef: any;
-  user!: User;
-
-  public userChannelChatsSubject = new BehaviorSubject<Chat[]>([]);
-  userChannelChats: any[] = [];
-  userChannelChats$ = this.userChannelChatsSubject.asObservable();
-
-  public channelMemberSubject = new BehaviorSubject<User[]>([]);
-  channelMembers: User[] = [];
-  channelMember$ = this.channelMemberSubject.asObservable();
-
-  privateChatsCollection: AngularFirestoreCollection<any>;
-  public privateChatsSubject = new BehaviorSubject<Chat[]>([]);
-
-  channelChatsCollection: AngularFirestoreCollection<any>;
-  private channelChats: Chat[] = [];
-  public channelChatsSubject = new BehaviorSubject<Chat[]>([]);
-
-  public currentChat!: Chat | null;
-  public currentChannel!: Chat | null;
-  public threadMessage!: Message;
-  public threadMessageIndex!: number;
-
-  public ulChatMessageRef!: ElementRef;
-  public ulThreadMessageRef!: ElementRef;
+  private customThreadTextareaRef: any;
+  private inputSearchChatRef: any;
 
   constructor(
-    public select: SelectService,
     private afs: AngularFirestore,
-    private userService: UserService,
-    private authService: AuthService
+    private firestoreService: FirestoreService,
+    private privateChatService: PrivateChatService,
+    private channelChatService: ChannelChatService
   ) {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
-    this.getChannelCollection();
+    this.channelChatService.getAllChannels(this.channelChatsCollection);
+  }
 
-    //TODO: change the way we get the currentUser ?
-    authService.user.subscribe((user) => {
-      if (user) {
-        this.userService.getUser(user.uid).subscribe((currentUser) => {
-          this.user = currentUser;
-          this.updateAndPushChannelChats();
-        });
+  /**
+   * Clears and updates all private and channel chats for the specified user.
+   *
+   * @param {User} user - The user for whom the chats are updated.
+   * @returns {void}
+   */
+  public updateAllChats(user: User): void {
+    this.channelChatService.uChannelChats = [];
+    user.chats.private.forEach((chat: PrivateChat) => {
+      this.privateChatService.pushMemberInPrivateChat(
+        chat.chatPartnerID,
+        chat.chatID
+      );
+    });
+    user.chats.channel.forEach((chat: ChannelChat) => {
+      this.channelChatService.pushChatInChannel(
+        chat.chatID,
+        this.channelChatsCollection
+      );
+    });
+  }
+
+  /**
+   * Selects a channel chat, updates relevant information, and focuses on the chat textarea.
+   *
+   * @param {Chat} chat - The selected channel chat.
+   * @returns {void}
+   */
+  public selectChannelChat(chat: Chat): void {
+    this.currentChat = chat;
+    this.pushMemberPhotoUrl(this.currentChat);
+    this.chatType.next('channel');
+    this.focusChatTextarea();
+  }
+
+  /**
+   * Asynchronously retrieves member photo URLs for a given chat and updates the observable.
+   *
+   * @param {Chat} chat - The chat for which member photo URLs are retrieved.
+   * @returns {Promise<void>}
+   */
+  public async pushMemberPhotoUrl(chat: Chat): Promise<void> {
+    const memberIDs = chat.members || [];
+    const promises = memberIDs.map(async (memberID: string) => {
+      const photoUrl: string =
+        await this.firestoreService.getPropertyFromDocument(
+          'users',
+          memberID,
+          'photoURL'
+        );
+      return photoUrl;
+    });
+    const photoUrls: string[] = await Promise.all(promises);
+    this.chatMemberPhotoUrls.next(photoUrls);
+  }
+
+  /**
+   * Checks if a chat name already exists in the specified Firestore collection.
+   *
+   * @param {string} name - The name to check for existence.
+   * @param {AngularFirestoreCollection} collection - The Firestore collection to check against.
+   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating name existence.
+   */
+  public async isChatNameExisted(
+    name: string,
+    collection: AngularFirestoreCollection
+  ): Promise<boolean> {
+    try {
+      const querySnapshot = await lastValueFrom(collection.get());
+      const channelChats = querySnapshot.docs.map((doc) => doc.data() as Chat);
+      return channelChats.some((channel) => channel.name === name);
+    } catch (error) {
+      console.error('Error checking channel name existence:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Asynchronously updates the Firestore collection for a channel chat.
+   *
+   * @param {User} user - The user initiating the update.
+   * @param {string} chatID - The ID of the channel chat to update.
+   * @returns {Promise<void>}
+   */
+  public async updateChannelChatCollection(
+    user: User,
+    chatID: string
+  ): Promise<void> {
+    try {
+      let members: any = null;
+      const createdBy = await this.firestoreService.getPropertyFromDocument(
+        'channelChats',
+        chatID,
+        'createdBy'
+      );
+      const chat = await this.firestoreService.getDocumentFromCollection(
+        'channelChats',
+        chatID
+      );
+      if (user.uid === createdBy) {
+        this.handleCreatedByUser(chat, chatID);
+      } else {
+        this.handleNonCreatedByUser(chat, user.uid);
+        members = chat.members;
+      }
+      await this.updateChannelChatFirestore(chatID, members);
+    } catch (error) {
+      console.error(`Error updating channel chat collection: ${error}`);
+      throw new Error('Failed to update channel chat collection.');
+    }
+  }
+
+  /**
+   * Handles deletion of channel chat from users when the chat is created by the current user.
+   *
+   * @param {Chat} chat - The channel chat being handled.
+   * @param {string} chatID - The ID of the channel chat.
+   * @returns {void}
+   * @private
+   */
+  private handleCreatedByUser(chat: Chat, chatID: string): void {
+    chat.members?.forEach(async (memberID: string) => {
+      const member: User =
+        await this.firestoreService.getDocumentFromCollection(
+          'users',
+          memberID
+        );
+      this.channelChatService.deleteChannelChatFromUser(member, chatID);
+    });
+  }
+
+  /**
+   * Handles removal of the current user from the channel chat members list.
+   *
+   * @param {Chat} chat - The channel chat being handled.
+   * @param {string} userID - The ID of the current user.
+   * @returns {void}
+   * @private
+   */
+  private handleNonCreatedByUser(chat: Chat, userID: string): void {
+    chat.members?.forEach((memberID: string, index: number) => {
+      if (memberID === userID) {
+        chat.members?.splice(index, 1);
       }
     });
   }
 
-  setTextareaRef(ref: ElementRef) {
+  /**
+   * Updates the Firestore collection for a channel chat with the specified ID and members.
+   * If members is null, the chat is deleted from the collection.
+   *
+   * @param {string} chatID - The ID of the channel chat to update.
+   * @param {any} members - The members of the channel chat.
+   * @returns {Promise<void>}
+   * @private
+   */
+  private async updateChannelChatFirestore(
+    chatID: string,
+    members: any
+  ): Promise<void> {
+    try {
+      if (members === null) {
+        await this.channelChatsCollection.doc(chatID).delete();
+      } else {
+        await this.channelChatsCollection.doc(chatID).update({
+          members: members,
+        });
+      }
+    } catch (error) {
+      console.error(`Error updating Firestore collection: ${error}`);
+      throw new Error('Failed to update Firestore collection.');
+    }
+  }
+
+  /**
+   * Scrolls the specified chat element to the bottom.
+   *
+   * @param {HTMLElement} element - The HTML element representing the chat.
+   * @returns {void}
+   */
+  public scrollChatToBottom(element: HTMLElement): void {
+    if (element) {
+      element.scrollTop = element.scrollHeight;
+    } else {
+      console.error('Element reference not available.');
+    }
+  }
+
+  /**
+   * Sets the reference to the custom text area.
+   *
+   * @param {ElementRef} ref - The reference to the custom text area.
+   * @returns {void}
+   */
+  public setTextareaRef(ref: ElementRef): void {
     this.customTextAreaRef = ref;
   }
 
-  getTextareaRef(): any {
+  /**
+   * Gets the reference to the custom text area.
+   *
+   * @returns {any} - The reference to the custom text area.
+   * @private
+   */
+  private getTextareaRef(): any {
     return this.customTextAreaRef;
   }
 
   /**
-   * Checks if array2 includes elements of array1.
-   * @param {any} array1 - The array containing elements to be searched for.
-   * @param {any} array2 - The array to be searched in.
-   * @returns {Boolean} True if any element from array1 is found in array2, otherwise false
+   * Focuses on the custom chat text area.
+   *
+   * @returns {void}
    */
-  haveCommonID(array1: any, array2: any): Boolean {
-    for (let i = 0; i < array1.length; i++) {
-      if (array2.includes(array1[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /*-------------------- START  private-chat functions  --------------------*/
-
-  /**
-   * Returns a single private chat as observable.
-   * @param {string} id - id of the private chat.
-   * @returns {Observable<any>} An Observable that emits the private chat data.
-   */
-  getPrivateChat(id: any): Observable<any> {
-    return this.privateChatsCollection.doc(id).valueChanges();
-  }
-
-  getPrivateChatRef(id: any) {
-    return this.privateChatsCollection.doc(id);
+  public focusChatTextarea(): void {
+    const customTextAreaRef = this.getTextareaRef().textArea;
+    customTextAreaRef.nativeElement.focus();
   }
 
   /**
-   * Returns a new Chat object for createPrivateChat().
-   * @param {string} chatId - id of the private chat.
-   * @param {User} user - the User u want to a create a private chat with.
+   * Sets the reference to the custom thread text area.
+   *
+   * @param {ElementRef} ref - The reference to the custom thread text area.
+   * @returns {void}
    */
-  createNewChatData(user: User, currentUser: User) {
-    const newChatId = this.afs.createId();
-    const newChatData: Chat = {
-      id: newChatId,
-      name: user.name,
-      members: [user.uid, currentUser.uid],
-      messages: [],
-    };
-    return newChatData;
-  }
-  /**
-   * Creates a new privateChat between currentUser and a selected user.
-   * @param {User} user - selected user.
-   * @param {User} currentUser - logged in User
-   * @returns {Promise<void>} A Promise that resolves once the private chat is created and updated for both users.
-   */
-  async createPrivateChat(user: User, currentUser: User): Promise<void> {
-    const newChatData = this.createNewChatData(user, currentUser);
-    const privateChatMember = { ...user, privateChatId: newChatData.id };
-    const thisChatMember = { ...currentUser, privateChatId: newChatData.id };
-
-    const [selectedUserPrivateChats, loggedUserPrivateChats] =
-      await Promise.all([
-        this.fetchPrivateChats(user.uid),
-        this.fetchPrivateChats(currentUser.uid),
-      ]);
-    if (!this.haveCommonID(selectedUserPrivateChats, loggedUserPrivateChats)) {
-      this.privateChatsCollection
-        .doc(newChatData.id)
-        .set(newChatData)
-        .then(() => {
-          this.setPrivateChatToUser(user.uid, thisChatMember);
-          this.setPrivateChatToUser(currentUser.uid, privateChatMember);
-        })
-        .catch((error) => {
-          console.error('Error creating document: ', error);
-        });
-    } else {
-      //open private chat
-    }
+  public setThreadTextareaRef(ref: ElementRef): void {
+    this.customThreadTextareaRef = ref;
   }
 
   /**
-   * Fetches the private chat data for a specified user.
-   * @param {string} userID - The unique identifier of the user for whom private chat data is fetched.
-   * @returns {Promise<any>} A Promise that resolves to an array of private chat IDs associated with the user.
+   * Gets the reference to the custom thread text area.
+   *
+   * @returns {any} - The reference to the custom thread text area.
+   * @private
    */
-  async fetchPrivateChats(userID: string): Promise<any> {
-    let user = await this.userService.fetchUserData(userID);
-    let privateChats;
-    await user.forEach((data: any) => {
-      privateChats = data.data().chats.private;
-    });
-    return privateChats;
+  private getThreadTextareaRef(): any {
+    return this.customThreadTextareaRef;
   }
 
   /**
-   * Associates a private chat ID with a user by updating the user's data.
-   * @param {string} id - The id of the user.
-   * @param {User} chatMember - the ChatMember to push.
-   * @returns {Promise<void>} A Promise that resolves once the user's data is updated.
+   * Focuses on the custom thread text area.
+   *
+   * @returns {void}
    */
-  async setPrivateChatToUser(id: string, chatMember: User): Promise<void> {
-    let user = await this.userService.fetchUserData(id);
-    user.subscribe(() => {
-      this.userService.addNewPrivateChat(id, chatMember);
-    });
-  }
-  /*-------------------- END  private-chat functions  --------------------*/
-
-  /*-------------------- START  channel-chat functions  --------------------*/
-
-  nameExists(name: string): boolean {
-    return this.channelChats.some((channel) => channel.name === name);
+  public focusThreadTextarea(): void {
+    const customThreadTextareaRef = this.getThreadTextareaRef().textArea;
+    customThreadTextareaRef.nativeElement.focus();
   }
 
-  createChannel(name: string, description: string, user: User) {
-    const newChatId = this.afs.createId();
-    const newChannel: Chat = {
-      id: newChatId,
-      name: name,
-      members: [user.uid],
-      messages: [],
-      description: description,
-      createdBy: user.name,
-    };
-    return newChannel;
+  /**
+   * Asynchronously sets the reference to the input used for searching chats.
+   *
+   * @param {ElementRef} ref - The reference to the input used for searching chats.
+   * @returns {Promise<void>}
+   */
+  public async setInputSearchChatRef(ref: ElementRef): Promise<void> {
+    this.inputSearchChatRef = ref;
   }
 
-  updateChannelCollection(name: string, description: string, user: User) {
-    const newChannel = this.createChannel(name, description, user);
-
-    if (!this.nameExists(newChannel.name)) {
-      this.channelChatsCollection
-        .doc(newChannel.id)
-        .set(newChannel)
-        .then(() => {
-          this.userService.addNewChannel(user.uid, newChannel.id);
-        })
-        .catch((error) => {
-          console.error('Error', error);
-        });
-    }
+  /**
+   * Gets the reference to the input used for searching chats.
+   *
+   * @returns {any} - The reference to the input used for searching chats.
+   * @private
+   */
+  private getInputSearchChatRef(): any {
+    return this.inputSearchChatRef;
   }
 
-  getChannelCollection() {
-    this.channelChatsCollection
-      .snapshotChanges()
-      .pipe(
-        map((chats) => {
-          this.channelChats = chats.map((chat) => chat.payload.doc.data());
-          this.channelChatsSubject.next(this.channelChats);
-        })
-      )
-      .subscribe();
-    return this.channelChatsSubject.asObservable();
+  /**
+   * Focuses on the input used for searching chats.
+   *
+   * @returns {void}
+   */
+  public focusInputSearchChat(): void {
+    const inputSearchChatRef = this.getInputSearchChatRef();
+    inputSearchChatRef.nativeElement.focus();
   }
-
-  setCurrentChat(chatID: string, selectedUser: User) {
-    this.select.setSelectedMember(selectedUser);
-    this.getPrivateChat(chatID).subscribe((chat) => {
-      this.currentChannel = null;
-      this.currentChat = chat;
-    });
-  }
-  setCurrentChannel(channelId: string, selectedChannel: User) {
-    this.select.setSelectedChannel(selectedChannel);
-    this.getChannelById(channelId).subscribe((channel) => {
-      this.currentChat = null;
-      this.currentChannel = channel;
-    });
-  }
-  getChannelById(id: any): Observable<any> {
-    return this.channelChatsCollection.doc(id).valueChanges();
-  }
-  getSingleChannel(id: any) {
-    return this.channelChatsCollection.doc(id);
-  }
-
-  updateChannel(id: string, data: any) {
-    this.channelChatsCollection
-      .doc(id)
-      .update({
-        name: data.nameControl,
-        description: data.descriptionControl,
-      })
-      .then(() => {
-        this.updateAndPushChannelChats();
-      });
-  }
-
-  updateChannelMember(id: string, memberId: string) {
-    const channelRef = this.channelChatsCollection.doc(id);
-    channelRef.get().subscribe((channelDoc) => {
-      if (channelDoc.exists) {
-        const channelData = channelDoc.data() as any;
-        if (!channelData.members.includes(memberId)) {
-          channelData.members.push(memberId);
-          channelRef
-            .update({
-              members: channelData.members,
-            })
-            .then(() => {
-              this.userService.addNewChannel(memberId, id);
-              this.select.selectedChannelSubject.next({
-                ...channelData,
-                members: channelData.members,
-              });
-              this.updateAndPushChannelChats();
-            });
-        }
-      }
-    });
-  }
-
-  updateAndPushChannelChats() {
-    if (this.user.chats && this.user.chats.channel) {
-      this.user.chats.channel.forEach((id: any) => {
-        const existingChannel = this.getChannelById(id);
-        existingChannel.pipe(take(1)).subscribe((singleChannel) => {
-          const isExisting = this.userChannelChatsSubject.value.some(
-            (existingChannel) => existingChannel.id === singleChannel.id
-          );
-
-          const updatedChannels = isExisting
-            ? this.userChannelChatsSubject.value.map((existingChannel) =>
-                existingChannel.id === singleChannel.id
-                  ? singleChannel
-                  : existingChannel
-              )
-            : [...this.userChannelChatsSubject.value, singleChannel];
-
-          this.userChannelChatsSubject.next(updatedChannels);
-        });
-      });
-    }
-  }
-
-  //TODO: add function, that updates the sidebar properly
-  async deleteUserFromChannel(userID: string, channelID: string) {
-    const channelRef = this.getSingleChannel(channelID);
-    let channelDoc = channelRef.get();
-
-    channelDoc.subscribe(async (c) => {
-      let channelData = c.data();
-      let array = c.data().members;
-      for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        if (element === userID) {
-          array.splice(i, 1);
-          if (array.length <= 0) {
-            channelRef.delete();
-          } else {
-            await channelRef.update({
-              members: array,
-            });
-            this.channelMemberSubject.next(array);
-            this.currentChannel = null;
-          }
-          await this.deleteChannelFromUser(userID, channelID);
-        }
-      }
-    });
-  }
-
-  async deleteChannelFromUser(userID: string, channelID: string) {
-    let userRef = this.userService.usersCollection.doc(userID);
-    let userDoc = userRef.get();
-    userDoc.subscribe(async (e) => {
-      let array = e.data().chats.channel;
-      for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        if (element === channelID) {
-          array.splice(i, 1);
-          await userRef
-            .update({
-              'chats.channel': array,
-            })
-            .then(() => {
-              array.forEach((e: any) => {
-                let channel = this.getSingleChannel(e);
-                channel.get().subscribe((c) => {
-                  this.userChannelChats.push(c.data());
-                });
-                this.userChannelChatsSubject.next(this.userChannelChats);
-              });
-            });
-        }
-      }
-    });
-  }
-
-  /*-------------------- END  channel-chat functions  --------------------*/
-
-
-  /*-------------------- START  SendMessage functions  --------------------*/
-
-  // TODO: delete message
-  async sendMessage(author: User, contentText: string) {
-    const message = new MessageData(
-      author,
-      contentText,
-      new Date().getTime()
-    ).toFirestoreObject();
-    const ref = this.privateChatsCollection.doc(this.currentChat!.id);
-    const messagesArr = this.currentChat!.messages;
-    messagesArr?.push(message);
-    await ref.update({
-      messages: messagesArr,
-    });
-  }
-
-  // TODO: delete answer
-  async sendAnswer(author: User, contentText: string) {
-    const message = new MessageData(
-      author,
-      contentText,
-      new Date().getTime()
-    ).toFirestoreObject();
-    const ref = this.privateChatsCollection.doc(this.currentChat!.id);
-    const messagesArr = this.currentChat!.messages;
-    messagesArr![this.threadMessageIndex].answers?.push(message);
-    await ref.update({
-      messages: messagesArr,
-    });
-  }
-
-
-  /*-------------------- END  SendMessage functions  --------------------*/
 }

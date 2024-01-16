@@ -32,3 +32,16 @@ input[type="search"]::-webkit-search-clear-button {
     background-color: var(--bg-color);
   }
 }
+
+.chat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

@@ -10,27 +10,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./content.component.scss'],
 })
 export class ContentComponent {
-  isSideMenuOpen: boolean = true;
-  userID: any;
-  user: any = {};
-
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
   @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
+
+  isSideMenuOpen: boolean = true;
 
   constructor(
     public drawerService: DrawerService,
     public authService: AuthService,
     public userService: UserService
-  ) {
-    authService.user.subscribe((user) => {
-      if (user) {
-        this.userService.getUser(user.uid).subscribe((currentUser) => {
-          this.user = currentUser;
-          console.log(this.user);
-        });
-      }
-    });
-  }
+  ) {}
 
   toggleBtnText() {
     this.isSideMenuOpen = !this.isSideMenuOpen;

@@ -63,6 +63,11 @@ export class SignUpComponent {
     this.showAvatarSection = !this.showAvatarSection;
   }
 
+  /**
+   * Handles the user selecting a file.
+   * @param {any} event - The event object for the file selection.
+   * @returns {void}
+   */
   onFileSelected(event: any): void {
     this.userService.uploadFile(event.target.files[0], this.signupForm);
   }

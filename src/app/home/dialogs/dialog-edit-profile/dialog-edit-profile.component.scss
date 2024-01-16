@@ -35,3 +35,24 @@
 .min-500 {
   min-width: 500px;
 }
+
+.avatar-upload-btn {
+  position: relative;
+  display: flex;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--bg-color);
+  }
+
+  input[type="file"] {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+}

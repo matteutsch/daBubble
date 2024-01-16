@@ -28,7 +28,6 @@ export class DialogCreateChannelComponent implements OnInit {
   }
 
   submit() {
-    console.log('submit method called', this.channelForm.value);
     this.dialogRef.close(this.channelForm.value);
   }
 

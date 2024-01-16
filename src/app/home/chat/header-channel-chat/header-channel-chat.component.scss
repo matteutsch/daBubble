@@ -1,0 +1,53 @@
+.channel {
+  &:hover {
+    span {
+      color: var(--purple-3);
+    }
+  }
+}
+
+.members {
+  gap: 10px;
+
+  .btn-channel-name {
+    &:hover {
+      span {
+        color: var(--purple-3);
+      }
+    }
+  }
+
+  .mini-info {
+    gap: 0;
+    padding: 3px 10px 3px 20px;
+
+    .img-container {
+      display: flex;
+      align-items: flex-start;
+      height: 40px;
+
+      .avatar {
+        border-radius: 30px;
+        border: 2px solid white;
+        background: white;
+        margin-left: -10px;
+
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  .icon-single {
+    padding: 8px !important;
+    border-radius: 50% !important;
+  }
+}

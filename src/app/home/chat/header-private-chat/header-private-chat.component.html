@@ -1,0 +1,4 @@
+<div class="user-name-img pointer" (click)="openUserProfile(selectedUser)">
+  <img class="object-fit-cover" width="70px" height="70px" src="{{ selectedUser.photoURL }}" />
+  <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
+</div>

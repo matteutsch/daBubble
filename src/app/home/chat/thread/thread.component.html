@@ -3,7 +3,7 @@
     <div class="thread-header box-shadow-style-1">
       <div class="thread-title flex-centered">
         <h2 class="custom-text">Thread</h2>
-        <span># Entwicklerteam</span>
+        <span>{{ messageService.threadName | titlecase }}</span>
       </div>
       <div
         class="icon-close icon-single pointer flex-centered"
@@ -38,32 +38,43 @@
       </div>
     </div>
     <ul #ulThreadMessages class="ul-messages">
-      <li>
+      <li *ngIf="messageService.threadMessage" class="w-100 thread-header-message">
         <app-chat-message
-          [message]="chatService.threadMessage"
-          class="thread-message thread-question"
+          [message]="messageService.threadMessage"
+          [messageAuthor]="messageService.threadMessageAuthor"
+          class="thread-message thread-question message-thread-header"
+          [ngClass]="{
+            'my-message my-message-thread':
+              userService.user.uid === messageService.threadMessage.authorID
+          }"
         ></app-chat-message>
       </li>
       <li class="separator flex-centered">
-        <span *ngIf="chatService.threadMessage?.answers">{{ chatService.threadMessage.answers?.length }} Antworten</span>
+        <span *ngIf="messageService.threadMessage.answers"
+          >{{ messageService.threadMessage.answers.length }} Antworten</span
+        >
         <img src="../../../assets/icons/line.png" />
       </li>
       <li
-        *ngFor="let answer of chatService.threadMessage?.answers; let i = index"
+        *ngFor="let answer of messageService.threadMessage.answers; let i = index"
+        class="w-100"
       >
-        <app-chat-message
+        <app-thread-answer
           [ngClass]="{
             'my-message my-message-thread':
-              authService.userID === answer.authorID
+              userService.user.uid === answer.authorID
           }"
           class="thread-message"
           [message]="answer"
-          [messageIndex]="i"
-          [type]="'thread'"
-        ></app-chat-message>
+          [answerIndex]="i"
+          [msgType]="'thread'"
+          [chatType]="this.chatService.currentChat.type"
+          [chatId]="this.chatService.currentChat.chatID"
+        ></app-thread-answer>
       </li>
     </ul>
     <app-custom-textarea
+      #customThreadTextarea
       [type]="'thread'"
       style="padding: 0 35px 40px"
     ></app-custom-textarea>

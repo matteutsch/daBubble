@@ -6,7 +6,10 @@
           <img src="../../../assets/icons/workspace_logo.png" />
           <span class="custom-text">Code learning</span>
         </div>
-        <div class="edit-square icon-single pointer flex-centered">
+        <div
+          class="edit-square icon-single pointer flex-centered"
+          (click)="resetChatSelection()"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -140,9 +143,9 @@
           <main *ngIf="showChannels">
             <ul>
               <li
-                *ngFor="let channel of channelChats"
+                *ngFor="let channel of channelChatService.uChannelChats"
                 class="btn-channel-name pointer"
-                (click)="selectChannel(channel)"
+                (click)="selectChannelChat(channel)"
               >
                 <svg
                   class="hash"
@@ -282,41 +285,33 @@
           </header>
           <main *ngIf="showDirectMessages">
             <ul>
-              <li class="pointer">
-                <!--(click)="selectUser(currentUser)"-->
-                <div class="position-relative">
-                  <img
-                    width="50px"
-                    height="50px"
-                    src="{{ currentUser.photoURL }}"
-                    class="rounded-circle"
-                  />
-                  <div
-                    style="width: 12px; height: 12px; border-width: 1px"
-                    class="position-absolute rounded-circle status online bottom-0 end-0"
-                  ></div>
-                </div>
-                <span>{{ currentUser.name | titlecase }} (Du)</span>
-              </li>
               <li
-                *ngFor="let user of privateChatMembers"
+                *ngFor="let member of privateChatService.privateChatMembers"
                 class="pointer"
-                (click)="selectUser(user)"
+                (click)="selectPrivateChatWithMember(member)"
               >
                 <div class="position-relative">
                   <img
                     width="50px"
                     height="50px"
-                    src="{{ user.photoURL }}"
-                    class="rounded-circle"
+                    src="{{
+                      member.photoURL ||
+                        'assets/characters/default_character.png'
+                    }}"
+                    class="rounded-circle object-fit-cover"
                   />
-                  <!-- TODO: change online/offline with ngClass -->
-                  <div
-                    style="width: 12px; height: 12px; border-width: 1px"
-                    class="position-absolute rounded-circle status online bottom-0 end-0"
-                  ></div>
+                  <app-user-status
+                    class="sidebar-status"
+                    [uid]="member.uid"
+                  ></app-user-status>
                 </div>
-                <span>{{ user.name | titlecase }}</span>
+                <span
+                  >{{ member.name | titlecase }}
+                  <ng-container
+                    *ngIf="userService.user.uid === member.uid"
+                    >(Du)</ng-container
+                  ></span
+                >
               </li>
             </ul>
           </main>

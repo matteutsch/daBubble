@@ -11,7 +11,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChatService } from 'src/app/home/shared/chat.service';
 import { DrawerService } from 'src/app/home/shared/drawer.service';
-import { Message, MessageData, User } from 'src/app/models/models';
+import { MessageService } from 'src/app/home/shared/message.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -25,16 +25,18 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
   @Output() isEditingChanged = new EventEmitter<boolean>();
   @Input() message: any;
   @Input() messageIndex!: number;
-  @Input() user!: User;
+  @Input() answerIndex!: number;
   @Input() type!: string;
   @ViewChild('messageTextArea', { static: false }) messageTextArea!: ElementRef;
+
   editMessageForm!: FormGroup;
 
   constructor(
     public drawerService: DrawerService,
     private chatService: ChatService,
     public authService: AuthService,
-    public userService: UserService
+    public userService: UserService,
+    private messageService: MessageService
   ) {}
 
   ngOnChanges() {
@@ -47,58 +49,45 @@ export class EditMessageFormComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.adjustTextareaHeight();
+    this.messageTextArea.nativeElement.focus();
   }
 
-  async saveEditedMessage() {
+  /**
+   * Saves the edited message and updates chat or thread messages accordingly.
+   *
+   * @async
+   * @returns {Promise<void>} A promise that resolves when the operation is complete.
+   */
+  public async saveEditedMessage(): Promise<void> {
     const textareaValue = this.editMessageForm.value.messageControl as string;
-    const newMessage = this.createMessage(textareaValue);
     if (this.type === 'chat') {
-      this.updateMessagesArray(newMessage);
+      this.messageService.updateMessage(
+        this.chatService.currentChat,
+        this.message,
+        textareaValue
+      );
     } else if (this.type === 'thread') {
-      this.updateAnswersArray(newMessage);
+      this.messageService.updateAnswer(
+        this.chatService.currentChat,
+        textareaValue,
+        this.answerIndex
+      );
     }
-    await this.updateChatMessages();
     this.toggleEditing();
   }
 
-  private createMessage(textareaValue: string): Message {
-    return new MessageData(
-      this.user,
-      textareaValue,
-      new Date().getTime()
-    ).toFirestoreObject();
-  }
-
-  private updateMessagesArray(newMessage: Message): void {
-    const messagesArr = this.chatService.currentChat!.messages;
-    messagesArr?.forEach(() => {
-      messagesArr[this.messageIndex] = newMessage;
-    });
-  }
-
-  private updateAnswersArray(newMessage: any): void {
-    const messagesArr = this.chatService.currentChat!.messages;
-    messagesArr?.forEach(() => {
-      messagesArr[this.chatService.threadMessageIndex].answers![
-        this.messageIndex
-      ] = newMessage;
-    });
-  }
-
-  private async updateChatMessages(): Promise<void> {
-    const ref = this.chatService.getPrivateChatRef(
-      this.chatService.currentChat!.id
-    );
-    const messagesArr = this.chatService.currentChat!.messages;
-    await ref.update({ messages: messagesArr });
-  }
-
+  /**
+   * Adjusts the height of the textarea based on its content.
+   */
   adjustTextareaHeight() {
     this.messageTextArea.nativeElement.style.overflow = 'hidden';
     this.messageTextArea.nativeElement.style.height = 'auto';
     this.messageTextArea.nativeElement.style.height = `${this.messageTextArea.nativeElement.scrollHeight}px`;
   }
 
+  /**
+   * Toggles the editing state and emits the change.
+   */
   toggleEditing() {
     this.isEditing = !this.isEditing;
     this.isEditingChanged.emit(this.isEditing);

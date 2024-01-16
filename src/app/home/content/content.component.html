@@ -1,5 +1,5 @@
 <div class="main-page">
-  <app-header [user]="user"></app-header>
+  <app-header></app-header>
   <div class="content">
     <mat-drawer-container class="mat-drawer-container" autosize>
       <mat-drawer
@@ -8,13 +8,9 @@
         class="mat-drawer rounded-4"
         mode="side"
       >
-        <app-sidebar [currentUser]="user"></app-sidebar>
+        <app-sidebar [drawerThread]="drawerThread"></app-sidebar>
       </mat-drawer>
-      <app-main-chat
-        [drawerThread]="drawerThread"
-        [chats]="user.chats"
-        [currentUser]="user"
-      ></app-main-chat>
+      <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
       <mat-drawer
         #drawerThread
         [opened]="false"

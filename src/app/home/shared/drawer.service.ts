@@ -5,22 +5,38 @@ import { MatDrawer } from '@angular/material/sidenav';
   providedIn: 'root',
 })
 export class DrawerService {
-
+  /**
+   * Toggles the visibility of the provided Material drawer instance.
+   * @param {MatDrawer} drawerInstance - The Material drawer instance to toggle.
+   * @returns {void}
+   */
   toggleDrawer(drawerInstance: MatDrawer): void {
     if (drawerInstance) {
-      drawerInstance.toggle();   
+      drawerInstance.toggle();
     }
   }
 
-  closeDrawer(drawerInstance: MatDrawer): void {
+  /**
+   * Closes the provided Material drawer instance asynchronously.
+   * @async
+   * @param {MatDrawer} drawerInstance - The Material drawer instance to close.
+   * @returns {Promise<void>} A Promise that resolves when the drawer is closed.
+   */
+  async closeDrawer(drawerInstance: MatDrawer): Promise<void> {
     if (drawerInstance) {
-      drawerInstance.close();
+      await drawerInstance.close();
     }
   }
 
-  openDrawer(drawerInstance: MatDrawer): void {
+  /**
+   * Opens the provided Material drawer instance asynchronously.
+   * @async
+   * @param {MatDrawer} drawerInstance - The Material drawer instance to open.
+   * @returns {Promise<void>} A Promise that resolves when the drawer is opened.
+   */
+  async openDrawer(drawerInstance: MatDrawer): Promise<void> {
     if (drawerInstance) {
-      drawerInstance.open();
+      await drawerInstance.open();
     }
   }
 }

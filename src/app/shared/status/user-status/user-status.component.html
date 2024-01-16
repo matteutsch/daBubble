@@ -1,0 +1,27 @@
+<div
+  class="tag is-large rounded-circle status bottom-0 end-0"
+  [style.background-color]="
+    status === 'online'
+      ? 'var(--light-green)'
+      : status === 'away'
+      ? 'var(--yellow)'
+      : status === 'offline'
+      ? 'var(--dark-grey)'
+      : '#D3D3D3'
+  "
+  style="border-width: 1px"
+></div>
+<p
+  class="text-online status-text"
+  [style.color]="
+    status === 'online'
+      ? 'var(--light-green)'
+      : status === 'away'
+      ? 'var(--yellow)'
+      : status === 'offline'
+      ? 'var(--dark-grey)'
+      : '#D3D3D3'
+  "
+>
+  {{ status | titlecase }}
+</p>

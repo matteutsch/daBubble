@@ -1,169 +1,154 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import { StatusType, User } from '../models/models';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+import { UserData } from '../models/models';
 import { UserService } from './user.service';
-import { BehaviorSubject, Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as auth from 'firebase/auth';
-import { chats } from '../models/chats-example';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  userID: any;
-  private userSubject = new BehaviorSubject<any | null>(null);
-  user: Observable<any> = this.userSubject.asObservable();
-
-  exampleChats = chats;
+  private userData!: Observable<any>;
 
   constructor(
-    public afs: AngularFirestore,
-    public afAuth: AngularFireAuth,
-    public router: Router,
-    public route: ActivatedRoute,
-    public userService: UserService
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private userService: UserService
   ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
-    this.afAuth.authState.subscribe((user) => {
+    this.userData = this.afAuth.authState;
+    this.subscribeToAuthState();
+  }
+
+  /**
+   * Subscribes to changes in the authentication state.
+   *
+   * @private
+   */
+  private subscribeToAuthState(): void {
+    this.userData.subscribe((user) => {
       this.handleAuthStateChange(user);
     });
-
-    /*
-    This function is triggered when the authentication state changes.*/
-    this.afAuth.onAuthStateChanged((user) => {
-      this.handleAuthStateChangedEvent(user);
-    });
   }
 
-  handleAuthStateChange(user: any | null): void {
+  /**
+   * Handles changes in the authentication state by updating user data and navigating accordingly.
+   *
+   * @param {any | null} user - The current user or null if not authenticated.
+   * @private
+   */
+  private handleAuthStateChange(user: any | null): void {
     if (user) {
-      this.userSubject.next(user);
       localStorage.setItem('user', JSON.stringify(user));
-      JSON.parse(localStorage.getItem('user')!);
+      this.userService.initializeUserAndChats(user.uid);
     } else {
-      localStorage.setItem('user', 'null');
-      JSON.parse(localStorage.getItem('user')!);
-    }
-  }
-
-  async handleAuthStateChangedEvent(user: any | null) {
-    if (user) {
-      this.userID = user.uid;
-    } else {
+      localStorage.setItem('user', JSON.stringify(new UserData()));
+      this.userService.user = JSON.parse(localStorage.getItem('user')!);
       this.router.navigate([`login`]);
     }
   }
 
-  SignIn(email: string, password: string) {
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.afAuth.authState.subscribe((user) => {
-          if (user) {
-            this.router.navigate(['home', user.uid]);
-            this.setOnlineStatus('online');
-          }
-        });
-      })
-      .catch((error) => {
-        window.alert(error.message);
+  /**
+   * Attempts to sign in the user using email and password.
+   *
+   * @param {string} email - The user's email address.
+   * @param {string} password - The user's password.
+   * @returns {Promise<void>} - A promise indicating the success of the sign-in operation.
+   */
+  public async SignIn(email: string, password: string): Promise<void> {
+    try {
+      await this.afAuth.signInWithEmailAndPassword(email, password);
+      this.afAuth.authState.subscribe((user) => {
+        if (user) {
+          this.router.navigate(['home', user.uid]);
+        }
       });
+    } catch (error: any) {
+      throw Error('An error occurred during sign-in!', error);
+    }
   }
 
-  setOnlineStatus(status: string) {
-    const userRef = this.userService.getUser(this.userID);
-    const docRef = this.afs.collection('users').doc(this.userID);
-    userRef.pipe(take(1)).subscribe(() => {
-      let statusType;
-      if (status === 'online') {
-        statusType = StatusType.Online;
-      } else if (status === 'offline') {
-        statusType = StatusType.Offline;
-      }
-      docRef.update({
-        status: status,
-      });
-    });
-  }
-
-  SignUp(email: string, password: string, userName: string, photoURL: string) {
+  /**
+   * Attempts to sign up a new user with the provided credentials.
+   *
+   * @param {string} email - The new user's email address.
+   * @param {string} password - The new user's password.
+   * @param {string} userName - The new user's username.
+   * @param {string} photoURL - The URL of the new user's profile photo.
+   * @returns {Promise<void>} - A promise indicating the success of the sign-up operation.
+   */
+  public async SignUp(
+    email: string,
+    password: string,
+    userName: string,
+    photoURL: string
+  ): Promise<void> {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        /* Call the SendVerificaitonMail() function when new user sign
-        up and returns promise */
-        // this.SendVerificationMail();
-        this.SetUserData(result.user, userName, photoURL);
+        this.userService.setUserData(result.user, userName, photoURL);
         this.router.navigate([`login`]);
       })
       .catch((error) => {
-        window.alert(error.message);
+        throw Error('An error occurred during sign-up!', error);
       });
   }
 
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user: any, userName: any, photoURL: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}`
-    );
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      name: userName,
-      photoURL: photoURL,
-      chats: {
-        channel: [],
-        private: [],
-      },
-      status: user.status !== undefined ? user.status : null,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
-  }
-
-  SignOut() {
-    this.setOnlineStatus('offline');
-    return this.afAuth.signOut().then(() => {
+  /**
+   * Signs out the current user.
+   *
+   * @returns {Promise<void>} - A promise indicating the success of the sign-out operation.
+   */
+  public async SignOut(): Promise<void> {
+    return this.afAuth.signOut().then((res) => {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });
   }
 
-  // Sign in with Google
-  GoogleAuth() {
+  /**
+   * Initiates Google authentication.
+   *
+   * @returns {Promise<void>}
+   */
+  public async GoogleAuth(): Promise<void> {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {});
   }
 
-  AuthLogin(provider: any) {
+  private async AuthLogin(provider: any): Promise<void> {
     return this.afAuth
       .signInWithPopup(provider)
-      .then((result) => {
-        this.SetUserData(
-          result.user,
-          result.user?.displayName,
-          'assets/characters/default_character.png'
-        );
-        this.router.navigate(['home', result.user?.uid]);
+      .then(async (result) => {
+        if (result.user) {
+          const isUser = await this.userService.isUserInDatabase(
+            result.user.uid
+          );
+          if (!isUser) {
+            let url =
+              result.user.photoURL ?? 'assets/characters/default_character.png';
+            this.userService.setUserData(
+              result.user,
+              result.user.displayName,
+              url
+            );
+          }
+          this.router.navigate(['home', result.user.uid]);
+        }
       })
       .catch((error) => {
-        window.alert(error);
+        throw Error('The app component has thrown an error!', error);
       });
   }
 
-  //TODO: Delete Anonym User on log out
-  anonymousLogin() {
+  /**
+   * Initiates anonymous login.
+   *
+   * @returns {Promise<void>} - A promise indicating the success of the anonymous login operation.
+   */
+  public async anonymousLogin(): Promise<void> {
     return this.afAuth.signInAnonymously().then((result) => {
-      this.SetUserData(
+      this.userService.setUserData(
         result.user,
         'Guest',
         'assets/characters/default_character.png'

@@ -1,35 +1,35 @@
 <div class="position-relative">
-  <!-- header -->
   <div class="flex-centered justify-content-between p-3">
     <div class="flex-centered gap-3 ps-3">
       <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
       <h2 class="fw-bold">daBubble</h2>
     </div>
-    <!--  -->
-    <app-search [currentUser]="user"></app-search>
-    <!--  -->
+    <app-search></app-search>
     <div
       class="flex-centered gap-3 pe-3 pointer text-hover"
       (click)="toggleLogout()"
     >
-      <h2 class="fw-bold">{{ user.name | titlecase }}</h2>
+      <h2 class="fw-bold">{{ userService.user.name | titlecase }}</h2>
       <div class="position-relative">
         <img
           width="70px"
           height="70px"
-          src="{{ user.photoURL }}"
-          class="rounded-circle"
+          src="{{
+            userService.user.photoURL ||
+              'assets/characters/default_character.png'
+          }}"
+          class="rounded-circle object-fit-cover"
         />
-        <div
-          class="position-absolute rounded-circle status online bottom-0 end-0"
-        ></div>
+        <app-user-status
+          *ngIf="userService.user.uid"
+          class="header-status"
+          [uid]="userService.user.uid"
+        ></app-user-status>
       </div>
       <i class="bi bi-chevron-down fs-4"></i>
     </div>
   </div>
-  <!-- Dropdown menu -->
   <div *ngIf="isOpen">
-    <!-- [Profile / Logout]  -->
     <div class="position-absolute top-0 end-0">
       <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 mt-100">
         <mat-card-subtitle
@@ -45,7 +45,6 @@
         >
       </mat-card>
     </div>
-    <!-- [Overlay]  -->
     <div
       class="w-100 h-100 position-fixed top-0 start-0 bg-dark opacity-50 z-2"
       (click)="toggleLogout()"

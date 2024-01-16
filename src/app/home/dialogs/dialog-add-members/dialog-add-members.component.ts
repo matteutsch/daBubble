@@ -15,7 +15,6 @@ export class DialogAddMembersComponent implements OnInit {
   addMemberGroup!: FormGroup;
   searchInputValue: string = '';
   input$ = new Subject<string>();
-  isLoading = false;
   results$!: Observable<User[]>;
   isSelected: boolean = false;
   memberId!: User;

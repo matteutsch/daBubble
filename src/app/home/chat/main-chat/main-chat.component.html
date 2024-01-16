@@ -1,15 +1,81 @@
 <mat-card class="mat-card rounded-4">
   <mat-card-content class="mat-card-content z-2">
-    <app-chat-channel
-      [currentUser]="currentUser"
-      *ngIf="chatService.currentChannel && !chatService.currentChat"
-      [drawerThread]="drawerThread"
-    ></app-chat-channel>
-    <app-chat-direct-messages
-      [selectedUser]="currentUser"
-      [drawerThread]="drawerThread"
-      *ngIf="chatService.currentChat && !chatService.currentChannel"
-    ></app-chat-direct-messages>
+    <div class="main-chat">
+      <div class="head-members box-shadow-style-1">
+        <app-header-new-message
+          class="w-100"
+          *ngIf="this.chatService.currentChat.type === 'default'"
+        ></app-header-new-message>
+        <app-header-private-chat
+          class="w-100"
+          *ngIf="this.chatService.currentChat.type === 'private'"
+        ></app-header-private-chat>
+        <app-header-channel-chat
+          class="w-100"
+          *ngIf="this.chatService.currentChat.type === 'channel'"
+        ></app-header-channel-chat>
+      </div>
+      <ul #ulChatMessages class="ul-messages">
+        <li
+          *ngIf="
+            this.messageService.currentMessages?.length === 0 &&
+            this.chatService.currentChat.type === 'private'
+          "
+          class="user-container"
+        >
+          <div
+            class="user-name-img flex-centered pointer"
+            (click)="openUserProfile(selectedUser)"
+          >
+            <img
+              class="object-fit-cover"
+              widht="100px"
+              height="100px"
+              src="{{ selectedUser.photoURL }}"
+            />
+            <span class="custom-text">{{ selectedUser.name | titlecase }}</span>
+          </div>
+          <div
+            *ngIf="selectedUser.uid !== userService.user.uid"
+            class="text flex-centered"
+          >
+            <span> Diese Unterhaltung findet nur zwischen </span>
+            <button (click)="openUserProfile(selectedUser)">
+              @{{ selectedUser.name | titlecase }}
+            </button>
+            <span>und dir statt.</span>
+          </div>
+          <div *ngIf="selectedUser.uid === userService.user.uid" class="my-text">
+            <span style="font-weight: 700">
+              Dieser Raum ist nur für dich da.
+            </span>
+            <span>
+              Mache dir Notizen, liste deine To-dos auf oder bewahre Links und
+              Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir
+              selbst besprechen.
+            </span>
+          </div>
+        </li>
+        <li
+          *ngFor="
+            let message of this.messageService.currentMessages;
+            let i = index
+          "
+        >
+          <app-chat-message
+            [ngClass]="{
+              'my-message': userService.user.uid === message.authorID
+            }"
+            [message]="message"
+            [messageIndex]="i"
+            [msgType]="'chat'"
+            [drawerThread]="drawerThread"
+            [chatType]="this.chatService.currentChat.type"
+            [chatId]="this.chatService.currentChat.chatID"
+          ></app-chat-message>
+        </li>
+      </ul>
+    </div>
     <app-custom-textarea
       #customTextArea
       [type]="'chat'"

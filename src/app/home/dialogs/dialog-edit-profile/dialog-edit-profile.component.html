@@ -8,15 +8,14 @@
         (click)="close()"
       ></i>
     </div>
-    <div class="w-100 flex-centered">
+    <div *ngIf="!isEditing" class="w-100 flex-centered">
       <img
         width="214px"
         height="214px"
         src="{{ user.photoURL }}"
-        class="rounded-circle my-3"
+        class="rounded-circle my-3 object-fit-cover"
       />
     </div>
-    <!--  -->
     <div *ngIf="!isEditing">
       <div class="w-100 mb-4">
         <div class="d-flex justify-content-between">
@@ -28,10 +27,7 @@
           </p>
         </div>
         <div class="d-flex align-items-center gap-3">
-          <div
-            class="rounded-circle status online bottom-0 end-0 border-0"
-          ></div>
-          <p class="text-online">Active</p>
+          <app-user-status [uid]="user.uid"></app-user-status>
         </div>
       </div>
       <div>
@@ -42,13 +38,35 @@
         <a class="text-mail pointer gap-start">{{ user.email }}</a>
       </div>
     </div>
-    <!-- TODO: edit email readonly?! -->
     <div *ngIf="isEditing">
       <form [formGroup]="editForm" (ngSubmit)="submit()">
+        <label class="avatar-upload-btn pointer w-100 flex-centered">
+          <img
+            width="214px"
+            height="214px"
+            src="{{
+              editForm.get('fileControl')?.invalid
+                ? 'assets/characters/default_character.png'
+                : editForm.get('fileControl')?.value
+            }}"
+            class="rounded-circle my-3 object-fit-cover"
+          />
+          <input
+            class="pointer"
+            type="file"
+            (change)="onFileSelected($event)"
+          />
+          <input
+            type="hidden"
+            name="fileHidden"
+            formControlName="fileControl"
+          />
+        </label>
         <label for="fullname" class="form-label"
           ><i class="bi bi-person-circle me-3"></i>Vollständiger Name</label
         >
         <input
+          #inputName
           formControlName="nameControl"
           class="form-control rounded-pill p-2 px-3 mb-4"
           id="fullname"

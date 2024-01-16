@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -7,6 +13,7 @@ import {
 } from '@angular/forms';
 import { User } from 'src/app/models/models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-dialog-edit-profile',
@@ -14,11 +21,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog-edit-profile.component.scss'],
 })
 export class DialogEditProfileComponent implements OnInit {
+  @ViewChild('inputName') inputName!: ElementRef;
+
   user!: User;
   editForm!: FormGroup;
   isEditing: boolean = false;
 
   constructor(
+    private userService: UserService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogEditProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: User }
@@ -28,16 +38,21 @@ export class DialogEditProfileComponent implements OnInit {
     this.user = this.data.user;
 
     this.editForm = this.fb.group({
-      nameControl: new FormControl(this.user.name, [Validators.required]),
-      mailControl: new FormControl(this.user.email, [
+      nameControl: new FormControl({ value: this.user.name, disabled: false }, [
+        Validators.required,
+      ]),
+      mailControl: new FormControl({ value: this.user.email, disabled: true }, [
         Validators.required,
         Validators.email,
       ]),
+      fileControl: new FormControl(
+        { value: this.user.photoURL, disabled: false },
+        [Validators.required]
+      ),
     });
   }
 
   submit() {
-    console.log('save user');
     this.dialogRef.close(this.editForm.value);
   }
 
@@ -45,7 +60,26 @@ export class DialogEditProfileComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  toggleEditProfile() {
+  /**
+   * Toggles the edit mode for the user profile and focuses the input field for editing the name.
+   * 
+   * @returns {void}
+   */
+  toggleEditProfile(): void {
     this.isEditing = !this.isEditing;
+    setTimeout(() => {
+      if (this.inputName) {
+        this.inputName.nativeElement.focus();
+      }
+    });
+  }
+
+  /**
+   * Handles the user selecting a file.
+   * @param {any} event - The event object for the file selection.
+   * @returns {void}
+   */
+  onFileSelected(event: any): void {
+    this.userService.uploadFile(event.target.files[0], this.editForm);
   }
 }

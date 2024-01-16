@@ -7,6 +7,7 @@
     #messageTextArea
     formControlName="messageControl"
     (input)="adjustTextareaHeight()"
+    (keyup.enter)="saveEditedMessage()"
   ></textarea>
   <div class="form-bottom">
     <div class="icon-single pointer flex-centered">

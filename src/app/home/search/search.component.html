@@ -1,24 +1,26 @@
 <div class="position-relative">
   <input
-    [(ngModel)]="searchInputValue"
-    #searchInput
+    [(ngModel)]="searchService.searchTerm"
     type="search"
     aria-label="Search"
     class="search rounded-pill border-0 p-3 px-5"
     placeholder="Code learning durchsuchen..."
-    (input)="input$.next(searchInput.value)"
+    (input)="search()"
   />
   <div
-    *ngIf="searchInput.value !== ''"
-    class="z-2 position-absolute top-100 start-0 ms-4"
+    *ngIf="searchService.searchTerm !== ''"
+    class="z-2 position-absolute top-100 start-0 w-100"
   >
     <ul class="bg-white shadow rounded-bottom p-0">
-      <li
-        (click)="selectUserFromDropdown(result)"
-        *ngFor="let result of results$ | async"
-        class="results text-center py-2 fs-5 text-hover px-3 pointer"
-      >
-        {{ result.name | titlecase }}
+      <li *ngFor="let chat of allUserChats" class="chat-info">
+        <div
+          class="results gap-3 message-container text-center py-2 fs-5 text-hover px-3 pointer w-100"
+          *ngFor="let message of chat.messages"
+          (click)="selectChatFromDropdown(chat)"
+        >
+          <span class="fw-bold"> {{ chat.name | titlecase }}:</span>
+          <span> {{ message.content }}</span>
+        </div>
       </li>
     </ul>
   </div>

@@ -1,0 +1,36 @@
+<div class="input-container">
+  <label class="mb-4 custom-text" for="title">Neue Nachricht</label>
+  <mat-form-field class="form-field mb-2" appearance="outline">
+    <input
+      #inputSearchChat
+      id="title"
+      matInput
+      placeholder="An: #channel, oder @jemand"
+      [(ngModel)]="searchTerm"
+      type="search"
+      aria-label="Search"
+      (input)="search()"
+    />
+    <div
+      *ngIf="searchTerm !== ''"
+      class="z-2 position-absolute top-100 start-0 ms-4"
+    >
+      <ul class="bg-white shadow rounded-bottom p-0">
+        <li
+          (click)="selectUserFromDropdown(user)"
+          *ngFor="let user of users"
+          class="results text-center py-2 fs-5 text-hover px-3 pointer"
+        >
+          {{ user.name | titlecase }}
+        </li>
+        <li
+          (click)="selectChannelFromDropdown(channel)"
+          *ngFor="let channel of channels"
+          class="results text-center py-2 fs-5 text-hover px-3 pointer"
+        >
+          {{ channel.name | titlecase }}
+        </li>
+      </ul>
+    </div>
+  </mat-form-field>
+</div>
