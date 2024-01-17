@@ -48,3 +48,5 @@ Thumbs.db
 .runtimeconfig.json
 firebase.json
 environment.ts
+.firebaserc
+firebase.json
