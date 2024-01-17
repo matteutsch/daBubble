@@ -4,6 +4,7 @@
   title="Pick your emoji…"
   emoji="point_up"
   (emojiSelect)="addTextareaEmoji($event)"
+  [emojisToShowFilter]="emojiFilter"
 ></emoji-mart>
 <svg
   (click)="toggledTextareaEmoji()"
@@ -38,6 +39,7 @@
   title="Pick your emoji…"
   emoji="point_up"
   (emojiSelect)="addMessageEmoji($event)"
+  [emojisToShowFilter]="emojiFilter"
 ></emoji-mart>
 <svg
   (click)="toggledMessageEmoji()"

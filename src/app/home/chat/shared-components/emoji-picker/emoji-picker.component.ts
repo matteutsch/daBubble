@@ -24,6 +24,62 @@ export class EmojiPickerComponent {
     public messageService: MessageService
   ) {}
 
+  emojiFilter = (e: any) =>
+    ![
+      '1F972',
+      '1F978',
+      '1FAC0',
+      '1FAC1',
+      '1F90C',
+      '1F9AC',
+      '1F9A3',
+      '1F9AB',
+      '1F9A4',
+      '1FAB6',
+      '1F9AD',
+      '1FAB2',
+      '1FAB1',
+      '1FAB0',
+      '1FAB3',
+      '1FAB4',
+      '1FAD0',
+      '1FAD2',
+      '1FAD1',
+      '1FAD3',
+      '1FAD5',
+      '1FAD4',
+      '1FAD6',
+      '1F9CB',
+      '1FA84',
+      '1FA86',
+      '1FA85',
+      '1FAA2',
+      '1FAA1',
+      '1F6D6',
+      '1FAB5',
+      '1FAA8',
+      '1F6FC',
+      '1F6FB',
+      '1FA96',
+      '1FA98',
+      '1FA97',
+      '1FA9D',
+      '1FA9B',
+      '1FA9A',
+      '1FA83',
+      '1FA9C',
+      '1F6D7',
+      '1FA9E',
+      '1FA9F',
+      '1FAA4',
+      '1FAA5',
+      '1FAA3',
+      '1FAA0',
+      '1FAA7',
+      '1FAA6',
+      '1FAE0',
+    ].includes(e);
+
   /**
    * Adds the selected emoji to the textarea.
    *
@@ -43,11 +99,12 @@ export class EmojiPickerComponent {
    * @returns {void}
    */
   appendInputValue(newContent: any): void {
-    if (this.emojiInput$) {
-      const currentValue = this.emojiInput$.value;
-      const updatedValue = currentValue + newContent;
-      this.emojiInput$.value = updatedValue;
+    if (!this.emojiInput$) {
+      return;
     }
+    const currentValue = this.emojiInput$.value.messageControl || '';
+    const updatedValue = currentValue + newContent;
+    this.emojiInput$.get('messageControl').setValue(updatedValue);
   }
 
   /**
