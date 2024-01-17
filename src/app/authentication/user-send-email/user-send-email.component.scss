@@ -1,123 +1,171 @@
 .container {
-    flex-direction: column;
-    gap: 24px;
-    width: 100vw;
-    max-width: 100%;
-    height: 100vh;
-    max-height: 100%;
-    padding-left: 75px;
-    padding-right: 75px;
-    padding-top: 0;
-    background-color: var(--bg-color);
-    box-sizing: border-box;
-    font-family: "Nunito" !important;
+  flex-direction: column;
+  gap: 24px;
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  max-height: 100%;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-top: 0;
+  background-color: var(--bg-color);
+  box-sizing: border-box;
+  font-family: "Nunito" !important;
 }
 
 .send-email-page {
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background-color: var(--bg-color, #eceefe);
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-color, #eceefe);
 
-    .mat-mdc-card {
-        border-radius: 30px;
-        padding: 40px 53px;
-    }
+  .mat-mdc-card {
+    border-radius: 30px;
+    padding: 40px 53px;
+  }
 
-    .logo {
-        position: absolute;
-        top: var(--logo-intro-margin-top);
-        left: var(--logo-intro-margin-left);
-        animation: moveLogo 500ms ease-in-out 1800ms 1 both;
-    }
+  .logo {
+    position: absolute;
+    top: var(--logo-intro-margin-top);
+    left: var(--logo-intro-margin-left);
+    animation: moveLogo 500ms ease-in-out 1800ms 1 both;
+  }
 }
 
 .authentication-form {
+  .form-section {
+    .text {
+      width: 530px;
+      flex-direction: column;
+      color: var(--dark-grey);
+      text-align: center;
+      font-family: "Nunito";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%;
+    }
+  }
 
-    .form-section {
+  .form-field {
+    position: relative;
 
-        .text {
-            width: 530px;
-            flex-direction: column;
-            color: var(--dark-grey);
-            text-align: center;
-            font-family: "Nunito";
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 120%;
-        }
+    input {
+      position: relative;
+      z-index: 10;
+      padding-left: 50px;
     }
 
-    .form-field {
-        position: relative;
-
-        input {
-            position: relative;
-            z-index: 10;
-            padding-left: 50px;
-        }
-
-        img {
-            position: absolute;
-            z-index: 10;
-            left: 10px;
-        }
+    img {
+      position: absolute;
+      z-index: 10;
+      left: 10px;
     }
+  }
 }
 
 .data-policies {
-    position: absolute;
-    bottom: 46px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 16px;
+  position: absolute;
+  bottom: 46px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 16px;
 
-    a {
-        padding: 12px 16px;
-        font-size: 18px;
-        text-decoration: none;
-        border: 1px solid transparent;
+  a {
+    padding: 12px 16px;
+    font-size: 18px;
+    text-decoration: none;
+    border: 1px solid transparent;
 
-        &:hover {
-            border: 1px solid #808080;
-            border-radius: 50px;
-        }
+    &:hover {
+      border: 1px solid #808080;
+      border-radius: 50px;
     }
+  }
 }
 
 :host {
+  ::ng-deep .mdc-notched-outline {
+    background-color: var(--bg-color) !important;
+    border-radius: 40px !important;
+  }
 
-    ::ng-deep .mdc-notched-outline {
-        background-color: var(--bg-color) !important;
-        border-radius: 40px !important;
-    }
+  // For INPUT_NOT_TOUCHED:
+  ::ng-deep .mdc-notched-outline__trailing {
+    border: 1px solid transparent !important;
+    border-radius: 40px !important;
+  }
 
-    // For INPUT_NOT_TOUCHED:
-    ::ng-deep .mdc-notched-outline__trailing {
-        border: 1px solid transparent !important;
-        border-radius: 40px !important;
-    }
+  // For INPUT_FOCUSED:
+  ::ng-deep .mdc-text-field--focused .mdc-notched-outline > * {
+    border: 1px solid var(--purple-3) !important;
+    border-radius: 40px !important;
+  }
 
-    // For INPUT_FOCUSED:
-    ::ng-deep .mdc-text-field--focused .mdc-notched-outline>* {
-        border: 1px solid var(--purple-3) !important;
-        border-radius: 40px !important;
-    }
+  // For INPUT_ERROR:
+  ::ng-deep .mdc-text-field--invalid .mdc-notched-outline > * {
+    border: 1px solid var(--red) !important;
+    border-radius: 40px !important;
+  }
 
-    // For INPUT_ERROR:
-    ::ng-deep .mdc-text-field--invalid .mdc-notched-outline>* {
-        border: 1px solid var(--red) !important;
-        border-radius: 40px !important;
-    }
+  ::ng-deep .mdc-notched-outline__leading {
+    display: none !important;
+  }
 
-    ::ng-deep .mdc-notched-outline__leading {
-        display: none !important;
-    }
+  ::ng-deep .mdc-notched-outline__notch {
+    display: none !important;
+  }
 
-    ::ng-deep .mdc-notched-outline__notch {
-        display: none !important;
+  /*-------------------------------- Responsive --------------------------------*/
+
+  @media (max-width: 1500px) {
+    .container {
+      padding: 0 16px;
     }
+  }
+
+  @media (max-width: 1200px) {
+    .send-email-page {
+      .mat-mdc-card {
+        padding: 16px 24px;
+      }
+    }
+  }
+
+  @media (max-width: 650px) {
+    .hide-mobile {
+      display: none;
+    }
+    .logo {
+      top: 100px !important;
+      left: auto !important;
+      right: 50%;
+      transform: translateX(50%);
+    }
+    .authentication-form {
+      .form-section {
+        .text {
+          width: 100%;
+          font-size: 16px;
+          margin-bottom: 16px;
+        }
+      }
+    }
+    .send-email-page {
+      .mat-mdc-card {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .logo {
+    top: 0px;
+    margin-top: -50px;
+    width: 200px;
+    height: 56px;
+  }
 }

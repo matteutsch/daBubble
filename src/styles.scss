@@ -18,8 +18,8 @@
   --yellow: #f9ab01;
   --logo-intro-width: 696px;
   --logo-intro-height: 184px;
-  --logo-intro-margin-top: 75px;
-  --logo-intro-margin-left: 75px;
+  --logo-intro-margin-top: 56px;
+  --logo-intro-margin-left: 56px;
   --logo-intro-image-width: 188px;
   --logo-intro-image-height: 184px;
   --logo-intro-text-width: 470px;
@@ -354,7 +354,6 @@ input {
   }
 
   .emoji-picker-message {
-  
     .picker {
       right: -180px !important;
     }
@@ -507,7 +506,7 @@ input {
   }
 
   .authentication-subtitle {
-    width: 486px;
+    max-width: 486px;
     color: black;
     text-align: center;
     font-family: "Nunito";
@@ -602,4 +601,41 @@ app-user-status {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 700px) {
+  .authentication-header {
+    svg {
+      left: -4px;
+    }
+  }
+}
+@media (max-width: 450px) {
+  .mb-mobile {
+    margin-bottom: 10px !important;
+  }
+  .authentication-header {
+    .authentication-title {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .authentication-subtitle {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+  }
+  .mat-mdc-form-field-infix {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    min-height: auto;
+  }
+  .btn-primary {
+    font-size: 16px;
+  }
+  .btn-secundary {
+    font-size: 16px !important;
+    white-space: nowrap;
+  }
 }
