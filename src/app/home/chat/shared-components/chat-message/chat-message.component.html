@@ -20,15 +20,15 @@
   </div>
   <div *ngIf="!isEditing" class="content">
     <div class="header">
-      <span class="name">{{ messageAuthor.name }}</span>
+      <span class="name">{{ messageAuthor.name | titlecase }}</span>
       <span *ngIf="message" class="message-time"
         >{{ message.timestampData | date : "shortTime" }} Uhr</span
       >
     </div>
-    <pre class="speech">{{ message.content }}</pre>
+    <div class="speech">{{ message.content }}</div>
     <div class="message-bottom">
       <div *ngIf="message.answers.length > 0" class="label">
-        <span class="answers" (click)="openThread()"
+        <span class="answers" (click)="toggleSidebarAndThread()"
           >{{ message.answers.length }} Antworten</span
         >
         <span class="answer-time"
@@ -52,7 +52,7 @@
               <div class="flex-centered">
                 <span>{{ emoji.native }}</span>
                 <div *ngFor="let emojiAuthor of allEmojiAuthors[i]" class="p-0">
-                  <span class="name">{{ emojiAuthor.name }}</span>
+                  <span class="name">{{ emojiAuthor.name | titlecase }}</span>
                 </div>
                 <span class="text">hat reagiert</span>
               </div>
@@ -87,7 +87,7 @@
     </div>
     <div
       class="icon-single pointer flex-centered div-icon-comment"
-      (click)="openThread()"
+      (click)="toggleSidebarAndThread()"
     >
       <svg
         class="icon-comment"

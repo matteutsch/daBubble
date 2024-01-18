@@ -21,3 +21,16 @@ a {
 .mt-100 {
   margin-top: 100px;
 }
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 1500px) {
+  h2 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 1200px) {
+  h2 {
+    font-size: 24px;
+  }
+}

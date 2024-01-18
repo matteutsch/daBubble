@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DrawerService {
+  isSideMenuOpen: boolean = true;
+  innerWidth: number = window.innerWidth;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.innerWidth = window.innerWidth;
+  }
+
   /**
    * Toggles the visibility of the provided Material drawer instance.
    * @param {MatDrawer} drawerInstance - The Material drawer instance to toggle.

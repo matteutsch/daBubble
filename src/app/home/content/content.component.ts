@@ -13,15 +13,24 @@ export class ContentComponent {
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
   @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
 
-  isSideMenuOpen: boolean = true;
-
   constructor(
     public drawerService: DrawerService,
     public authService: AuthService,
     public userService: UserService
   ) {}
 
+  toggleSidebarAndThread() {
+    if (this.drawerService.innerWidth < 1300) {
+      if (this.drawerThread!.opened) {
+        this.drawerService.closeDrawer(this.drawerThread!);
+      }
+      this.drawerService.toggleDrawer(this.drawerSidebar!);
+    } else {
+      this.drawerService.toggleDrawer(this.drawerSidebar!);
+    }
+  }
+
   toggleBtnText() {
-    this.isSideMenuOpen = !this.isSideMenuOpen;
+    this.drawerService.isSideMenuOpen = !this.drawerService.isSideMenuOpen;
   }
 }

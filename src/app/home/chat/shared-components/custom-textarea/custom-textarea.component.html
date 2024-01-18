@@ -1,6 +1,10 @@
-<div class="textarea-container pointer">
+<div class="textarea-container">
   <form [formGroup]="messageForm" (ngSubmit)="submit()">
-    <textarea #textArea formControlName="messageControl" (keyup.enter)="submit()"></textarea>
+    <textarea
+      #textArea
+      formControlName="messageControl"
+      (keyup.enter)="submit()"
+    ></textarea>
     <div class="textarea-bottom">
       <div class="add-elements flex-centered">
         <div class="icon-single pointer flex-centered">
@@ -49,7 +53,10 @@
           <path d="M1 0V40" stroke="#ADB0D9" />
         </svg>
         <div class="icon-single pointer flex-centered">
-          <app-emoji-picker class="emoji-picker-textarea" [emojiInput$]="messageForm"></app-emoji-picker>
+          <app-emoji-picker
+            class="emoji-picker-textarea"
+            [emojiInput$]="messageForm"
+          ></app-emoji-picker>
         </div>
         <div class="icon-single pointer flex-centered">
           <svg

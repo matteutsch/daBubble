@@ -17,6 +17,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class ChatMessageComponent implements OnInit, OnChanges, OnDestroy {
   @Input() drawerThread: any;
+  @Input() drawerSidebar: any;
   @Input() message: Message = new MessageData();
   @Input() messageAuthor!: User;
   @Input() messageIndex!: number;
@@ -277,6 +278,18 @@ export class ChatMessageComponent implements OnInit, OnChanges, OnDestroy {
       message.timestampData === this.messageService.threadMessage.timestampData
     ) {
       this.drawerService.closeDrawer(this.drawerThread);
+    }
+  }
+
+  toggleSidebarAndThread() {
+    if (this.drawerService.innerWidth < 1300) {
+      if (this.drawerSidebar!.opened) {
+        this.drawerService.isSideMenuOpen = false;
+        this.drawerService.closeDrawer(this.drawerSidebar!);
+      }
+      this.openThread();
+    } else {
+      this.openThread();
     }
   }
 }
