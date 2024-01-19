@@ -32,28 +32,52 @@
   flex-shrink: 0;
   border: none;
   border-radius: 30px 0px 0px 30px;
-  background: var(--White, #FFF);
-  box-shadow: 4px 0px 7px 7px rgba(0, 0, 0, 0.20);
+  background: var(--White, #fff);
+  box-shadow: 4px 0px 7px 7px rgba(0, 0, 0, 0.2);
   transform: rotate(180deg);
   transition: all 225ms ease-in-out;
 
   &:hover {
-      color: var(--purple-3);
-      font-weight: 700;
+    color: var(--purple-3);
+    font-weight: 700;
 
-      svg {
-
-          path,
-          rect {
-              stroke: var(--purple-3);
-          }
+    svg {
+      path,
+      rect {
+        stroke: var(--purple-3);
       }
+    }
   }
 
   .vertical-text {
-      display: inline-block;
-      white-space: nowrap;
-      writing-mode: vertical-rl;
-      transform-origin: 0 0;
+    display: inline-block;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform-origin: 0 0;
+  }
+}
+
+/*-------------------------------- Responsive --------------------------------*/
+@media (max-width: 800px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .mat-drawer {
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
+  app-thread {
+    width: 100%;
+  }
+  .content {
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    top: 88px !important;
+  }
+  .mat-drawer-container {
+    height: 100% !important;
   }
 }

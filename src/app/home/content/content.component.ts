@@ -12,15 +12,22 @@ import { UserService } from 'src/app/services/user.service';
 export class ContentComponent {
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
   @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
-
+  innerWidth: number = this.drawerService.innerWidth;
   constructor(
     public drawerService: DrawerService,
     public authService: AuthService,
     public userService: UserService
   ) {}
 
+  shouldShowMainChat() {
+    return (
+      this.innerWidth < 800 &&
+      (this.drawerSidebar?.opened || this.drawerThread?.opened)
+    );
+  }
+
   toggleSidebarAndThread() {
-    if (this.drawerService.innerWidth < 1300) {
+    if (this.innerWidth < 1300) {
       if (this.drawerThread!.opened) {
         this.drawerService.closeDrawer(this.drawerThread!);
       }

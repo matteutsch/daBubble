@@ -18,6 +18,7 @@ import { MessageService } from '../shared/message.service';
 })
 export class SidebarComponent {
   @Input() drawerThread: any;
+  @Input() drawerSidebar: any;
 
   public showChannels: boolean = true;
   public showDirectMessages: boolean = true;
@@ -112,5 +113,11 @@ export class SidebarComponent {
         }
       }
     });
+  }
+
+  hideSideBar() {
+    if (this.drawerService.innerWidth < 800) {
+      this.drawerService.closeDrawer(this.drawerSidebar!);
+    }
   }
 }

@@ -1,15 +1,25 @@
-<div class="position-relative">
+<div class="head-wrapper">
   <div class="flex-centered justify-content-between p-3">
-    <div class="flex-centered gap-3 ps-3">
+    <div *ngIf="showLogo()" class="flex-centered gap-3 ps-3">
       <img height="56px" src="assets/icons/big_logo.png" alt="Logo" />
       <h2 class="fw-bold">daBubble</h2>
     </div>
-    <app-search></app-search>
+    <div
+      *ngIf="showChannelLogo()"
+      class="flex-centered pointer"
+      (click)="this.drawerService.openDrawer(this.drawerSidebar)"
+    >
+      <i class="bi bi-chevron-left fs-4"></i>
+      <img class="head-img" src="../../../assets/icons/workspace_logo.png" />
+    </div>
+    <app-search class="hide-mobile"></app-search>
     <div
       class="flex-centered gap-3 pe-3 pointer text-hover"
       (click)="toggleLogout()"
     >
-      <h2 class="fw-bold">{{ userService.user.name | titlecase }}</h2>
+      <h2 class="fw-bold hide-at-800">
+        {{ userService.user.name | titlecase }}
+      </h2>
       <div class="position-relative">
         <img
           width="70px"
@@ -18,7 +28,7 @@
             userService.user.photoURL ||
               'assets/characters/default_character.png'
           }}"
-          class="rounded-circle object-fit-cover"
+          class="rounded-circle object-fit-cover head-img"
         />
         <app-user-status
           *ngIf="userService.user.uid"
@@ -26,12 +36,13 @@
           [uid]="userService.user.uid"
         ></app-user-status>
       </div>
-      <i class="bi bi-chevron-down fs-4"></i>
+      <i class="bi bi-chevron-down fs-4 hide-at-800"></i>
     </div>
   </div>
   <div *ngIf="isOpen">
-    <div class="position-absolute top-0 end-0">
+    <div class="position-absolute top-0 end-0 switch-menu-position">
       <mat-card class="p-4 fs-4 z-3 custom-rounded me-3 mt-100">
+        <div class="line"></div>
         <mat-card-subtitle
           class="menuContainer pointer px-4 p-3 rounded-pill"
           (click)="openDialog()"

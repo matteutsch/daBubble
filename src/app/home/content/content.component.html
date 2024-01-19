@@ -1,5 +1,5 @@
 <div class="main-page">
-  <app-header></app-header>
+  <app-header [drawerSidebar]="drawerSidebar"></app-header>
   <div class="content">
     <mat-drawer-container class="mat-drawer-container" autosize>
       <mat-drawer
@@ -8,9 +8,13 @@
         class="mat-drawer rounded-4"
         mode="side"
       >
-        <app-sidebar [drawerThread]="drawerThread"></app-sidebar>
+        <app-sidebar
+          [drawerThread]="drawerThread"
+          [drawerSidebar]="drawerSidebar"
+        ></app-sidebar>
       </mat-drawer>
       <app-main-chat
+        [ngClass]="{ 'hide-mobile': shouldShowMainChat() }"
         [drawerThread]="drawerThread"
         [drawerSidebar]="drawerSidebar"
       ></app-main-chat>
@@ -26,6 +30,7 @@
     </mat-drawer-container>
   </div>
   <button
+    *ngIf="innerWidth > 600"
     class="btn-toggle-side flex-centered z-1"
     type="button"
     mat-button

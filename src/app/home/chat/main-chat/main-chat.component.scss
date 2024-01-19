@@ -5,6 +5,7 @@
   .mat-card-content {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     padding: 0;
 
@@ -133,4 +134,26 @@
 
 ::ng-deep .mdc-notched-outline__notch {
   display: none !important;
+}
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 600px) {
+  .mat-card {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    display: flex;
+  }
+  app-custom-textarea {
+    padding: 0 16px 16px !important;
+  }
+  .head-members {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .head-members {
+    padding: 8px;
+  }
 }
