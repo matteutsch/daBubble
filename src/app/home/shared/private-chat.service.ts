@@ -3,6 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
+import { Subscription } from 'rxjs';
 import {
   Chat,
   ChatData,
@@ -18,6 +19,7 @@ import {
 })
 export class PrivateChatService {
   public privateChatMembers: ChatMember[] = [];
+  public privateChatsSubscription!: Subscription;
 
   constructor(private afs: AngularFirestore) {}
 
@@ -33,23 +35,38 @@ export class PrivateChatService {
     chatID: string
   ): Promise<void> {
     if (memberId && chatID) {
-      this.afs
+      let isSubscribe = false;
+      const userDoc$ = this.afs
         .collection('users')
         .doc(memberId)
-        .valueChanges()
-        .subscribe((userRef: any) => {
-          const user = userRef;
-          const isMember = this.isPrivateChatMember(user);
-          const chatMember = new ChatMemberData(
-            user,
-            chatID
-          ).toFirestoreObject();
-          if (!isMember) {
-            this.privateChatMembers.push(chatMember);
-          } else {
-            this.updatePrivateChatMember(chatMember);
+        .valueChanges();
+      this.privateChatsSubscription = userDoc$.subscribe(
+        (userSnapshot: any) => {
+          if (this.shouldSubscribe(isSubscribe)) {
+            isSubscribe = true;
+            this.processPrivateChatData(userSnapshot, chatID);
           }
-        });
+        }
+      );
+    }
+  }
+
+  /**
+   * Processes private chat data and updates the list of private chat members.
+   *
+   * @param {any} userSnapshot - The snapshot of the user data.
+   * @param {string} chatID - The ID of the private chat.
+   * @returns {void}
+   * @private
+   */
+  private processPrivateChatData(userSnapshot: any, chatID: string): void {
+    const user = userSnapshot;
+    const isMember = this.isPrivateChatMember(user);
+    const chatMember = new ChatMemberData(user, chatID).toFirestoreObject();
+    if (!isMember) {
+      this.privateChatMembers.push(chatMember);
+    } else {
+      this.updatePrivateChatMember(chatMember);
     }
   }
 
@@ -80,7 +97,7 @@ export class PrivateChatService {
       (existingMember) => existingMember.uid === user.uid
     );
   }
-  
+
   /**
    * Asynchronously sets a Firestore document for a new private chat and updates users' private chat lists.
    *
@@ -176,5 +193,34 @@ export class PrivateChatService {
       (chat: PrivateChat) => chat.chatPartnerID === newMemberID
     );
     return isNewChatAlreadyInArray;
+  }
+
+  /**
+   * Unsubscribes from the private chat subscription if it is active.
+   *
+   * @returns {void}
+   */
+  public unsubscribePrivateChats(): void {
+    if (
+      this.privateChatsSubscription &&
+      !this.privateChatsSubscription.closed
+    ) {
+      this.privateChatsSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Checks if it is appropriate to subscribe to the private chat.
+   *
+   * @param {boolean} isSubscribe - Indicates whether the subscription is already in progress.
+   * @returns {boolean} - A boolean indicating whether it is appropriate to subscribe.
+   * @private
+   */
+  private shouldSubscribe(isSubscribe: boolean): boolean {
+    return (
+      this.privateChatsSubscription &&
+      !this.privateChatsSubscription.closed &&
+      !isSubscribe
+    );
   }
 }

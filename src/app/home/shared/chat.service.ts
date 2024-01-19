@@ -3,6 +3,7 @@ import {
   ChannelChat,
   Chat,
   ChatData,
+  ChatMember,
   PrivateChat,
   User,
 } from 'src/app/models/models';
@@ -46,9 +47,9 @@ export class ChatService {
    * @returns {void}
    */
   public updateAllChats(user: User): void {
-    this.channelChatService.uChannelChats = [];
-    user.chats.private.forEach((chat: PrivateChat) => {
-      this.privateChatService.pushMemberInPrivateChat(
+    this.resetAllChats();
+    user.chats.private.forEach(async (chat: PrivateChat) => {
+      await this.privateChatService.pushMemberInPrivateChat(
         chat.chatPartnerID,
         chat.chatID
       );
@@ -59,6 +60,17 @@ export class ChatService {
         this.channelChatsCollection
       );
     });
+  }
+
+  /**
+   * Resets all private and channel chats data.
+   *
+   * @returns {void}
+   * @private
+   */
+  private resetAllChats(): void {
+    this.privateChatService.privateChatMembers = [] as ChatMember[];
+    this.channelChatService.uChannelChats = [] as Chat[];
   }
 
   /**

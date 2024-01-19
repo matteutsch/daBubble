@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import {
   ChannelChat,
   ChannelChatData,
@@ -20,6 +20,7 @@ export class ChannelChatService {
   public channels: Chat[] = [];
   private channelsSubject = new BehaviorSubject<Chat[]>([]);
   public uChannelChats: Chat[] = [];
+  public channelChatsSubscription!: Subscription;
 
   constructor(
     private afs: AngularFirestore,
@@ -62,19 +63,32 @@ export class ChannelChatService {
     collection: AngularFirestoreCollection
   ): void {
     if (chatID) {
-      const channelDoc = collection
+      let isSubscribe = false;
+      const channelDoc$ = collection
         .doc(chatID)
         .valueChanges() as Observable<any>;
-      channelDoc.subscribe((chat: Chat) => {
-        if (chat) {
-          const isChannel = this.isChannelExisting(chat.chatID);
-          if (!isChannel) {
-            this.uChannelChats.push(chat);
-          } else {
-            this.updateChannelChats(chat);
-          }
+      this.channelChatsSubscription = channelDoc$.subscribe((chat: Chat) => {
+        if (chat && this.shouldSubscribe(isSubscribe)) {
+          isSubscribe = true;
+          this.processChannelChatUpdate(chat);
         }
       });
+    }
+  }
+
+  /**
+   * Processes the update received for a channel chat and updates the list of channel chats.
+   *
+   * @param {Chat} chat - The channel chat data to process.
+   * @returns {void}
+   * @private
+   */
+  private processChannelChatUpdate(chat: Chat): void {
+    const isChannel = this.isChannelExisting(chat.chatID);
+    if (!isChannel) {
+      this.uChannelChats.push(chat);
+    } else {
+      this.updateChannelChats(chat);
     }
   }
 
@@ -299,5 +313,20 @@ export class ChannelChatService {
       (chat: ChannelChat) => chat.chatID === newChatID
     );
     return isNewChatAlreadyInArray;
+  }
+
+  /**
+   * Checks if it is appropriate to subscribe to the channel chats.
+   *
+   * @param {boolean} isSubscribe - Indicates whether the subscription is already in progress.
+   * @returns {boolean} - A boolean indicating whether it is appropriate to subscribe.
+   * @private
+   */
+  private shouldSubscribe(isSubscribe: boolean): boolean {
+    return (
+      this.channelChatsSubscription &&
+      !this.channelChatsSubscription.closed &&
+      !isSubscribe
+    );
   }
 }
