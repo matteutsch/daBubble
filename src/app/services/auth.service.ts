@@ -112,7 +112,9 @@ export class AuthService {
       localStorage.removeItem('user');
       this.unsubscribeUserData();
       this.privateChatService.unsubscribePrivateChats();
-      this.channelChatService.channelChatsSubscription.unsubscribe();
+      if (this.channelChatService.channelChatsSubscription) {
+        this.channelChatService.channelChatsSubscription.unsubscribe();
+      }
       this.userService.user = new UserData();
       this.router.navigate(['login']);
     });

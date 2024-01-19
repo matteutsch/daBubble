@@ -12,14 +12,20 @@ import { DrawerService } from '../shared/drawer.service';
 })
 export class HeaderComponent {
   @Input() drawerSidebar: any;
+  @Input() drawerThread: any;
   isOpen: boolean = false;
-  innerWidth: number = this.drawerService.innerWidth;
+  innerWidth: number = window.innerWidth;
+
   constructor(
     public auth: AuthService,
     private dialog: MatDialog,
     public userService: UserService,
     public drawerService: DrawerService
-  ) {}
+  ) {
+    this.drawerService.getResizeObservable().subscribe((width) => {
+      this.innerWidth = width;
+    });
+  }
 
   showLogo() {
     return (
@@ -35,10 +41,13 @@ export class HeaderComponent {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
-    dialogConfig.position = {
-      top: '100px',
-      right: '16px',
-    };
+    if (this.innerWidth > 600) {
+      dialogConfig.position = {
+        top: '100px',
+        right: '16px',
+      };
+    }
+
     dialogConfig.panelClass = 'custom-rounded';
 
     dialogConfig.data = {

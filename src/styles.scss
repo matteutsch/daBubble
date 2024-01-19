@@ -615,6 +615,15 @@ app-user-status {
     padding: 4px 8px;
   }
 }
+
+@media (max-width: 600px) {
+  .custom-rounded
+    .mat-mdc-dialog-container
+    .mdc-dialog__container
+    .mat-mdc-dialog-surface {
+    border-radius: 30px !important;
+  }
+}
 @media (max-width: 450px) {
   .mb-mobile {
     margin-bottom: 10px !important;

@@ -56,3 +56,23 @@
     height: 1px;
   }
 }
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-height: 750px) {
+  mat-card {
+    gap: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  mat-card {
+    padding: 24px !important;
+    gap: 16px !important;
+  }
+  .my-3 {
+    margin-bottom: 32px !important;
+  }
+  .min-500 {
+    min-width: 80vw;
+  }
+}

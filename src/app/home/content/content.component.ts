@@ -12,12 +12,16 @@ import { UserService } from 'src/app/services/user.service';
 export class ContentComponent {
   @ViewChild('drawerSidebar') drawerSidebar: MatDrawer | undefined;
   @ViewChild('drawerThread') drawerThread: MatDrawer | undefined;
-  innerWidth: number = this.drawerService.innerWidth;
+  innerWidth: number = window.innerWidth;
   constructor(
     public drawerService: DrawerService,
     public authService: AuthService,
     public userService: UserService
-  ) {}
+  ) {
+    this.drawerService.getResizeObservable().subscribe((width) => {
+      this.innerWidth = width;
+    });
+  }
 
   shouldShowMainChat() {
     return (

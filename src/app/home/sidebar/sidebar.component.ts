@@ -19,7 +19,7 @@ import { MessageService } from '../shared/message.service';
 export class SidebarComponent {
   @Input() drawerThread: any;
   @Input() drawerSidebar: any;
-
+  innerWidth: number = window.innerWidth;
   public showChannels: boolean = true;
   public showDirectMessages: boolean = true;
 
@@ -33,7 +33,11 @@ export class SidebarComponent {
     public channelChatService: ChannelChatService,
     public privateChatService: PrivateChatService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.drawerService.getResizeObservable().subscribe((width) => {
+      this.innerWidth = width;
+    });
+  }
 
   /**
    * Selects a channel chat and updates the current chat in the chat service.
@@ -116,7 +120,7 @@ export class SidebarComponent {
   }
 
   hideSideBar() {
-    if (this.drawerService.innerWidth < 800) {
+    if (this.innerWidth < 800) {
       this.drawerService.closeDrawer(this.drawerSidebar!);
     }
   }
