@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { ChatData, UserData } from '../models/models';
-import { UserService } from './user.service';
-import { Observable, Subscription } from 'rxjs';
 import * as auth from 'firebase/auth';
+import { Observable, Subscription } from 'rxjs';
 import { ChatService } from '../home/shared/chat.service';
 import { MessageService } from '../home/shared/message.service';
+import { ChatData, UserData } from '../models/models';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',

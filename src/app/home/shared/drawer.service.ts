@@ -1,5 +1,11 @@
-import { HostListener, Injectable } from '@angular/core';
+import {
+  HostListener,
+  Injectable,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Observable, debounceTime, fromEvent, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,12 +13,24 @@ import { MatDrawer } from '@angular/material/sidenav';
 export class DrawerService {
   isSideMenuOpen: boolean = true;
   innerWidth: number = window.innerWidth;
+  private resizeObservable: Observable<number>;
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(event: Event) {
     this.innerWidth = window.innerWidth;
+    console.log(this.innerWidth);
   }
 
+  constructor() {
+    this.resizeObservable = fromEvent(window, 'resize').pipe(
+      debounceTime(200),
+      map(() => window.innerWidth)
+    );
+  }
+
+  getResizeObservable(): Observable<number> {
+    return this.resizeObservable;
+  }
   /**
    * Toggles the visibility of the provided Material drawer instance.
    * @param {MatDrawer} drawerInstance - The Material drawer instance to toggle.
