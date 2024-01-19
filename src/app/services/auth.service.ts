@@ -3,19 +3,24 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { UserData } from '../models/models';
 import { UserService } from './user.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as auth from 'firebase/auth';
+import { PrivateChatService } from '../home/shared/private-chat.service';
+import { ChannelChatService } from '../home/shared/channel-chat.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private userData!: Observable<any>;
+  private userDataSubscription!: Subscription;
 
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private privateChatService: PrivateChatService,
+    private channelChatService: ChannelChatService
   ) {
     this.userData = this.afAuth.authState;
     this.subscribeToAuthState();
@@ -27,8 +32,10 @@ export class AuthService {
    * @private
    */
   private subscribeToAuthState(): void {
-    this.userData.subscribe((user) => {
-      this.handleAuthStateChange(user);
+    this.userDataSubscription = this.userData.subscribe((user) => {
+      if (this.userDataSubscription && !this.userDataSubscription.closed) {
+        this.handleAuthStateChange(user);
+      }
     });
   }
 
@@ -103,6 +110,10 @@ export class AuthService {
   public async SignOut(): Promise<void> {
     return this.afAuth.signOut().then((res) => {
       localStorage.removeItem('user');
+      this.unsubscribeUserData();
+      this.privateChatService.unsubscribePrivateChats();
+      this.channelChatService.channelChatsSubscription.unsubscribe();
+      this.userService.user = new UserData();
       this.router.navigate(['login']);
     });
   }
@@ -155,5 +166,17 @@ export class AuthService {
       );
       this.router.navigate(['home', result.user?.uid]);
     });
+  }
+
+  /**
+   * Unsubscribes from user data updates.
+   *
+   * @returns {void}
+   * @private
+   */
+  private unsubscribeUserData(): void {
+    if (this.userDataSubscription && !this.userDataSubscription.closed) {
+      this.userDataSubscription.unsubscribe();
+    }
   }
 }
