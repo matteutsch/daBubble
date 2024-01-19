@@ -31,6 +31,7 @@ export class MainChatComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('ulChatMessages', { static: false }) ulChatMessageRef!: ElementRef;
   @ViewChild('customTextArea', { static: false }) customTextArea!: ElementRef;
   @Input() drawerThread: any;
+  @Input() drawerSidebar: any;
 
   public selectedUser: ChatMember = new ChatMemberData();
   private memberSubscription!: Subscription;

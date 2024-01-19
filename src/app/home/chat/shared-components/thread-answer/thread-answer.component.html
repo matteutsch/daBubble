@@ -20,12 +20,12 @@
   </div>
   <div *ngIf="!isEditing" class="content">
     <div class="header">
-      <span class="name">{{ messageAuthor.name }}</span>
+      <span class="name">{{ messageAuthor.name | titlecase }}</span>
       <span *ngIf="message" class="message-time"
         >{{ message.timestampData | date : "shortTime" }} Uhr</span
       >
     </div>
-    <pre class="speech">{{ message.content }}</pre>
+    <div class="speech">{{ message.content }}</div>
     <div class="message-bottom">
       <div class="message-reactions">
         <ul>
@@ -40,7 +40,7 @@
               <div class="flex-centered">
                 <span>{{ emoji.native }}</span>
                 <div *ngFor="let emojiAuthor of allEmojiAuthors[i]" class="p-0">
-                  <span class="name">{{ emojiAuthor.name }}</span>
+                  <span class="name">{{ emojiAuthor.name | titlecase }}</span>
                 </div>
                 <span class="text">hat reagiert</span>
               </div>

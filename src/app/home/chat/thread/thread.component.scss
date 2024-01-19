@@ -1,5 +1,7 @@
 .mat-card {
   height: 100%;
+  width: 485px;
+  max-width: 485px;
 
   .mat-card-content {
     display: flex;
@@ -13,7 +15,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  min-width: 485px;
   padding: 32px 40px;
 
   .thread-title {
@@ -52,14 +53,23 @@
     width: calc(100% - 80px);
 
     span {
+      white-space: nowrap;
       color: var(--light-grey);
       font-size: 18px;
       font-weight: 400;
     }
-
-    img {
-      flex-grow: 1;
+    .seperating-line {
       height: 1px;
+      background-color: var(--bg-color);
+      width: 100%;
     }
+  }
+}
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 1500px) {
+  .mat-card {
+    max-width: 424px;
   }
 }

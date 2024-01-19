@@ -45,7 +45,10 @@
             </button>
             <span>und dir statt.</span>
           </div>
-          <div *ngIf="selectedUser.uid === userService.user.uid" class="my-text">
+          <div
+            *ngIf="selectedUser.uid === userService.user.uid"
+            class="my-text"
+          >
             <span style="font-weight: 700">
               Dieser Raum ist nur für dich da.
             </span>
@@ -70,6 +73,7 @@
             [messageIndex]="i"
             [msgType]="'chat'"
             [drawerThread]="drawerThread"
+            [drawerSidebar]="drawerSidebar"
             [chatType]="this.chatService.currentChat.type"
             [chatId]="this.chatService.currentChat.chatID"
           ></app-chat-message>

@@ -29,7 +29,7 @@
   display: flex;
   align-items: flex-start;
   gap: 30px;
-  width: 100%;
+  max-width: 100%;
   padding: 10px 35px;
   margin-top: 25px;
 
@@ -50,7 +50,7 @@
     }
 
     .reaction-bar {
-        display: inline-flex;
+      display: inline-flex;
     }
   }
 
@@ -96,9 +96,9 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 8px;
       width: 100%;
-      padding: 15px;
+      gap: 8px;
+      padding: 16px;
       border-radius: 0px 30px 30px 30px;
       background: var(--bg-color);
       font-size: 18px;
@@ -113,6 +113,7 @@
       gap: 20px;
 
       .answers {
+        white-space: nowrap;
         color: var(--purple-3);
         font-size: 18px;
         font-weight: 400;
@@ -192,4 +193,22 @@
 
 app-edit-message-form {
   width: 100%;
+}
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 1500px) {
+  .message {
+    padding: 8px 16px;
+    gap: 16px;
+  }
+  .avatar {
+    img {
+      width: 56px;
+      height: 56px;
+    }
+  }
+  .speech {
+    padding: 8px 16px !important;
+  }
 }

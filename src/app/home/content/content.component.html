@@ -10,7 +10,10 @@
       >
         <app-sidebar [drawerThread]="drawerThread"></app-sidebar>
       </mat-drawer>
-      <app-main-chat [drawerThread]="drawerThread"></app-main-chat>
+      <app-main-chat
+        [drawerThread]="drawerThread"
+        [drawerSidebar]="drawerSidebar"
+      ></app-main-chat>
       <mat-drawer
         #drawerThread
         [opened]="false"
@@ -26,13 +29,13 @@
     class="btn-toggle-side flex-centered z-1"
     type="button"
     mat-button
-    (click)="drawerService.toggleDrawer(drawerSidebar); toggleBtnText()"
+    (click)="toggleSidebarAndThread(); toggleBtnText()"
   >
-    <span *ngIf="isSideMenuOpen" class="vertical-text"
+    <span *ngIf="drawerService.isSideMenuOpen" class="vertical-text"
       >Workspace-Menü schließen</span
     >
-    <span *ngIf="!isSideMenuOpen" class="vertical-text"
-      >Workspace-Menü öffen</span
+    <span *ngIf="!drawerService.isSideMenuOpen" class="vertical-text"
+      >Workspace-Menü öffnen</span
     >
     <svg
       width="18"

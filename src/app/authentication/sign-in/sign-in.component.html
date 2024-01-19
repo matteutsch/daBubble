@@ -1,72 +1,113 @@
 <div class="container flex-centered">
-    <div class="intro-bg">
-        <div class="logo-content">
-            <div class="logo-intro">
-                <img class="logo-image" src="../../assets/icons/big_logo.png">
-                <div class="logo-text">
-                    <img src="../../assets/icons/logo_name.png">
-                </div>
-            </div>
+  <div class="intro-bg">
+    <div class="logo-content">
+      <div class="logo-intro">
+        <img class="logo-image" src="../../assets/icons/big_logo.png" />
+        <div class="logo-text">
+          <img src="../../assets/icons/logo_name.png" />
         </div>
+      </div>
     </div>
-    <div class="signin-page flex-centered">
-
-        <img class="logo" src="../../assets/icons/logo_with_text.png">
-        <div class="regist-container">
-            Neu bei DABubble?
-            <a routerLink="/register">Konto erstellen</a>
-        </div>
-
-        <mat-card>
-            <mat-card-header class="authentication-header">
-                <mat-card-title class="authentication-title">Anmeldung</mat-card-title>
-                <mat-card-subtitle class="authentication-subtitle">
-                    Wir empfehlen dir, die E-Mail-Adresse zu nutzen,
-                    die du bei der Arbeitverwendest.
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <form class="authentication-form" [formGroup]="signinForm" (ngSubmit)="signIn()">
-                    <div class="email-container">
-                        <mat-form-field class="form-field mb-2 w-100 mb-4" appearance="outline">
-                            <input matInput placeholder="pat@example.com" formControlName="emailControl">
-                            <mat-error *ngIf="signinForm.get('email')?.invalid">{{ getErrorMessage() }}</mat-error>
-                            <img src="../../../assets/icons/email_icon.png">
-                        </mat-form-field>
-                    </div>
-                    <div class="password-container">
-                        <mat-form-field class="form-field mb-2 w-100 mb-4" appearance="outline">
-                            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort" formControlName="passwordControl">
-                                <img class="pointer" (click)="hide = !hide"
-                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
-                                 src="{{hide ? '../../../assets/icons/password_icon.png' : '../../../assets/icons/no_lock.png'}}">
-                        </mat-form-field>
-                    </div>
-                    <div class="w-100 flex-centered mb-4">
-                        <a class="anchor" routerLink="/send-email">Passwort vergessen?</a>
-                    </div>
-                    <div class="line-container mb-4">
-                        <img src="../../../assets/icons/line.png">
-                        <span>ODER</span>
-                    </div>
-                    <button type="button" class="btn-google w-100 mb-4" (click)="signInWithGoogle()">
-                        <img src="../../../assets/icons/google_icon.png">
-                        <span>Anmelden mit Google</span>
-                    </button>
-                    <div class="btns-bottom flex-centered w-100">
-                        <button class="btn-primary flex-centered" type="submit"
-                            [disabled]="signinForm.invalid">Anmelden</button>
-                        <button class="btn-secundary flex-centered" type="button" (click)="signInAAnonymously()">Gäste-Login</button>
-                    </div>
-                </form>
-            </mat-card-content>
-
-        </mat-card>
-
-        <div class="data-policies">
-            <a routerLink="/impressum">Impressum</a>
-            <a routerLink="/data-policy">Datenschutz</a>
-        </div>
-
+  </div>
+  <div class="signin-page flex-centered">
+    <img class="logo" src="../../assets/icons/logo_with_text.png" />
+    <div class="regist-container">
+      <p>Neu bei DABubble?</p>
+      <a routerLink="/register">Konto erstellen</a>
     </div>
+
+    <mat-card>
+      <mat-card-header class="authentication-header">
+        <mat-card-title class="authentication-title">Anmeldung</mat-card-title>
+        <mat-card-subtitle class="authentication-subtitle">
+          Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der
+          Arbeitverwendest.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form
+          class="authentication-form"
+          [formGroup]="signinForm"
+          (ngSubmit)="signIn()"
+        >
+          <div class="email-container">
+            <mat-form-field
+              class="form-field mb-2 w-100 mb-4 mb-mobile"
+              appearance="outline"
+            >
+              <input
+                matInput
+                placeholder="pat@example.com"
+                formControlName="emailControl"
+              />
+              <mat-error *ngIf="signinForm.get('email')?.invalid">{{
+                getErrorMessage()
+              }}</mat-error>
+              <img src="../../../assets/icons/email_icon.png" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field
+              class="form-field mb-2 w-100 mb-4 mb-mobile"
+              appearance="outline"
+            >
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                placeholder="Passwort"
+                formControlName="passwordControl"
+              />
+              <img
+                class="pointer"
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+                src="{{
+                  hide
+                    ? '../../../assets/icons/password_icon.png'
+                    : '../../../assets/icons/no_lock.png'
+                }}"
+              />
+            </mat-form-field>
+          </div>
+          <div class="w-100 flex-centered mb-4 mb-mobile mb-neg">
+            <a class="anchor" routerLink="/send-email">Passwort vergessen?</a>
+          </div>
+          <div class="line-container mb-4 flex-centered mb-mobile">
+            <div></div>
+            <span>ODER</span>
+          </div>
+          <button
+            type="button"
+            class="btn-google w-100 mb-4 mb-mobile"
+            (click)="signInWithGoogle()"
+          >
+            <img src="../../../assets/icons/google_icon.png" />
+            <span>Anmelden mit Google</span>
+          </button>
+          <div class="btns-bottom flex-centered w-100">
+            <button
+              class="btn-primary flex-centered"
+              type="submit"
+              [disabled]="signinForm.invalid"
+            >
+              Anmelden
+            </button>
+            <button
+              class="btn-secundary flex-centered"
+              type="button"
+              (click)="signInAAnonymously()"
+            >
+              Gäste-Login
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="data-policies hide-mobile">
+      <a routerLink="/impressum">Impressum</a>
+      <a routerLink="/data-policy">Datenschutz</a>
+    </div>
+  </div>
 </div>

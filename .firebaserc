@@ -1,14 +1,14 @@
 {
   "targets": {
-    "dabubble-a4d50": {
+    "dabubble-f5f98": {
       "hosting": {
         "daBubble": [
-          "dabubble-a4d50"
+          "dabubble-f5f98"
         ]
       }
     }
   },
   "projects": {
-    "default": "dabubble-a4d50"
+    "default": "dabubble-f5f98"
   }
 }

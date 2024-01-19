@@ -38,7 +38,10 @@
       </div>
     </div>
     <ul #ulThreadMessages class="ul-messages">
-      <li *ngIf="messageService.threadMessage" class="w-100 thread-header-message">
+      <li
+        *ngIf="messageService.threadMessage"
+        class="w-100 thread-header-message"
+      >
         <app-chat-message
           [message]="messageService.threadMessage"
           [messageAuthor]="messageService.threadMessageAuthor"
@@ -53,10 +56,13 @@
         <span *ngIf="messageService.threadMessage.answers"
           >{{ messageService.threadMessage.answers.length }} Antworten</span
         >
-        <img src="../../../assets/icons/line.png" />
+        <div class="seperating-line"></div>
       </li>
       <li
-        *ngFor="let answer of messageService.threadMessage.answers; let i = index"
+        *ngFor="
+          let answer of messageService.threadMessage.answers;
+          let i = index
+        "
         class="w-100"
       >
         <app-thread-answer
