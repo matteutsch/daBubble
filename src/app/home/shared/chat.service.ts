@@ -339,7 +339,7 @@ export class ChatService {
    */
   public unsubscribeChat(): void {
     this.privateChatService.unsubscribePrivateChats();
-    this.channelChatService.channelChatsSubscription.unsubscribe();
-    this.messageService.messageSubscription.unsubscribe();
+    this.channelChatService.unsubscribeChannelChats();
+    this.messageService.unsubscribeMessages();
   }
 }

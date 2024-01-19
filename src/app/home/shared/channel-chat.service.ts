@@ -329,4 +329,18 @@ export class ChannelChatService {
       !isSubscribe
     );
   }
+
+  /**
+   * Unsubscribes from the channel chat subscription if it is active.
+   *
+   * @returns {void}
+   */
+  public unsubscribeChannelChats(): void {
+    if (
+      this.channelChatsSubscription &&
+      !this.channelChatsSubscription.closed
+    ) {
+      this.channelChatsSubscription.unsubscribe();
+    }
+  }
 }

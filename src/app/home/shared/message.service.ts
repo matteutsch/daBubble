@@ -395,4 +395,18 @@ export class MessageService implements OnDestroy {
   private shouldSubscribe(): boolean {
     return this.messageSubscription && !this.messageSubscription.closed;
   }
+  
+  /**
+   * Unsubscribes from the message subscription if it is active.
+   *
+   * @returns {void}
+   */
+  public unsubscribeMessages(): void {
+    if (
+      this.messageSubscription &&
+      !this.messageSubscription.closed
+    ) {
+      this.messageSubscription.unsubscribe();
+    }
+  }
 }
