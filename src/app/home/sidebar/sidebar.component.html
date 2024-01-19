@@ -8,7 +8,7 @@
         </div>
         <div
           class="edit-square icon-single pointer flex-centered"
-          (click)="resetChatSelection()"
+          (click)="resetChatSelection(); hideSideBar()"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +104,7 @@
             </div>
             <div
               class="icon-single pointer flex-centered"
-              (click)="createChannelDialog()"
+              (click)="createChannelDialog(); hideSideBar()"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +145,7 @@
               <li
                 *ngFor="let channel of channelChatService.uChannelChats"
                 class="btn-channel-name pointer"
-                (click)="selectChannelChat(channel)"
+                (click)="selectChannelChat(channel); hideSideBar()"
               >
                 <svg
                   class="hash"
@@ -288,7 +288,7 @@
               <li
                 *ngFor="let member of privateChatService.privateChatMembers"
                 class="pointer"
-                (click)="selectPrivateChatWithMember(member)"
+                (click)="selectPrivateChatWithMember(member); hideSideBar()"
               >
                 <div class="position-relative">
                   <img
@@ -307,8 +307,7 @@
                 </div>
                 <span
                   >{{ member.name | titlecase }}
-                  <ng-container
-                    *ngIf="userService.user.uid === member.uid"
+                  <ng-container *ngIf="userService.user.uid === member.uid"
                     >(Du)</ng-container
                   ></span
                 >

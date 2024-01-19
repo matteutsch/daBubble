@@ -2,6 +2,7 @@
   height: 100%;
   width: 485px;
   max-width: 485px;
+  contain: content;
 
   .mat-card-content {
     display: flex;
@@ -70,6 +71,33 @@
 
 @media (max-width: 1500px) {
   .mat-card {
-    max-width: 424px;
+    width: 35vw;
+  }
+}
+@media (max-width: 1200px) {
+  .mat-card {
+    width: 40vw !important;
+  }
+}
+@media (max-width: 1000px) {
+  .separator {
+    span {
+      font-size: 14px !important;
+    }
+  }
+}
+@media (max-width: 800px) {
+  .mat-card {
+    width: 50vw !important;
+  }
+}
+@media (max-width: 600px) {
+  .mat-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+  app-custom-textarea {
+    padding: 0 16px 16px !important;
   }
 }
