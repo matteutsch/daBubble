@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { UserData } from '../models/models';
-import { UserService } from './user.service';
-import { Observable, Subscription } from 'rxjs';
 import * as auth from 'firebase/auth';
-import { PrivateChatService } from '../home/shared/private-chat.service';
-import { ChannelChatService } from '../home/shared/channel-chat.service';
+import { Observable, Subscription } from 'rxjs';
+import { ChatService } from '../home/shared/chat.service';
+import { MessageService } from '../home/shared/message.service';
+import { ChatData, UserData } from '../models/models';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,8 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private userService: UserService,
-    private privateChatService: PrivateChatService,
-    private channelChatService: ChannelChatService
+    private chatService: ChatService,
+    private messageService: MessageService
   ) {
     this.userData = this.afAuth.authState;
     this.subscribeToAuthState();
@@ -111,11 +111,11 @@ export class AuthService {
     return this.afAuth.signOut().then((res) => {
       localStorage.removeItem('user');
       this.unsubscribeUserData();
-      this.privateChatService.unsubscribePrivateChats();
-      if (this.channelChatService.channelChatsSubscription) {
-        this.channelChatService.channelChatsSubscription.unsubscribe();
-      }
+      this.chatService.unsubscribeChat();
       this.userService.user = new UserData();
+      this.chatService.currentChat = new ChatData();
+      this.messageService.currentMessages = [];
+      this.chatService.chatType.next('default');
       this.router.navigate(['login']);
     });
   }

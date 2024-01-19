@@ -15,6 +15,7 @@ import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PrivateChatService } from './private-chat.service';
 import { ChannelChatService } from './channel-chat.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,8 @@ export class ChatService {
     private afs: AngularFirestore,
     private firestoreService: FirestoreService,
     private privateChatService: PrivateChatService,
-    private channelChatService: ChannelChatService
+    private channelChatService: ChannelChatService,
+    private messageService: MessageService
   ) {
     this.privateChatsCollection = this.afs.collection('privateChats');
     this.channelChatsCollection = this.afs.collection('channelChats');
@@ -327,5 +329,17 @@ export class ChatService {
   public focusInputSearchChat(): void {
     const inputSearchChatRef = this.getInputSearchChatRef();
     inputSearchChatRef.nativeElement.focus();
+  }
+
+  /**
+   * Unsubscribes from all chat-related subscriptions, including private chats,
+   * channel chats, and messages.
+   *
+   * @returns {void}
+   */
+  public unsubscribeChat(): void {
+    this.privateChatService.unsubscribePrivateChats();
+    this.channelChatService.channelChatsSubscription.unsubscribe();
+    this.messageService.messageSubscription.unsubscribe();
   }
 }

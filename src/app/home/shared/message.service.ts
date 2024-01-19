@@ -42,18 +42,20 @@ export class MessageService implements OnDestroy {
   public async getChatMessages(chat: Chat): Promise<void> {
     if (chat.chatID.length > 0) {
       try {
-        const messageRef = this.afs
+        const messageDoc$ = this.afs
           .collection(`${chat.type}Chats`)
           .doc(chat.chatID)
           .collection('messages', (ref) => ref.orderBy('timestampData'))
           .valueChanges();
-        const messagesCountRef = messageRef.pipe(take(1));
+        const messagesCountRef = messageDoc$.pipe(take(1));
         const messages = await firstValueFrom(messagesCountRef);
         this.currentMessages = messages as Message[];
-        this.messageSubscription = messageRef.subscribe((res) => {
-          const newMessages = res as Message[];
-          this.handleAddedMessages(newMessages);
-          this.handleRemovedMessages(newMessages);
+        this.messageSubscription = messageDoc$.subscribe((res) => {
+          if (this.shouldSubscribe()) {
+            const newMessages = res as Message[];
+            this.handleAddedMessages(newMessages);
+            this.handleRemovedMessages(newMessages);
+          }
         });
       } catch (error) {
         console.error(`Error retrieving messages: ${error}`);
@@ -382,5 +384,15 @@ export class MessageService implements OnDestroy {
         authorsId: [newEmoji.authorsId[0]],
       });
     }
+  }
+
+  /**
+   * Checks whether the message subscription should be initiated.
+   *
+   * @returns {boolean} - A boolean indicating whether the message subscription should be initiated.
+   * @private
+   */
+  private shouldSubscribe(): boolean {
+    return this.messageSubscription && !this.messageSubscription.closed;
   }
 }
