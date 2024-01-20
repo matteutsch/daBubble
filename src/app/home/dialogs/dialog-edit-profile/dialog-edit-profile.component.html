@@ -68,7 +68,7 @@
         <input
           #inputName
           formControlName="nameControl"
-          class="form-control rounded-pill p-2 px-3 mb-4"
+          class="form-control rounded-pill p-2 px-3 mb-4 mob-input"
           id="fullname"
           type="text"
           [ngClass]="{ 'is-invalid': editForm.get('nameControl')?.invalid }"
@@ -78,12 +78,12 @@
         >
         <input
           formControlName="mailControl"
-          class="form-control rounded-pill p-2 px-3 mb-4"
+          class="form-control rounded-pill p-2 px-3 mb-4 mob-input"
           id="email"
           type="email"
           [ngClass]="{ 'is-invalid': editForm.get('mailControl')?.invalid }"
         />
-        <div class="flex-centered gap-5">
+        <div class="flex-centered gap-5 mobile-btns">
           <button
             class="btn btn-outline-primary rounded-pill px-3 p-2 fs-5 btn-outlined"
             type="button"

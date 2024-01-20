@@ -70,3 +70,20 @@
   z-index: 10000;
   overflow: visible;
 }
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 600px) {
+  :host {
+    padding: 24px;
+  }
+  .icon-close {
+    top: 24px !important;
+    right: 24px !important;
+  }
+}
+@media (max-width: 450px) {
+  .matInput::placeholder {
+    font-size: 16px !important;
+  }
+}
