@@ -1,7 +1,7 @@
 <mat-card class="sidebar">
   <mat-card-content>
     <div class="sidebar-content">
-      <header class="header-sidebar">
+      <header class="header-sidebar" *ngIf="innerWidth > 600">
         <div class="left flex-centered">
           <img src="../../../assets/icons/workspace_logo.png" />
           <span class="custom-text">Code learning</span>
@@ -36,6 +36,9 @@
             </g>
           </svg>
         </div>
+      </header>
+      <header *ngIf="innerWidth < 600">
+        <app-search></app-search>
       </header>
       <main class="main-sidebar">
         <div class="channels">
