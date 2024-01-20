@@ -24,6 +24,18 @@ export class PrivateChatService {
   constructor(private afs: AngularFirestore) {}
 
   /**
+   * Handles private chats for the specified user by processing each private chat and adding members.
+   *
+   * @param {User} user - The user for whom private chats are handled.
+   */
+  public handlePrivateChats(user: User): void {
+    this.privateChatMembers = [] as ChatMember[];
+    user.chats.private.forEach((chat: PrivateChat) => {
+      this.pushMemberInPrivateChat(chat.chatPartnerID, chat.chatID);
+    });
+  }
+
+  /**
    * Asynchronously adds a member to a private chat and updates the list of private chat members.
    *
    * @param {string} memberId - The ID of the member to add.

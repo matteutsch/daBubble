@@ -1,17 +1,10 @@
-import { ElementRef, Injectable } from '@angular/core';
-import {
-  ChannelChat,
-  Chat,
-  ChatData,
-  ChatMember,
-  PrivateChat,
-  User,
-} from 'src/app/models/models';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { Chat, ChatData, User } from 'src/app/models/models';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, Subscription, lastValueFrom } from 'rxjs';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PrivateChatService } from './private-chat.service';
 import { ChannelChatService } from './channel-chat.service';
@@ -20,7 +13,7 @@ import { MessageService } from './message.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatService {
+export class ChatService implements OnDestroy {
   public currentChat: Chat = new ChatData();
   public chatType = new BehaviorSubject('default');
   public chatMemberPhotoUrls = new BehaviorSubject<string[]>([]);
@@ -29,6 +22,7 @@ export class ChatService {
   private customTextAreaRef: any;
   private customThreadTextareaRef: any;
   private inputSearchChatRef: any;
+  private chatSubscription!: Subscription;
 
   constructor(
     private afs: AngularFirestore,
@@ -42,6 +36,12 @@ export class ChatService {
     this.channelChatService.getAllChannels(this.channelChatsCollection);
   }
 
+  ngOnDestroy() {
+    if (this.chatSubscription) {
+      this.chatSubscription.unsubscribe();
+    }
+  }
+
   /**
    * Clears and updates all private and channel chats for the specified user.
    *
@@ -49,30 +49,45 @@ export class ChatService {
    * @returns {void}
    */
   public updateAllChats(user: User): void {
-    this.resetAllChats();
-    user.chats.private.forEach(async (chat: PrivateChat) => {
-      await this.privateChatService.pushMemberInPrivateChat(
-        chat.chatPartnerID,
-        chat.chatID
-      );
-    });
-    user.chats.channel.forEach((chat: ChannelChat) => {
-      this.channelChatService.pushChatInChannel(
-        chat.chatID,
-        this.channelChatsCollection
-      );
+    this.privateChatService.handlePrivateChats(user);
+    this.channelChatService.handleChannelChats(
+      user,
+      this.channelChatsCollection
+    );
+    const userDoc$ = this.afs.collection('users').doc(user.uid).valueChanges();
+    userDoc$.subscribe((userSnapshot) => {
+      const updatedUser = userSnapshot as User;
+      if (
+        this.shouldUpdateChats(user.chats.channel, updatedUser.chats.channel)
+      ) {
+        user.chats.channel = updatedUser.chats.channel;
+        this.channelChatService.handleChannelChats(
+          updatedUser,
+          this.channelChatsCollection
+        );
+      }
+      if (
+        this.shouldUpdateChats(user.chats.private, updatedUser.chats.private)
+      ) {
+        user.chats.private = updatedUser.chats.private;
+        this.privateChatService.handlePrivateChats(updatedUser);
+      }
     });
   }
 
   /**
-   * Resets all private and channel chats data.
+   * Checks whether the original chats differ from the updated chats.
    *
-   * @returns {void}
+   * @param {any[]} originalChats - The original chats.
+   * @param {any[]} updatedChats - The updated chats.
+   * @returns {boolean} - A boolean indicating whether the chats should be updated.
    * @private
    */
-  private resetAllChats(): void {
-    this.privateChatService.privateChatMembers = [] as ChatMember[];
-    this.channelChatService.uChannelChats = [] as Chat[];
+  private shouldUpdateChats(
+    originalChats: any[],
+    updatedChats: any[]
+  ): boolean {
+    return JSON.stringify(originalChats) !== JSON.stringify(updatedChats);
   }
 
   /**
@@ -95,6 +110,30 @@ export class ChatService {
    * @returns {Promise<void>}
    */
   public async pushMemberPhotoUrl(chat: Chat): Promise<void> {
+    this.getChatMemberPhotoUrls(chat);
+    const chatDoc$ = this.afs
+      .collection('channelChats')
+      .doc(chat.chatID)
+      .valueChanges();
+    this.chatSubscription = chatDoc$.subscribe((chatSnapshot) => {
+      const updatedChat = chatSnapshot as Chat;
+      if (this.shouldUpdateChats(chat.members, updatedChat.members)) {
+        if (this.currentChat.chatID === updatedChat.chatID) {
+          this.currentChat = updatedChat;
+        }
+        this.getChatMemberPhotoUrls(updatedChat);
+      }
+    });
+  }
+
+  /**
+   * Asynchronously retrieves member photo URLs for a given chat.
+   *
+   * @param {Chat} chat - The chat for which member photo URLs are retrieved.
+   * @returns {Promise<void>}
+   * @private
+   */
+  private async getChatMemberPhotoUrls(chat: Chat): Promise<void> {
     const memberIDs = chat.members || [];
     const promises = memberIDs.map(async (memberID: string) => {
       const photoUrl: string =

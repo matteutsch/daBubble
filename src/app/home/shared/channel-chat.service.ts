@@ -28,6 +28,23 @@ export class ChannelChatService {
   ) {}
 
   /**
+   * Handles channel chats for the specified user by processing each channel chat and pushing them into the specified collection.
+   *
+   * @param {User} user - The user for whom channel chats are handled.
+   * @param {AngularFirestoreCollection} collection - The Firestore collection containing channel chat data.
+   * @public
+   */
+  public handleChannelChats(
+    user: User,
+    collection: AngularFirestoreCollection
+  ): void {
+    this.uChannelChats = [] as Chat[];
+    user.chats.channel.forEach((chat: ChannelChat) => {
+      this.pushChatInChannel(chat.chatID, collection);
+    });
+  }
+
+  /**
    * Retrieves all channels from the specified Firestore collection and returns them as an observable.
    *
    * @param {AngularFirestoreCollection} collection - The Firestore collection containing channel data.
