@@ -1,9 +1,14 @@
 <h1 class="custom-text" mat-dialog-title>Mitglieder</h1>
 <div mat-dialog-content class="dialog-content">
-  <div (click)="openUserProfile(member)"
+  <div
+    (click)="openUserProfile(member)"
     class="user-name-img pointer flex-centered"
-    *ngFor="let member of channelMembers">
-    <img class="object-fit-cover" src="{{ member.photoURL || 'assets/characters/default_character.png' }}" />
+    *ngFor="let member of channelMembers"
+  >
+    <img
+      class="object-fit-cover"
+      src="{{ member.photoURL || 'assets/characters/default_character.png' }}"
+    />
     <span>{{ member.name | titlecase }}</span>
   </div>
   <div
@@ -40,7 +45,6 @@
 </div>
 <div class="icon-close icon-single pointer flex-centered">
   <svg
-    class="close-icon"
     (click)="close()"
     xmlns="http://www.w3.org/2000/svg"
     width="24"

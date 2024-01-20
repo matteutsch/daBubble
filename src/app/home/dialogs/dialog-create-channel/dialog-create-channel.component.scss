@@ -85,3 +85,13 @@
     padding-bottom: 0;
   }
 }
+
+@media (max-width: 450px) {
+  label {
+    margin-bottom: 8px !important;
+  }
+
+  .matInput::placeholder {
+    font-size: 16px !important;
+  }
+}

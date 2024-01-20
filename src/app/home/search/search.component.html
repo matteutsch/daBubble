@@ -9,7 +9,7 @@
   />
   <div
     *ngIf="searchService.searchTerm !== ''"
-    class="z-2 position-absolute top-100 start-0 w-100"
+    class="z-2 position-absolute top-100 result-position"
   >
     <ul class="bg-white shadow rounded-bottom p-0">
       <li *ngFor="let chat of allUserChats" class="chat-info">

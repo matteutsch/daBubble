@@ -391,3 +391,25 @@
     margin-bottom: 16px !important;
   }
 }
+
+@media (max-height: 750px) {
+  .mat-mdc-card {
+    padding: 0 !important;
+  }
+  .mb-mobile {
+    margin-bottom: 10px !important;
+  }
+  .authentication-subtitle,
+  .authentication-title {
+    margin-bottom: 16px;
+  }
+  .mat-mdc-form-field-infix {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    min-height: auto;
+  }
+  .btn-google {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+  }
+}

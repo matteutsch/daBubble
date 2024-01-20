@@ -7,3 +7,29 @@
     background-color: var(--bg-color);
   }
 }
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-height: 750px) {
+  mat-card {
+    gap: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+  mat-card {
+    padding: 24px !important;
+  }
+  .my-3 {
+    margin-top: 0 !important;
+    margin-bottom: 8px !important;
+  }
+  .min-500 {
+    min-width: 80vw;
+  }
+  .btn-primary {
+    margin-bottom: 0 !important;
+  }
+  .text-mail {
+    font-size: 16px !important;
+  }
+}

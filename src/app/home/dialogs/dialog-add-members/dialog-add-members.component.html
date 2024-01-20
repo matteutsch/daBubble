@@ -37,7 +37,7 @@
     <input
       #searchInput
       formControlName="memberName"
-      class="w-100 p-3 ol-none rounded-pill"
+      class="w-100 p-3 ol-none rounded-pill matInput"
       id="title"
       placeholder="# z.B. Kooperationsprojekte"
       (input)="input$.next(searchInput.value)"
@@ -71,7 +71,6 @@
 </form>
 <div class="icon-close icon-single pointer flex-centered">
   <svg
-    class="close-icon"
     (click)="close()"
     xmlns="http://www.w3.org/2000/svg"
     width="24"

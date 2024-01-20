@@ -13,14 +13,14 @@
     >
       <div class="edit-bar">
         <label
-          class="mb-4"
+          class="mb-4 mobile-font"
           [ngClass]="{ translateToZero: isChannelTitleEdited }"
           for="title"
           >Channel-Name</label
         >
         <button
           type="submit"
-          class="mb-4"
+          class="mb-4 mobile-font"
           [ngClass]="{ translateToZero: isChannelTitleEdited }"
           (click)="editChannelName()"
           [disabled]="isChannelDescriptionEdited"
@@ -56,14 +56,14 @@
     >
       <div class="edit-bar">
         <label
-          class="mb-4"
+          class="mb-4 mobile-font"
           [ngClass]="{ translateToZero: isChannelDescriptionEdited }"
           for="description"
-          >Beschreibung <span>(optional)</span></label
+          >Beschreibung <span class="hide-mobile">(optional)</span></label
         >
         <button
           type="submit"
-          class="mb-4"
+          class="mb-4 mobile-font"
           [ngClass]="{ translateToZero: isChannelDescriptionEdited }"
           (click)="editChannelDescription()"
           [disabled]="isChannelTitleEdited"
@@ -119,7 +119,6 @@
 </div>
 <div class="icon-close icon-single pointer flex-centered">
   <svg
-    class="close-icon"
     (click)="close()"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
