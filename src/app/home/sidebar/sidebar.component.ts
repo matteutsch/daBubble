@@ -84,6 +84,9 @@ export class SidebarComponent {
 
   createChannelDialog(): void {
     const dialogConfig = new MatDialogConfig();
+    if (this.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
     dialogConfig.panelClass = 'dialog-create-channel';
     const dialogRef = this.dialog.open(
       DialogCreateChannelComponent,

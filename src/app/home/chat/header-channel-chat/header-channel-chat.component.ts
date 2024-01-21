@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChannelChat, Chat, ChatData } from 'src/app/models/models';
 import { DialogEditChannelComponent } from '../../dialogs/dialog-edit-channel/dialog-edit-channel.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChatService } from '../../shared/chat.service';
 import { DialogMembersComponent } from '../../dialogs/dialog-members/dialog-members.component';
 import { DialogAddMembersComponent } from '../../dialogs/dialog-add-members/dialog-add-members.component';
@@ -26,10 +26,16 @@ export class HeaderChannelChatComponent {
   ) {}
 
   openEditChannelDialog(chat: Chat): void {
-    const dialogRef = this.dialog.open(DialogEditChannelComponent, {
-      panelClass: 'dialog-edit-channel',
-      data: chat,
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (window.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
+    dialogConfig.panelClass = 'dialog-edit-channel';
+    dialogConfig.data = chat;
+    const dialogRef = this.dialog.open(
+      DialogEditChannelComponent,
+      dialogConfig
+    );
 
     dialogRef.componentInstance.dataChange.subscribe((res) => {
       if (res) {
@@ -62,10 +68,13 @@ export class HeaderChannelChatComponent {
   }
 
   openMembersDialog(): void {
-    const dialogRef = this.dialog.open(DialogMembersComponent, {
-      panelClass: 'dialog-members',
-      data: this.chatService.currentChat.members,
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (window.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
+    dialogConfig.panelClass = 'dialog-members';
+    dialogConfig.data = this.chatService.currentChat.members;
+    const dialogRef = this.dialog.open(DialogMembersComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((res) => {
       if (res === 'add') {
         this.openAddMembersDialog(this.chatService.currentChat);
@@ -74,10 +83,13 @@ export class HeaderChannelChatComponent {
   }
 
   openAddMembersDialog(chat: Chat): void {
-    const dialogRef = this.dialog.open(DialogAddMembersComponent, {
-      panelClass: 'dialog-add-members',
-      data: chat,
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (window.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
+    dialogConfig.panelClass = 'dialog-add-members';
+    dialogConfig.data = chat;
+    const dialogRef = this.dialog.open(DialogAddMembersComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(async (memberID: string) => {
       this.handleMemberDialogClosed(memberID);
