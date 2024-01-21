@@ -93,8 +93,8 @@ export class AuthService {
   ): Promise<void> {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.userService.setUserData(result.user, userName, photoURL);
+      .then(async (result) => {
+        await this.userService.setUserData(result.user, userName, photoURL);
         this.router.navigate([`login`]);
       })
       .catch((error) => {

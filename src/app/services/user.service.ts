@@ -15,6 +15,7 @@ import {
 } from '../models/models';
 import { FirestoreService } from './firestore.service';
 import { ChatService } from '../home/shared/chat.service';
+import { TemplateService } from './template.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class UserService {
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
     private chatService: ChatService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private templateService: TemplateService
   ) {
     this.usersCollection = this.afs.collection('users');
     this.getAllUsers();
@@ -57,7 +59,7 @@ export class UserService {
    * @param {string} photoURL - The URL of the user's profile photo.
    * @returns {Promise<void>} - A promise indicating the success of the operation.
    */
-  public setUserData(
+  public async setUserData(
     user: any,
     userName: any,
     photoURL: string
@@ -78,6 +80,7 @@ export class UserService {
       user.uid
     ).toFirestoreObject();
     userData.chats.private.push(myChat);
+    await this.templateService.setChatsTemplateToUser(userData);
     this.afs
       .collection('privateChats')
       .doc(newChatData.toFirestoreObject().chatID)
