@@ -24,6 +24,8 @@
   --logo-intro-image-height: 184px;
   --logo-intro-text-width: 470px;
   --logo-intro-text-height: 73px;
+  --logo-image-width: auto;
+  --logo-text-width: auto;
 }
 
 ::-webkit-scrollbar {
@@ -605,7 +607,25 @@ app-user-status {
 
 /*-------------------------------- Responsive --------------------------------*/
 
+@media (max-width: 1200px) {
+  :root {
+    --logo-intro-margin-top: 24px !important;
+  }
+}
+
 @media (max-width: 700px) {
+  :root {
+    --logo-intro-margin-left: auto !important;
+    --logo-intro-width: 464px;
+    --logo-intro-height: 122px;
+    --logo-intro-image-width: 125px;
+    --logo-intro-image-height: 122px;
+    --logo-intro-text-width: 313px;
+    --logo-intro-text-height: 48px;
+    --logo-image-width: 150px;
+    --logo-text-width: 300px;
+  }
+
   .authentication-header {
     svg {
       left: -4px;
@@ -617,6 +637,12 @@ app-user-status {
 }
 
 @media (max-width: 600px) {
+  :root {
+    --logo-intro-width: 90vw;
+    --logo-image-width: 25vw;
+    --logo-text-width: 60vw;
+  }
+
   .custom-rounded
     .mat-mdc-dialog-container
     .mdc-dialog__container
