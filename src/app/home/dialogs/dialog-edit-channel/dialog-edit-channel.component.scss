@@ -162,17 +162,17 @@
 
 @media (max-width: 850px) {
   :host {
-    width: 60vw !important;
+    width: 60vw;
   }
 }
 @media (max-width: 750px) {
   :host {
-    width: 75vw !important;
+    width: 75vw;
   }
 }
 @media (max-width: 600px) {
   :host {
-    width: 80vw !important;
+    width: 80vw;
     padding: 16px 0 !important;
   }
   .icon-close {
@@ -190,5 +190,8 @@
   }
   .mobile-font {
     font-size: 16px !important;
+  }
+  :host {
+    min-width: 100% !important;
   }
 }

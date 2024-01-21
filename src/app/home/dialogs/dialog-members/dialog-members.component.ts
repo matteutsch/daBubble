@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
+  MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ChatMember, ChatMemberData } from 'src/app/models/models';
@@ -56,10 +57,16 @@ export class DialogMembersComponent implements OnInit {
    * @returns {void}
    */
   openUserProfile(member: ChatMember): void {
-    const dialogRef = this.dialog.open(DialogMemberProfileComponent, {
-      panelClass: 'dialog-member-profile',
-      data: member,
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (window.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
+    dialogConfig.panelClass = 'dialog-member-profile';
+    dialogConfig.data = member;
+    const dialogRef = this.dialog.open(
+      DialogMemberProfileComponent,
+      dialogConfig
+    );
   }
 
   openAddMemberDialog() {

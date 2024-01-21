@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChatService } from '../../shared/chat.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogMemberProfileComponent } from '../../dialogs/dialog-member-profile/dialog-member-profile.component';
 import { ChatMember, ChatMemberData } from 'src/app/models/models';
 import { UserService } from 'src/app/services/user.service';
@@ -49,9 +49,15 @@ export class HeaderPrivateChatComponent {
    * @returns {void}
    */
   openUserProfile(member: ChatMember): void {
-    const dialogRef = this.dialog.open(DialogMemberProfileComponent, {
-      panelClass: 'dialog-member-profile',
-      data: member,
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (window.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
+    }
+    dialogConfig.panelClass = 'dialog-member-profile';
+    dialogConfig.data = member;
+    const dialogRef = this.dialog.open(
+      DialogMemberProfileComponent,
+      dialogConfig
+    );
   }
 }

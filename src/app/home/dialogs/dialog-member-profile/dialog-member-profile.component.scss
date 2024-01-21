@@ -29,7 +29,10 @@
   .btn-primary {
     margin-bottom: 0 !important;
   }
-  .text-mail {
-    font-size: 16px !important;
+}
+
+@media (max-width: 450px) {
+  .min-500 {
+    min-width: 100%;
   }
 }

@@ -81,6 +81,9 @@
   mat-card {
     gap: 0px !important;
   }
+  .min-500 {
+    min-width: 100%;
+  }
   .mobile-btns {
     justify-content: space-between;
     gap: 0 !important;
@@ -91,6 +94,6 @@
     font-size: 16px !important;
   }
   .mob-input {
-    margin-bottom: 8px !important;
+    margin-bottom: 16px !important;
   }
 }

@@ -46,8 +46,9 @@ export class HeaderComponent {
         top: '100px',
         right: '16px',
       };
+    } else if (this.innerWidth <= 450) {
+      dialogConfig.minWidth = '95vw';
     }
-
     dialogConfig.panelClass = 'custom-rounded';
 
     dialogConfig.data = {
