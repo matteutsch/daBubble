@@ -7,7 +7,7 @@
     <mat-drawer-container class="mat-drawer-container" autosize>
       <mat-drawer
         #drawerSidebar
-        [opened]="true"
+        [opened]="innerWidth > 800"
         class="mat-drawer rounded-4"
         mode="side"
       >
@@ -17,7 +17,9 @@
         ></app-sidebar>
       </mat-drawer>
       <app-main-chat
-        [ngClass]="{ 'hide-mobile': shouldShowMainChat() }"
+        [ngClass]="{
+          'hide-mobile': shouldShowMainChat() || initShowMainChat()
+        }"
         [drawerThread]="drawerThread"
         [drawerSidebar]="drawerSidebar"
       ></app-main-chat>

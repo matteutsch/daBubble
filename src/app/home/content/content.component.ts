@@ -29,6 +29,13 @@ export class ContentComponent {
       (this.drawerSidebar?.opened || this.drawerThread?.opened)
     );
   }
+  initShowMainChat() {
+    if (this.innerWidth < 800) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   toggleSidebarAndThread() {
     if (this.innerWidth < 1300) {
