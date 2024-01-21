@@ -41,11 +41,7 @@
           placeholder="# z.B. Kooperationsprojekte"
         />
       </mat-form-field>
-      <p
-        *ngIf="!isChannelTitleEdited"
-        class="edited-text"
-        style="height: 78.77px"
-      >
+      <p *ngIf="!isChannelTitleEdited" class="edited-text">
         <span style="font-weight: 700">#</span>
         {{ editChannelForm.value.nameControl }}
       </p>
@@ -84,11 +80,7 @@
           placeholder="Dein Text hier"
         />
       </mat-form-field>
-      <p
-        *ngIf="!isChannelDescriptionEdited"
-        class="edited-text"
-        style="width: 40vw; height: 78.77px; max-width: 790px"
-      >
+      <p *ngIf="!isChannelDescriptionEdited" class="edited-text">
         {{ editChannelForm.value.descriptionControl }}
       </p>
       <div class="img-line flex-centered">

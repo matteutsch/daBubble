@@ -53,3 +53,20 @@
 }
 
 /*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 450px) {
+  .mini-info {
+    .img-container {
+      align-items: center !important;
+      .avatar {
+        border: 1px solid white;
+      }
+    }
+  }
+  .avatar {
+    img {
+      width: 24px !important;
+      height: 24px !important;
+    }
+  }
+}

@@ -29,7 +29,9 @@
       />
     </g>
   </svg>
-  <span class="custom-text">{{ chatService.currentChat.name | titlecase }}</span>
+  <span class="custom-text">{{
+    chatService.currentChat.name | titlecase
+  }}</span>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -48,9 +50,16 @@
     <div
       (click)="openMembersDialog()"
       class="img-container"
-      *ngFor="let photoUrl of chatService.chatMemberPhotoUrls.value.slice(0, 3); let i = index">
+      *ngFor="
+        let photoUrl of chatService.chatMemberPhotoUrls.value.slice(0, 3);
+        let i = index
+      "
+    >
       <div class="avatar flex-centered">
-        <img class="object-fit-cover" src="{{ photoUrl || 'assets/characters/default_character.png' }}" />
+        <img
+          class="object-fit-cover"
+          src="{{ photoUrl || 'assets/characters/default_character.png' }}"
+        />
       </div>
     </div>
     <span>{{ chatService.currentChat.members.length }}</span>
