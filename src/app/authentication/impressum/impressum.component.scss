@@ -99,3 +99,39 @@
     }
   }
 }
+
+/*-------------------------------- Responsive --------------------------------*/
+
+@media (max-width: 700px) {
+  .logo {
+    left: auto !important;
+    right: 50%;
+    transform: translateX(50%);
+  }
+  .impressum-container {
+    padding: 72px 32px;
+    width: 100%;
+    h1 {
+      font-size: 26px;
+    }
+    p{
+      font-size: 18px;
+    }
+    a{
+      font-size: 16px;
+    }
+
+  }
+  .container {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .return-arrow {
+    left: 20px;
+  }
+}
+
+// @media (max-width: 550px) {
+
+// }

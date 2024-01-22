@@ -77,7 +77,7 @@ export class EmojiPickerComponent {
       '1FAA0',
       '1FAA7',
       '1FAA6',
-      '1FAE0',
+      
     ].includes(e);
 
   /**
