@@ -351,13 +351,21 @@ input {
 
     .reaction-bar {
       right: inherit !important;
-      left: 112px !important;
+      left: 10px !important;
+
+      .emoji-picker-message {
+        .picker {
+          top: 25px;
+          left: 0px;
+        }
+      }
     }
   }
 
   .emoji-picker-message {
     .picker {
-      right: -180px !important;
+      top: 25px;
+      right: 0px;
     }
   }
 }
@@ -369,7 +377,7 @@ input {
 .my-message-thread {
   .message {
     .reaction-bar {
-      left: 40px !important;
+      left: 10px !important;
 
       .more-vert {
         display: block !important;
@@ -379,13 +387,21 @@ input {
 
   .e-p-m-t {
     .picker {
-      right: -280px !important;
+      left: 0px !important;
+      top: 25px !important;
+      .emoji-mart {
+        width: 200px !important;
+      }
     }
   }
 
   .e-p-m-b {
     .picker {
-      right: -100px !important;
+      right: 0px !important;
+      top: 25px !important;
+      .emoji-mart {
+        width: 200px !important;
+      }
     }
   }
 }
@@ -420,6 +436,26 @@ input {
       .div-icon-comment,
       .more-vert {
         display: none;
+      }
+    }
+  }
+
+  .e-p-m-t {
+    .picker {
+      right: 0px !important;
+      top: 25px !important;
+      .emoji-mart {
+        width: 200px !important;
+      }
+    }
+  }
+
+  .e-p-m-b {
+    .picker {
+      right: 0px !important;
+      top: 25px !important;
+      .emoji-mart {
+        width: 200px !important;
       }
     }
   }
@@ -553,13 +589,21 @@ input {
   }
 }
 
+.textarea-thread {
+  .picker {
+    .emoji-mart {
+      width: 200px !important;
+    }
+  }
+}
+
 .emoji-picker-message {
   position: relative;
 
   .picker {
     position: absolute;
-    top: 53px;
-    right: -100px;
+    right: 0px;
+    top: 25px;
     z-index: 100;
   }
 
@@ -675,5 +719,19 @@ app-user-status {
   .btn-secundary {
     font-size: 16px !important;
     white-space: nowrap;
+  }
+
+  .picker {
+    .emoji-mart {
+      width: 250px !important;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .picker {
+    .emoji-mart {
+      width: 200px !important;
+    }
   }
 }
