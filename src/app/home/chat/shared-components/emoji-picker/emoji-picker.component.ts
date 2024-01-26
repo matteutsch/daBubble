@@ -77,7 +77,6 @@ export class EmojiPickerComponent {
       '1FAA0',
       '1FAA7',
       '1FAA6',
-      
     ].includes(e);
 
   /**
@@ -126,13 +125,15 @@ export class EmojiPickerComponent {
       this.messageService.addMsgEmoji(
         this.chatService.currentChat,
         this.message,
-        newEmoji
+        newEmoji,
+        this.userService.user.uid
       );
     } else if (this.type === 'thread') {
       this.messageService.addAnswerEmoji(
         this.chatService.currentChat,
         newEmoji,
-        this.answerIndex
+        this.answerIndex,
+        this.userService.user.uid
       );
     }
     this.isOpened = !this.isOpened;

@@ -34,7 +34,7 @@
           <li
             *ngFor="let emoji of message.emoji; let i = index"
             class="reaction pointer flex-centered"
-            (click)="deleteEmoji(i)"
+            (click)="deleteOrAddEmoji(i, emoji)"
           >
             <span>{{ emoji.native }}</span>
             <span>{{ emoji.quantity }}</span>

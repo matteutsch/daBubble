@@ -230,20 +230,22 @@ export class MessageService implements OnDestroy {
   }
 
   /**
-   * Adds an emoji to a message in the specified chat.
+   * Adds an emoji to a message in the specified chat and updates the message document.
    *
    * @param {Chat} chat - The chat containing the message.
    * @param {Message} message - The message to which the emoji will be added.
    * @param {EmojiPicker} newEmoji - The new emoji to be added.
-   * @returns {Promise<void>}
+   * @param {string} userId - The user ID of the user adding the emoji.
+   * @returns {Promise<void>} - A promise that resolves once the emoji is added and the message document is updated.
    */
   public async addMsgEmoji(
     chat: Chat,
     message: Message,
-    newEmoji: EmojiPicker
+    newEmoji: EmojiPicker,
+    userId: string
   ): Promise<void> {
     const updatedEmoji = [...message.emoji];
-    this.updateEmojiQuantityByAdd(updatedEmoji, newEmoji);
+    this.updateEmojiQuantityByAdd(updatedEmoji, newEmoji, userId);
     const messageDocRef = this.firestoreService.getMsgDocRef(chat, message);
     messageDocRef.update({
       emoji: updatedEmoji,
@@ -251,21 +253,23 @@ export class MessageService implements OnDestroy {
   }
 
   /**
-   * Adds an emoji to an answer in the specified chat.
+   * Adds an emoji to an answer in the specified chat and updates the thread message document.
    *
    * @param {Chat} chat - The chat containing the thread message.
    * @param {EmojiPicker} newEmoji - The new emoji to be added.
    * @param {number} msgIndex - The index of the answer to receive the emoji.
-   * @returns {Promise<void>}
+   * @param {string} userId - The user ID of the user adding the emoji.
+   * @returns {Promise<void>} - A promise that resolves once the emoji is added and the thread message document is updated.
    */
   public async addAnswerEmoji(
     chat: Chat,
     newEmoji: EmojiPicker,
-    msgIndex: number
+    msgIndex: number,
+    userId: string
   ): Promise<void> {
     const updatedEmoji = [...this.threadMessage.answers[msgIndex].emoji];
     const updatedAnswers = [...this.threadMessage.answers];
-    this.updateEmojiQuantityByAdd(updatedEmoji, newEmoji);
+    this.updateEmojiQuantityByAdd(updatedEmoji, newEmoji, userId);
     updatedAnswers[msgIndex] = {
       ...updatedAnswers[msgIndex],
       emoji: updatedEmoji,
@@ -311,7 +315,7 @@ export class MessageService implements OnDestroy {
    * @param {User} user - The user initiating the deletion.
    * @returns {Promise<void>}
    */
-  public async deleteAnsweremoji(
+  public async deleteAnswerEmoji(
     chat: Chat,
     msgIndex: number,
     emojiIndex: number,
@@ -350,9 +354,7 @@ export class MessageService implements OnDestroy {
     if (updatedEmoji[emojiIndex].quantity > 1) {
       updatedEmoji[emojiIndex].quantity--;
       const userIndex = updatedEmoji[emojiIndex].authorsId.indexOf(userUid);
-      if (userIndex !== -1) {
-        updatedEmoji[emojiIndex].authorsId.splice(userIndex, 1);
-      }
+      updatedEmoji[emojiIndex].authorsId.splice(userIndex, 1);
     } else {
       updatedEmoji.splice(emojiIndex, 1);
     }
@@ -365,18 +367,20 @@ export class MessageService implements OnDestroy {
    * @private
    * @param {EmojiPicker[]} updatedEmoji - The array of updated emojis.
    * @param {EmojiPicker} newEmoji - The new emoji to be added.
+   * @param {string} userId - The user ID of the user adding the emoji.
    * @returns {void}
    */
   private updateEmojiQuantityByAdd(
     updatedEmoji: EmojiPicker[],
-    newEmoji: EmojiPicker
+    newEmoji: EmojiPicker,
+    userId: string
   ): void {
     const emojiIndex: number = updatedEmoji.findIndex(
       (emoji) => emoji.unified === newEmoji.unified
     );
     if (emojiIndex !== -1) {
       updatedEmoji[emojiIndex].quantity++;
-      updatedEmoji[emojiIndex].authorsId.push(newEmoji.authorsId[0]);
+      updatedEmoji[emojiIndex].authorsId.push(userId);
     } else {
       updatedEmoji.push({
         ...newEmoji,
@@ -395,17 +399,14 @@ export class MessageService implements OnDestroy {
   private shouldSubscribe(): boolean {
     return this.messageSubscription && !this.messageSubscription.closed;
   }
-  
+
   /**
    * Unsubscribes from the message subscription if it is active.
    *
    * @returns {void}
    */
   public unsubscribeMessages(): void {
-    if (
-      this.messageSubscription &&
-      !this.messageSubscription.closed
-    ) {
+    if (this.messageSubscription && !this.messageSubscription.closed) {
       this.messageSubscription.unsubscribe();
     }
   }

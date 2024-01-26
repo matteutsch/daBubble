@@ -48,25 +48,30 @@ export class ThreadAnswerComponent {
   }
 
   /**
-   * Deletes an emoji at the specified index.
+   * Deletes an emoji at the specified index or adds a new emoji if the user has not reacted before.
    *
-   * @param {number} emojiIndex - The index of the emoji to be deleted.
-   * @returns {Promise<void>} - A promise that resolves once the emoji is deleted.
+   * @param {number} emojiIndex - The index of the emoji to be deleted or added.
+   * @param {EmojiPicker} emoji - The emoji to be added if the user has not reacted before.
+   * @returns {Promise<void>} - A promise that resolves once the emoji is deleted or added.
    */
-  async deleteEmoji(emojiIndex: number): Promise<void> {
-    if (this.msgType === 'chat') {
-      this.messageService.deleteMsgEmoji(
-        this.chatService.currentChat,
-        this.message,
-        emojiIndex,
-        this.userService.user
-      );
-    } else if (this.msgType === 'thread') {
-      this.messageService.deleteAnsweremoji(
+  async deleteOrAddEmoji(
+    emojiIndex: number,
+    emoji: EmojiPicker
+  ): Promise<void> {
+    const userIndex = emoji.authorsId.indexOf(this.userService.user.uid);
+    if (userIndex !== -1) {
+      this.messageService.deleteAnswerEmoji(
         this.chatService.currentChat,
         this.answerIndex,
         emojiIndex,
         this.userService.user
+      );
+    } else {
+      this.messageService.addAnswerEmoji(
+        this.chatService.currentChat,
+        emoji,
+        this.answerIndex,
+        this.userService.user.uid
       );
     }
   }
