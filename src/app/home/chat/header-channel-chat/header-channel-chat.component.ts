@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SelectService } from '../../shared/select.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { ChannelChatService } from '../../shared/channel-chat.service';
+import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-header-channel-chat',
@@ -22,7 +23,8 @@ export class HeaderChannelChatComponent {
     public channelChatService: ChannelChatService,
     public userService: UserService,
     public selectService: SelectService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private messageService: MessageService
   ) {}
 
   openEditChannelDialog(chat: Chat): void {
@@ -54,15 +56,17 @@ export class HeaderChannelChatComponent {
 
     dialogRef.afterClosed().subscribe(async (res) => {
       if (res === 'leave') {
+        const chatId = this.chatService.currentChat.chatID;
+        this.chatService.currentChat = new ChatData();
+        this.messageService.currentMessages = [];
         await this.channelChatService.deleteChannelChatFromUser(
           this.userService.user,
-          this.chatService.currentChat.chatID
+          chatId
         );
         this.chatService.updateChannelChatCollection(
           this.userService.user,
-          this.chatService.currentChat.chatID
+          chatId
         );
-        this.chatService.currentChat = new ChatData();
       }
     });
   }

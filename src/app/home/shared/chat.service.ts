@@ -254,7 +254,10 @@ export class ChatService implements OnDestroy {
   ): Promise<void> {
     try {
       if (members === null) {
-        await this.channelChatsCollection.doc(chatID).delete();
+        // await this.channelChatsCollection.doc(chatID).delete();
+        await this.channelChatsCollection.doc(chatID).update({
+          members: [],
+        });
       } else {
         await this.channelChatsCollection.doc(chatID).update({
           members: members,

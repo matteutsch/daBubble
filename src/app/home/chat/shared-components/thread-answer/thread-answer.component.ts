@@ -83,6 +83,7 @@ export class ThreadAnswerComponent {
    * @returns {void}
    */
   getEmojiAuthors(message: Message): void {
+    this.allEmojiAuthors = [];
     message.emoji.forEach((emoji: EmojiPicker) => {
       const emojiAuthors: User[] = [];
       emoji.authorsId.forEach(async (authorId: string) => {
